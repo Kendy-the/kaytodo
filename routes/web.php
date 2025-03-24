@@ -1,5 +1,6 @@
 <?php
-
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AttendantController;
@@ -43,99 +44,101 @@ Route::prefix('/auth')->name('auth.')->controller(AuthController::class)->group(
 
 });
 
-Route::prefix('/')->controller(UserController::class)->group(function(){
-    Route::get('/home','home')->name('home');
-})->middleware('auth');
-
-Route::prefix('/attendant')->name('attendant.')->controller(AttendantController::class)->group(function(){
-    Route::get('/','index')->name('.');
-    Route::post('/new','store');
-})->middleware('auth');
-
-Route::prefix('/project')->name('project.')->controller(ProjectController::class)->group(function(){
-    Route::get('/','index');
-    Route::post('/new','store');
-    Route::get('/new/success','newSuccess')->name('new.success');
-
-    Route::get('/pin','pin')->name('pin');
-    Route::get('/recently-add','recentlyAdd')->name('recently-add');
-
-    Route::post('/edit','update');
-    Route::get('/edit/success','editSuccess')->name('edit.success');
-
-    Route::post('/end','end');
-    Route::get('/end/success','endSuccess')->name('end.success');
-
-    Route::post('/delete','delete');
-    Route::get('/delete/success','deleteSuccess')->name('delete.success');
-})->middleware('auth');
-
-Route::prefix('/category')->name('category.')->controller(CategoryController::class)->group(function(){
-    Route::get('/','index');
-    Route::post('/new','store');
-    Route::get('/new/success','newSuccess')->name('new.success');
-
-    Route::get('/pin','pin')->name('pin');
-    Route::get('/recently-add','recentlyAdd')->name('recently-add');
-
-    Route::post('/edit','update');
-    Route::get('/edit/success','editSuccess')->name('edit.success');
-
-    Route::post('/end','end');
-    Route::get('/end/success','endSuccess')->name('end.success');
-
-    Route::post('/delete','delete');
-    Route::get('/delete/success','deleteSuccess')->name('delete.success');
-})->middleware('auth');
-
-Route::prefix('/task')->name('task.')->controller(TaskController::class)->group(function(){
-    Route::get('/','index');
-    Route::post('/new','store');
-    Route::get('/new/success','newSuccess')->name('new.success');
-
-    Route::get('/end','finish')->name('finish');
-    Route::get('/inProgress','in-progress')->name('in-progress');
-
-    Route::post('/edit','update');
-    Route::get('/edit/success','editSuccess')->name('edit.success');
-
-    Route::post('/end','end');
-    Route::get('/end/success','endSuccess')->name('end.success');
-
-    Route::post('/delete','delete');
-    Route::get('/delete/success','deleteSuccess')->name('delete.success');
-})->middleware('auth');
-
-Route::prefix('/account')->name('account.')->controller(UserController::class)->group(function(){
-    Route::post('/search','search')->name('search');
-
-    Route::get('/profile','profile')->name('profile');
-    Route::get('/profile/edit','edit')->name('edit');
-    Route::post('/profile/edit','update');
-
-    Route::get('/profile/edit/otp','editOtp')->name('profile.edit.otp');
-    Route::post('/profile/edit/otp','editOtpPost');
-
-    Route::get('/profile/pass/edit','editPass')->name('profile.pass.edit');;
-    Route::post('/profile/pass/edit','updatePass');
-
-    Route::get('/profile/pass/confirm','passConfirm')->name('profile.pass.confirm');;
-    Route::post('/profile/pass/confirm','passConfirmPost');
-
-    Route::get('/profile/pass/otp','passOtp')->name('profile.pass.otp');;
-    Route::post('/profile/pass/otp','passOtpPost');
-
-    Route::get('/profile/pass/success','passSuccess')->name('profile.pass.success');;
-
-    Route::get('/message','message')->name('message');
-    Route::get('/message/show/{id}','showMessage')->name('message.show');
-    Route::get('/message/delete/{id}','deleteMessage')->where([
-        "id" => "[0-9]+"
-    ])->name('message.delete');
-    Route::post('/message/delete','deleteMessagePost');
-    Route::post('/message/send','sendMessage')->name('message.send');
-
-    Route::get('/notification','notification')->name('notification');
-    Route::get('/about','about')->name('about');
-    Route::get('/faq-and-help','faqAndHelp')->name('faq-and-help');
-})->middleware('auth');
+Route::middleware(['auth'])->group(function () {
+    Route::prefix('/')->controller(UserController::class)->group(function(){
+        Route::get('/home','home')->name('home');
+    });
+    
+    Route::prefix('/attendant')->name('attendant.')->controller(AttendantController::class)->group(function(){
+        Route::get('/','index')->name('.');
+        Route::post('/new','store');
+    });
+    
+    Route::prefix('/project')->name('project.')->controller(ProjectController::class)->group(function(){
+        Route::get('/','index');
+        Route::post('/new','store');
+        Route::get('/new/success','newSuccess')->name('new.success');
+    
+        Route::get('/pin','pin')->name('pin');
+        Route::get('/recently-add','recentlyAdd')->name('recently-add');
+    
+        Route::post('/edit','update');
+        Route::get('/edit/success','editSuccess')->name('edit.success');
+    
+        Route::post('/end','end');
+        Route::get('/end/success','endSuccess')->name('end.success');
+    
+        Route::post('/delete','delete');
+        Route::get('/delete/success','deleteSuccess')->name('delete.success');
+    });
+    
+    Route::prefix('/category')->name('category.')->controller(CategoryController::class)->group(function(){
+        Route::get('/','index');
+        Route::post('/new','store');
+        Route::get('/new/success','newSuccess')->name('new.success');
+    
+        Route::get('/pin','pin')->name('pin');
+        Route::get('/recently-add','recentlyAdd')->name('recently-add');
+    
+        Route::post('/edit','update');
+        Route::get('/edit/success','editSuccess')->name('edit.success');
+    
+        Route::post('/end','end');
+        Route::get('/end/success','endSuccess')->name('end.success');
+    
+        Route::post('/delete','delete');
+        Route::get('/delete/success','deleteSuccess')->name('delete.success');
+    });
+    
+    Route::prefix('/task')->name('task.')->controller(TaskController::class)->group(function(){
+        Route::get('/','index');
+        Route::post('/new','store');
+        Route::get('/new/success','newSuccess')->name('new.success');
+    
+        Route::get('/end','finish')->name('finish');
+        Route::get('/inProgress','in-progress')->name('in-progress');
+    
+        Route::post('/edit','update');
+        Route::get('/edit/success','editSuccess')->name('edit.success');
+    
+        Route::post('/end','end');
+        Route::get('/end/success','endSuccess')->name('end.success');
+    
+        Route::post('/delete','delete');
+        Route::get('/delete/success','deleteSuccess')->name('delete.success');
+    });
+    
+    Route::prefix('/account')->name('account.')->controller(UserController::class)->group(function(){
+        Route::post('/search','search')->name('search');
+    
+        Route::get('/profile','profile')->name('profile');
+        Route::get('/profile/edit','edit')->name('edit');
+        Route::post('/profile/edit','update');
+    
+        Route::get('/profile/edit/otp','editOtp')->name('profile.edit.otp');
+        Route::post('/profile/edit/otp','editOtpPost');
+    
+        Route::get('/profile/pass/edit','editPass')->name('profile.pass.edit');;
+        Route::post('/profile/pass/edit','updatePass');
+    
+        Route::get('/profile/pass/confirm','passConfirm')->name('profile.pass.confirm');;
+        Route::post('/profile/pass/confirm','passConfirmPost');
+    
+        Route::get('/profile/pass/otp','passOtp')->name('profile.pass.otp');;
+        Route::post('/profile/pass/otp','passOtpPost');
+    
+        Route::get('/profile/pass/success','passSuccess')->name('profile.pass.success');;
+    
+        Route::get('/message','message')->name('message');
+        Route::get('/message/show/{id}','showMessage')->name('message.show');
+        Route::get('/message/delete/{id}','deleteMessage')->where([
+            "id" => "[0-9]+"
+        ])->name('message.delete');
+        Route::post('/message/delete','deleteMessagePost');
+        Route::post('/message/send','sendMessage')->name('message.send');
+    
+        Route::get('/notification','notification')->name('notification');
+        Route::get('/about','about')->name('about');
+        Route::get('/faq-and-help','faqAndHelp')->name('faq-and-help');
+    });
+});

@@ -10,9 +10,8 @@ class ProjectController extends Controller
     public function index()
     {
         return view('project.index',[
-            'postUp' => (new Project())->find(1),
-            'post' => new Project(),
-            'tasks' => ((new Project())->find(1))->tasks
+            'posts' => (new Project())->all(),
+            'post' => new Project()
         ]);
     }
 

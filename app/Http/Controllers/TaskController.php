@@ -10,9 +10,8 @@ class TaskController extends Controller
     public function index()
     {
         return view('task.index',[
-            'postUp' => (new Task())->find(1),
+            'posts' => (new Task())->all(),
             'post' => new Task()
-
         ]);
     }
 

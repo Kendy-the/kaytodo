@@ -1,19 +1,5 @@
-{{-- Si aucun enregistrement --}}
-@if ($object == 'none')
-    <div class="mt-5 pb-3 flex flex-col gap-3 justify-center items-center text-center">
-        <div>
-            <img src="{{ '/assets/img/task-empty.svg' }}" alt="Task Empty">
-        </div>
-        <div>
-            <h3 class="font-bold">No {{ $name }} Assigned</h3>
-            <p>
-                it looks like you don't have any {{ $name }} now.<br>
-                Don't worry this space will be updated as new {{ $name }}s become available.
-            </p>
-        </div>
-    </div>
-@else
-    {{-- S'il ya enregistrement - object - affichage --}}
+@forelse($objects as $object)
+{{-- S'il ya enregistrement - object - affichage --}}
     <div data-accordion="collapse" class="flex flex-col my-2 text-sm md:text-[17px]">
 
         {{-- object --}}
@@ -22,7 +8,6 @@
             {{-- object - View --}}
             <div id="accordion-collapse-heading-{{$object->id}}" 
                 data-accordion-target="#accordion-collapse-body-{{$object->id}}"       
-                aria-expanded="true"
                 aria-controls="accordion-collapse-body-{{$object->id}}" class="flex justify-between cursor-pointer" title="Cliquez"
                 style="background-color: #f3f4f6; color:#444" >
                 <div class="flex gap-2 pb-2 w-full">
@@ -34,7 +19,7 @@
                     <div
                         class="bg-violet-500 mb-2 md:gap-2 w-15 md:w-20 h-7 md:h-10 rounded-3xl flex items-center justify-center text-white">
                         <img src="{{ '/assets/img/task-icone.svg' }}" class="w-4" alt="">
-                        <span>{{ count($object->tasks) }}</span>
+                        <span>{{ ($object->tasks)->count() }}</span>
                     </div>
                     <div
                         class="bg-white mb-2 md:gap-2 w-30 md:w-30 h-7 md:h-10 rounded-3xl items-center justify-center hidden md:flex">
@@ -81,7 +66,7 @@
                             
                             <div id="accordion-collapse-heading-{{ $deleteId }}" data-accordion-target="#accordion-collapse-body-{{ $deleteId }}"
                             aria-controls="accordion-collapse-body-{{ $deleteId }}"
-                             class="flex items-center justify-center">
+                            class="flex items-center justify-center">
                                 <i class="bx bx-task-x hover:text-violet-700 text-red-500 mx-1" title="Delete"></i>
                             </div>
                         </div>
@@ -102,7 +87,26 @@
                     
                     </div>
 
-                    @if ($tasks == 'none')
+                    @forelse($object->tasks as $task)
+                        {{-- Task --}}
+                        <div class="tg-task flex w-full flex-wrap justify-around pt-4">
+                            <a href="/task/"
+                            class=" bg-gray-50 flex flex-col justify-center rounded my-2 p-3">
+                                <div class="flex justify-center items-center gap-2 pb-2">
+                                    <img src="{{ '/assets/img/task-home-icone.svg' }}" class="w-5"
+                                        alt="">
+                                    <h3 class="font-bold">
+                                        {{ !empty($task) ? $task->name : 'My Task analytics' }}
+                                    </h3>
+                                </div>
+                                <div class="flex justify-center items-center">
+                                    <div>
+                                        {{ !empty($task) ? substr($task->description, 0, 25) . '...' : 'Some activity for sunday...' }}
+                                    </div>
+                                </div>
+                            </a>  
+                        </div>
+                    @empty
                         <div class="mt-5 pb-3 flex flex-col gap-3 justify-center items-center text-center">
                             <div>
                                 <img src="{{ '/assets/img/task-empty.svg' }}" alt="Task Empty">
@@ -115,32 +119,11 @@
                                 </p>
                             </div>
                         </div>
-                    @else
-                        <div class="tg-task flex w-full flex-wrap justify-around pt-4">
-                            {{-- Task --}}
-                            @foreach ($tasks as $task)
-                                <a href="/task/"
-                                    class=" bg-gray-50 flex flex-col justify-center rounded my-2 p-3">
-                                    <div class="flex justify-center items-center gap-2 pb-2">
-                                        <img src="{{ '/assets/img/task-home-icone.svg' }}" class="w-5"
-                                            alt="">
-                                        <h3 class="font-bold">
-                                            {{ !empty($task) ? $task->name : 'My Task analytics' }}
-                                        </h3>
-                                    </div>
-                                    <div class="flex justify-center items-center">
-                                        <div>
-                                            {{ !empty($task) ? substr($task->description, 0, 25) . '...' : 'Some activity for sunday...' }}
-                                        </div>
-                                    </div>
-                                </a>  
-                            @endforeach
-                        </div>
-                    @endif
+                    @endforelse
                 </div>
             </div>
 
-            {{-- New Object  --}}
+            {{-- New object  --}}
             <div id="accordion-collapse-body-{{$newMedTaskId}}" aria-labelledby="accordion-collapse-heading-{{$newMedTaskId}}" class="hidden">
                 @include('shared.task.form', [
                     'post' => $post,
@@ -154,7 +137,7 @@
             {{-- object - edit --}}
             <div id="accordion-collapse-body-{{$editId}}" aria-labelledby="accordion-collapse-heading-{{$editId}}" class="hidden">
                 @include('shared.' . $name . '.form', [
-                    'post' => $postUp,
+                    'post' => $object,
                     'itemId' => $editId,
                     'position' => 't',
                     'choice' => 'edit',
@@ -165,7 +148,7 @@
             @if ($name == 'project')
                 <div id="accordion-collapse-body-{{$endId}}" aria-labelledby="accordion-collapse-heading-{{$endId}}" class="hidden">
                     @include('project.end.index', [
-                        'post' => $post,
+                        'post' => $object,
                         'itemId' => $endId
                     ])
                 </div>
@@ -174,7 +157,7 @@
             {{-- object - delete --}}
             <div id="accordion-collapse-body-{{$deleteId}}" aria-labelledby="accordion-collapse-heading-{{$deleteId}}" class="hidden">
                 @include($name . '.delete.index', [
-                    'post' => $post,
+                    'post' => $object,
                     'itemId' => $deleteId,
                 ])
             </div>
@@ -182,4 +165,18 @@
         </div>
         
     </div>
-@endif
+@empty
+{{-- Si aucun enregistrement --}}
+    <div class="mt-5 pb-3 flex flex-col gap-3 justify-center items-center text-center">
+        <div>
+            <img src="{{ '/assets/img/task-empty.svg' }}" alt="Task Empty">
+        </div>
+        <div>
+            <h3 class="font-bold">No {{ $name }} Assigned</h3>
+            <p>
+                it looks like you don't have any {{ $name }} now.<br>
+                Don't worry this space will be updated as new {{ $name }}s become available.
+            </p>
+        </div>
+    </div>
+@endforelse

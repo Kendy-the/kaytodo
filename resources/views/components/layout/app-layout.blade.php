@@ -10,7 +10,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <title>@yield('title', 'KayTODO')</title>
 </head>
-
+@php $user = Auth::user() @endphp
 <body id="body-pd" class="bg-gray-100">
     <div class="flex justify-center items-center mx-auto max-w-screen-xl">
         <header class="header" id="header">
@@ -40,13 +40,13 @@
                                 <img src="" alt="PP" class="rounded-full w-12 h-12 me-3">
                             @else
                                 <div class="bg-violet-100 rounded-full w-13 h-13 me-3 flex justify-center items-center">
-                                    {{ isset($user) ? substr($user->first_name, 0, 1) . ' ' . substr($user->last_name, 0, 1) : 'JD' }}
+                                    {{ isset($user) ? Str::upper(Str::substr($user->first_name, 0, 1)) . ' ' . Str::upper(Str::substr($user->last_name, 0, 1)) : 'JD' }} 
                                 </div>
                             @endif
                         </a>
                         <div class="flex flex-col">
                             <div class="flex">
-                                {{ isset($user) ? $user->first_name . ' ' . $user->last_name : 'Joe Don' }}
+                                {{ isset($user) ? Str::ucfirst($user->first_name) . ' ' . Str::ucfirst($user->last_name) : 'Joe Don' }}
                                 <svg class="ms-1 w-4" width="18" height="19" viewBox="0 0 18 19" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path
@@ -56,7 +56,7 @@
                             </div>
 
                             <div class="text-[#795FFC]">
-                                {{ isset($user) ? substr($user->profession, 0, 7) . '...' : 'Junior...' }}
+                                {{ isset($user) ? Str::substr($user->profession, 0, 10) . '...' : 'Junior...' }}
                             </div>
                         </div>
                     </div>

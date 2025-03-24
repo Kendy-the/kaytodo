@@ -9,17 +9,17 @@
             'content' => "View and update my profile",
             'imgPath' => '/assets/img/notice-user.svg'
         ])
-        
+
         <div class="flex flex-col">
             <div class="flex items-center justify-center mt-2">
                 <div class="flex flex-col items-center justify-center">
                     <img class="w-40 h-40" src="{{ isset($user) ? $user->image : "/assets/img/profile.svg" }}" alt="">
                     <div class="flex gap-1 justify-center items-center mt-2 text-xl">
-                        <div class="font-bold">{{ isset($user) ? $user->frst_name . $user->last_name : "Chelbe Design" }}
+                        <div class="font-bold">{{ isset($user) ? Str::ucfirst($user->first_name) . ' ' . Str::ucfirst($user->last_name) : "Chelbe Design" }}
                         </div>
                         <img src="{{"/assets/img/verify-icone.svg" }}" alt="">
                     </div>
-                    <div>{{ isset($user) ? $user->profession : "Junior Full Stack Developper" }}</div>
+                    <div>{{ isset($user) ? Str::title($user->profession) : "Junior Full Stack Developper" }}</div>
                 </div>
             </div>
 
@@ -32,7 +32,7 @@
                     </div>
                     <div class="flex gap-2 mt-2">
                         <img src="{{"/assets/img/verify-user.svg" }}" alt="">
-                        <div>{{ isset($user) ? $user->adress: "Rue toussaint louverture" }}</div>
+                        <div>{{ isset($user) ? Str::title($user->city . ',' . $user->state . ',' . $user->country) : "Rue toussaint louverture" }}</div>
                     </div>
                 </div>
 
@@ -66,7 +66,7 @@
                         <i class='bx bxs-group text-[#795FFC]'></i>
                         <div>About Us</div>
                     </a>
-                    <a href="/logout" class="cursor-pointer flex gap-2 mt-2">
+                    <a href="/auth/logout" class="cursor-pointer flex gap-2 mt-2">
                         <img src="{{"/assets/img/logout.svg"}}" alt="">
                         <div>logout</div>
                     </a>

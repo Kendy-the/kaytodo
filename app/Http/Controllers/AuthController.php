@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\RegisterRequest;
@@ -26,10 +27,24 @@ class AuthController extends Controller
         }
 
         return redirect()->back()->withErrors([
-            'email' => 'email ou mot de passe incorrecte'
+            'email' => 'The password or email field does not match.'
         ])->onlyInput('email');
     }
 
+    /**
+     * Log the user out of the application.
+     */
+    public function logout(Request $request): RedirectResponse
+    {
+        Auth::logout();
+    
+        $request->session()->invalidate();
+    
+        $request->session()->regenerateToken();
+    
+        return redirect()->route('auth.login');
+    }
+    
     public function register()
     {
         return view('auth.register.index');
@@ -42,7 +57,10 @@ class AuthController extends Controller
         $user->save();
 
         // renvoie la popupp de verification email
-        return $this->registerOTP();
+        // return $this->registerOTP();
+
+        //welcome
+        return $this->authWelcome();
     }
 
     public function resetPasswordSuccess()

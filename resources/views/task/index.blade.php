@@ -12,12 +12,17 @@
         ])
 
         @php
-            if(isset($postUp) && !empty($postUp))
+            $newObjectTopId = 1;
+            foreach($posts as $post)
             {
-                $newObjectTopId = mt_rand($postUp->id + 100, ($postUp->id +10000));
-                $newObjectTopId += $postUp->id;
-            }else{
-                $newObjectTopId = 1;
+                if(isset($post) && !empty($post))
+                {
+                    $newObjectTopId = mt_rand($post->id + 100, ($post->id +10000));
+                    $newObjectTopId += $postUp->id;
+                }else{
+                    $newObjectTopId = 1;
+                }
+                break;
             }
         @endphp
 
@@ -223,12 +228,17 @@
         {{-- New task --}}
         <div data-accordion="collapse">
             @php
-                if(isset($postUp) && !empty($postUp))
+                $newObjectButtomId = 2;
+                foreach($posts as $post)
                 {
-                    $newObjectButtomId = mt_rand($postUp->id + 200, ($postUp->id +10000));
-                    $newObjectButtomId += $postUp->id;
-                }else{
-                    $newObjectButtomId = 2;
+                    if(isset($posp) && !empty($post))
+                    {
+                        $newObjectButtomId = mt_rand($post->id + 200, ($post->id +10000));
+                        $newObjectButtomId += $post->id;
+                    }else{
+                        $newObjectButtomId = 2;
+                    }
+                    break;
                 }
             @endphp
 

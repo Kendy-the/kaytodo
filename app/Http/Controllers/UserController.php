@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Models\Task;
-use App\Models\Category;
+use App\Models\User;
 use App\Models\Project;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\PasswordRequest;
+use App\Http\Requests\RegisterRequest;
 
 class UserController extends Controller
 {
@@ -22,12 +26,32 @@ class UserController extends Controller
 
     public function profile()
     {
-        return view('account.profile.index');
+        return view('account.profile.index',[
+            'user' => Auth::user()
+        ]);
     }
 
     public function edit()
     {
-        return view('account.profile.edit');
+        return view('account.profile.edit',[
+            'user' => Auth::user()
+        ]);
+    }
+
+    public function update(Request $request)
+    {
+        $credentials = $request->all();
+        $user = User::find($credentials['id']);
+ 
+        $user->profession = $credentials['profession'];
+        $user->country = $credentials['country'];
+        $user->city = $credentials['city'];
+        $user->state = $credentials['state'];
+        $user->other = $credentials['other'];
+        
+        $user->save();
+
+        return redirect()->route('account.profile');
     }
 
     public function editPass()
@@ -64,26 +88,39 @@ class UserController extends Controller
         return $this->passOtp();
     }
     
-    public function updatePass()
+    public function updatePass(PasswordRequest $request)
     {
-        //traitement
+        $credendials = $request->validated();
+        $user = Auth::user();
 
-        return $this->passConfirm();
+        if (Hash::check($credendials['current_password'], $user->password)) {
+            $user->password = Hash::make($credendials['password']);
+            $user->save();
+            return redirect()->route('account.profile');
+        }
+
+        return redirect()->back()->withErrors([
+            'current_password' => 'The password field does not match.'
+        ])->onlyInput('current_password');
+
     }
 
 
-    public function update()
+    public function editOtpPost(Request $request)
     {
-        //traitement
+        // dd($request->all());
+        // $credentials = $request->all();
+        // $user = User::find($credentials['id']);
+ 
+        // $user->profession = $credentials['profession'];
+        // $user->country = $credentials['country'];
+        // $user->city = $credentials['city'];
+        // $user->state = $credentials['state'];
+        // $user->other = $credentials['other'];
+        
+        // $user->save();
 
-        return view('account.profile.otp');
-    }
-
-    public function editOtpPost()
-    {
-        //traitement
-
-        return redirect()->route('account.profile');
+        // return redirect()->route('account.profile');
     }
 
     public function notification()

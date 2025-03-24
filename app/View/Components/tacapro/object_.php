@@ -13,10 +13,8 @@ class object_ extends Component
      */
     public function __construct(
         public string $name,
-        public $object,
-        public $tasks,
+        public $objects,
         public $post,
-        public $postUp,
 
     )
     {
