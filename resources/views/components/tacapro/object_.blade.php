@@ -6,9 +6,10 @@
         <div class="my-1 flex flex-col p-3 bg-gray-100 border border-gray-300 rounded-xl">
 
             {{-- object - View --}}
-            <div id="accordion-collapse-heading-{{$object->id}}" 
-                data-accordion-target="#accordion-collapse-body-{{$object->id}}"       
-                aria-controls="accordion-collapse-body-{{$object->id}}" class="flex justify-between cursor-pointer" title="Cliquez"
+            @php $objectId = $parentId->getId() @endphp
+            <div id="accordion-collapse-heading-{{$objectId}}" 
+                data-accordion-target="#accordion-collapse-body-{{$objectId}}"       
+                aria-controls="accordion-collapse-body-{{$objectId}}" class="flex justify-between cursor-pointer" title="Cliquez"
                 style="background-color: #f3f4f6; color:#444" >
                 <div class="flex gap-2 pb-2 w-full">
                     <img src="{{ '/assets/img/task-home-icone.svg' }}" alt="">
@@ -24,12 +25,12 @@
                     <div
                         class="bg-white mb-2 md:gap-2 w-30 md:w-30 h-7 md:h-10 rounded-3xl items-center justify-center hidden md:flex">
                         <img src="{{ '/assets/img/calendar-icone.svg' }}" alt="">
-                        <span>{{ $object->created_at }}</span>
+                        <span>{{ $object->created_at->format('d/m/y') }}</span>
                     </div>
                 </div>
             </div>
                 
-            <div id="accordion-collapse-body-{{$object->id}}" aria-labelledby="accordion-collapse-heading-{{$object->id}}" class="hidden cursor-auto">
+            <div id="accordion-collapse-body-{{$objectId}}" aria-labelledby="accordion-collapse-heading-{{$objectId}}" class="hidden cursor-auto">
 
                 <div class="py-4">
                     <div class="bg-gray-200 w-full p-2 rounded-3xl flex gap-1 items-center justify-center">
@@ -41,8 +42,8 @@
                         </div>
                         <div class="cursor-pointer flex mb-2 ms-2 gap-2 items-center justify-center">
 
-                            {{-- id aleatoire pour accordeon --}}
-                            @php $editId = mt_rand($object->id, 100); $editId+= $object->id @endphp
+                            {{-- id pour accordeon --}}
+                            @php $editId = $parentId->getId(); @endphp
                             
                             <div id="accordion-collapse-heading-{{ $editId }}" data-accordion-target="#accordion-collapse-body-{{ $editId }}"
                             aria-controls="accordion-collapse-body-{{ $editId }}"
@@ -52,8 +53,8 @@
 
                             @if ($name == 'project')
 
-                                {{-- id aleatoire pour accordeon --}}
-                                @php $endId = mt_rand($object->id, 100); $endId+= ($object->id + 3) @endphp
+                                {{-- id pour accordeon --}}
+                                @php $endId = $parentId->getId(); @endphp
 
                                 <div id="accordion-collapse-heading-{{ $endId }}" data-accordion-target="#accordion-collapse-body-{{ $endId }}"
                                 aria-controls="accordion-collapse-body-{{ $endId }}" class="flex items-center justify-center">
@@ -61,20 +62,30 @@
                                 </div>
                             @endif
 
-                            {{-- id aleatoire pour accordeon --}}
-                            @php $deleteId = mt_rand($object->id, 100); $deleteId+= ($object->id + 7) @endphp
+                            {{-- id pour accordeon --}}
+                            @php $deleteId = $parentId->getId(); @endphp
                             
                             <div id="accordion-collapse-heading-{{ $deleteId }}" data-accordion-target="#accordion-collapse-body-{{ $deleteId }}"
                             aria-controls="accordion-collapse-body-{{ $deleteId }}"
                             class="flex items-center justify-center">
                                 <i class="bx bx-task-x hover:text-violet-700 text-red-500 mx-1" title="Delete"></i>
                             </div>
+
+                            {{-- id pour accordeon --}}
+                            @php $pinId = $parentId->getId(); @endphp
+                            
+                            <div id="accordion-collapse-heading-{{ $pinId }}" data-accordion-target="#accordion-collapse-body-{{ $pinId }}"
+                            aria-controls="accordion-collapse-body-{{ $pinId }}"
+                            class="flex items-center justify-center">
+                                <i class="bx bx-pin hover:text-violet-700 mx-1" title="pin"></i>
+                            </div>
+
                         </div>
                     </div>
                 </div>
 
-                {{-- id aleatoire pour accordeon --}}
-                @php $newMedTaskId = mt_rand($object->id, 100); $newMedTaskId+= ($object->id + 1) @endphp
+                {{-- id pour accordeon --}}
+                @php $newMedTaskId = $parentId->getId(); @endphp
 
                 <div class="flex flex-col ps-3 pt-4 pb-3 border-t border-gray-300 mt-2 gap-1">
                     <div class="bg-gray-200 gap-2 w-full p-2 rounded-3xl flex items-center justify-center">
@@ -162,6 +173,14 @@
                 ])
             </div>
 
+            {{-- object - pin --}}
+            <div id="accordion-collapse-body-{{$pinId}}" aria-labelledby="accordion-collapse-heading-{{$pinId}}" class="hidden">
+                @include($name . '.pin.index', [
+                    'post' => $object,
+                    'itemId' => $pinId,
+                ])
+            </div>
+
         </div>
         
     </div>
@@ -172,10 +191,10 @@
             <img src="{{ '/assets/img/task-empty.svg' }}" alt="Task Empty">
         </div>
         <div>
-            <h3 class="font-bold">No {{ $name }} Assigned</h3>
+            <h3 class="font-bold">No {{ $position }} {{ $name }} Assigned</h3>
             <p>
-                it looks like you don't have any {{ $name }} now.<br>
-                Don't worry this space will be updated as new {{ $name }}s become available.
+                it looks like you don't have any {{ $position }} {{ $name }}.<br>
+                Don't worry this space will be updated as new {{ $position }} {{ $name }} become available.
             </p>
         </div>
     </div>

@@ -10,6 +10,7 @@ class Project extends Model
     protected $fillable = [
         'name',
         'description',
+        'pin',
         'end_at',
         'category_id'
     ];

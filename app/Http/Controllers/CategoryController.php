@@ -2,19 +2,30 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Http\Requests\CategoryCreateRequest;
 use App\Models\Category;
+use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\CategoryCreateRequest;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class CategoryController extends Controller
 {
     public function index()
     {
-        return view('category.index',[
-            'posts' => (Auth::User())->categories()->get(),
-            'post' => new Category()
+        $categories = (Auth::User())->categories()->orderByRaw('created_at DESC')->get();
+        $recents = Category::recent($categories);
+        $pins = Category::pin($categories);
+        $tasks = Task::taskNumber((Auth::User())->tasks()->get());
+
+        return view('category.index', [
+            'posts' => $categories,
+            'recents' => $recents,
+            'pins' => $pins,
+            'tasks' => $tasks,
+            'post' => new Category(),
+            'parentId' => new idController()
         ]);
     }
 
@@ -34,14 +45,51 @@ class CategoryController extends Controller
         return view('category.new.success');
     }
 
+    public function update(Request $request)
+    {
+        $credentials = $request->all();
+        $category = Category::find($credentials['id']);
+
+        Validator::make($credentials, [
+            'name' => ['required', Rule::unique('categories')->where(function ($query) {
+                return $query->where('user_id', auth()->id());
+            })->ignore($credentials['id']), 
+            'string', 'min:3'],
+            'description' => ['required', 'string', 'min:10']
+        ]);
+
+        $category->description = $credentials['description'];
+        $category->save();
+
+        return redirect()->route('category.edit.success');
+    }
+
     public function editSuccess()
     {
         return view('category.edit.success');
     }
 
-    public function endSuccess()
+    public function pinPost(Request $request)
     {
-        return view('category.end.success');
+        $category = Category::find($request['id']);
+        $category->pin ? $category->pin = false : $category->pin = true;
+        $category->save();
+        return redirect()->route('category.pin');
+    }
+
+    public function delete(Request $request)
+    {
+        $credentials = $request->all();
+        $category = Category::find($request['id']);
+        $tasks = $category->tasks ?? $category->tasks;
+
+        foreach($tasks as $task)
+        {
+            $task->delete();
+        }
+        $category->delete();
+
+        return redirect()->route('category.delete.success');
     }
 
     public function deleteSuccess()
@@ -49,21 +97,4 @@ class CategoryController extends Controller
         return view('category.delete.success');
     }
 
-    public function update()
-    {
-        //traitement
-        return redirect()->route('category.edit.success');
-    }
-
-    public function end()
-    {
-        //traitement
-        return redirect()->route('category.end.success');
-    }
-
-    public function delete()
-    {
-        //traitement
-        return redirect()->route('category.delete.success');
-    }
 }

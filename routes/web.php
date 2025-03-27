@@ -73,37 +73,45 @@ Route::middleware(['auth'])->group(function () {
     });
     
     Route::prefix('/category')->name('category.')->controller(CategoryController::class)->group(function(){
-        Route::get('/','index');
+        Route::get('/','index')->name('.');
+        Route::get('/new','index')->name('new');
         Route::post('/new','store');
         Route::get('/new/success','newSuccess')->name('new.success');
     
-        Route::get('/pin','pin')->name('pin');
-        Route::get('/recently-add','recentlyAdd')->name('recently-add');
+        Route::get('/pin','index')->name('pin');
+        Route::post('/pin','pinPost');
+        Route::get('/recently-add','index')->name('recently-add');
     
+        Route::get('/edit','index')->name('edit');
         Route::post('/edit','update');
         Route::get('/edit/success','editSuccess')->name('edit.success');
     
+        Route::get('/end','index')->name('end');
         Route::post('/end','end');
         Route::get('/end/success','endSuccess')->name('end.success');
     
+        Route::get('/delete','index')->name('delete');
         Route::post('/delete','delete');
         Route::get('/delete/success','deleteSuccess')->name('delete.success');
     });
     
     Route::prefix('/task')->name('task.')->controller(TaskController::class)->group(function(){
         Route::get('/','index');
+        Route::get('/new','index')->name('new');
         Route::post('/new','store');
         Route::get('/new/success','newSuccess')->name('new.success');
     
-        Route::get('/end','finish')->name('finish');
-        Route::get('/inProgress','in-progress')->name('in-progress');
+        Route::get('/finish','index')->name('finish');
+        Route::get('/in-progress','index')->name('in-progress');
     
+        Route::get('/edit','index')->name('edit');
         Route::post('/edit','update');
         Route::get('/edit/success','editSuccess')->name('edit.success');
     
         Route::post('/end','end');
         Route::get('/end/success','endSuccess')->name('end.success');
     
+        Route::get('/delete','index')->name('delete');
         Route::post('/delete','delete');
         Route::get('/delete/success','deleteSuccess')->name('delete.success');
     });

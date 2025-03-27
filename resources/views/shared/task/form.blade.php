@@ -4,20 +4,45 @@
     @csrf
 
     <div class="flex flex-col">
-        <x-input :label="'none'" :value="$post->name" :type="'text'" :name="'name'" :has-error="'none'">
+
+        @php $hasError = 'none' @endphp
+        @error('name') @php $hasError = 'error'@endphp @enderror
+
+        <x-input :label="'none'" :value="$post->name" :type="'text'" :name="'name'" :$hasError>
             <x-slot:placeholder>Task name</x-slot:placeholder>
+            @error('name')
+                <x-slot:input-error>
+                    <p class="text-[12px] text-red-500 mt-1">{{ $message }}</p>
+                </x-slot:input-error>
+            @enderror
         </x-input><br>
 
-        <x-input :label="'none'" :value="$post->description" :type="'text'" :name="'description'" :has-error="'none'">
+        @php $hasError = 'none' @endphp
+        @error('description') @php $hasError = 'error'@endphp @enderror
+
+        <x-input :label="'none'" :value="$post->description" :type="'text'" :name="'description'" :$hasError>
             <x-slot:placeholder>Task Description</x-slot:placeholder>
+            @error('description')
+                <x-slot:input-error>
+                    <p class="text-[12px] text-red-500 mt-1">{{ $message }}</p>
+                </x-slot:input-error>
+            @enderror
         </x-input>
     </div>
 
     @if ($position != 'm')
+        @php $hasError = 'none' @endphp
+        @error('end_at') @php $hasError = 'error'@endphp @enderror
+
         <div class="flex my-2 p-2 flex-wrap md:flex-nowrap">
             <div class="my-2 md:my-0">
-                <x-input :label="'End Date'" :value="$post->end_at" :type="'date'" :name="'end_at'" :has-error="'none'">
+                <x-input :label="'End Date'" :value="$post->end_at" :type="'date'" :name="'end_at'" :$hasError>
                     <x-slot:placeholder>End date</x-slot:placeholder>
+                    @error('end_at')
+                        <x-slot:input-error>
+                            <p class="text-[12px] text-red-500 mt-1">{{ $message }}</p>
+                        </x-slot:input-error>
+                    @enderror
                 </x-input>
             </div>
         </div>
@@ -29,16 +54,26 @@
             <select
                 class="mb-5 md:mb-0 bg-violet-50 rounded-xl p-2 text-[#718EBF] border-[#DFEAF2] focus:outline-2 focus:outline-offset-2 focus:outline-violet-500 border w-40"
                 name="category" id="category">
-                <option value="church">Church</option>
-                <option value="school" selected>School</option>
-                <option value="game">Game</option>
+                
+                @foreach ($categories as $category)
+                    <option @selected($category->id == $post->category_id) value="{{ $category->id }}">{{ $category->name }}</option>
+                @endforeach
+                
             </select>
         @else
+            @php $hasError = 'none' @endphp
+            @error('end_at') @php $hasError = 'error'@endphp @enderror
+
             <div class="flex my-2 p-2 flex-wrap md:flex-nowrap">
                 <div class="my-2 md:my-0">
                     <x-input :label="'End Date'" :value="$post->end_at" :type="'date'" :name="'end_at'"
-                        :has-error="'none'">
+                        :$hasError>
                         <x-slot:placeholder>End date</x-slot:placeholder>
+                            @error('end_at')
+                            <x-slot:input-error>
+                                <p class="text-[12px] text-red-500 mt-1">{{ $message }}</p>
+                            </x-slot:input-error>
+                        @enderror
                     </x-input>
                 </div>
             </div>
@@ -69,15 +104,13 @@
                 </x-button.primary>
             </div>
 
-            <div class="w-full" data-accordion-target="#accordion-collapse-body-{{ $itemId }}">
-                <x-button.primary :action="'none'" :type="'submit'" :name="'submit'">
-                    
+            <div class="w-full">
+                <x-button.primary :action="'none'" :type="'submit'" :name="'submit'">  
                     @if ($choice == 'create')
                         Create Task
                     @else
                         Edit Task
                     @endif
-
                 </x-button.primary>
             </div>
         </div>

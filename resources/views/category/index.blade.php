@@ -11,20 +11,7 @@
         'imgPath' => '/assets/img/task-banner.svg'
     ])
  
-    @php
-        $newObjectTopId = 1;
-        foreach($posts as $pos)
-        {
-            if(isset($pos) && !empty($pos))
-            {
-                $newObjectTopId = mt_rand($pos->id + 100, ($pos->id +10000));
-                $newObjectTopId += $pos->id;
-            }else{
-                $newObjectTopId = 1;
-            }
-            break;
-        }
-    @endphp
+    @php $newObjectTopId = $parentId->getId() @endphp
 
     {{-- New Project Button  --}}
     <div data-accordion="collapse">
@@ -55,15 +42,15 @@
     <x-tacapro.summary>
         <x-slot:title>Summary of your work</x-slot:title>
         <x-slot:sub-title>your current task progress</x-slot:sub-title>
-        <x-slot:todo>{{ isset($todo)? $todo : 0 }}</x-slot:todo>
-        <x-slot:progress>{{ isset($progress)? $progress : 0 }}</x-slot:progress>
-        <x-slot:done>{{ isset($done)? $done : 0 }}</x-slot:done>
+        <x-slot:todo>{{ isset($tasks) ? count($tasks['todo']) : 0 }}</x-slot:todo>
+        <x-slot:progress>{{ isset($tasks) ? count($tasks['progress']) : 0 }}</x-slot:progress>
+        <x-slot:done>{{ isset($tasks) ? count($tasks['done']) : 0 }}</x-slot:done>
     </x-tacapro.summary>
 
     {{-- Stats --}}
     <x-tacapro.stats :object="'category'">
-        <x-slot:sum>{{ isset($post->tasks->done) ? count($post->tasks->done) : 0 }}</x-slot:sum>
-        <x-slot:width>{{ isset($post->tasks->progress) ? count($post->tasks->progress) . "%" : "0%" }}</x-slot:width>
+        <x-slot:sum>{{ isset($tasks) ? count($tasks['todo']) : 0 }}</x-slot:sum>
+        <x-slot:width>{{ isset($tasks) ? $tasks['donePercent'] . "%" : "0%" }}</x-slot:width>
     </x-tacapro.stats>
 
     {{-- Nav --}}
@@ -72,35 +59,39 @@
         <x-slot:first-value>{{ isset($posts) ? $posts->count() : 0 }}</x-slot:first-value>
 
         <x-slot:second>Recently Add</x-slot:second>
-        <x-slot:second-value>{{ isset($category) ? count($category->recent) : 0 }}</x-slot:second-value>
+        <x-slot:second-value>{{ isset($recents) ? count($recents) : 0 }}</x-slot:second-value>
 
         <x-slot:third>Pin</x-slot:third>
-        <x-slot:third-value>{{ isset($category) ? count($category->pin) : 0 }}</x-slot:third-value>
+        <x-slot:third-value>{{ isset($pins) ? count($pins) : 0 }}</x-slot:third-value>
     </x-tacapro.nav>
 
     {{-- Object --}}
-    <x-tacapro.object_ 
-    :objects="$posts" 
-    :$post :$post 
-    :name="'category'">
-    </x-tacapro.object_>
+    @if(request()->path() == 'category/recently-add')
+        @php $position = 'rencently' @endphp
+        <x-tacapro.object_ 
+        :objects="$recents" 
+        :$post :$parentId :$position
+        :name="'category'">
+        </x-tacapro.object_>
+    @elseif(request()->path() == 'category/pin')
+    @php $position = 'pin' @endphp
+        <x-tacapro.object_ 
+        :objects="$pins" 
+        :$post :$parentId :$position
+        :name="'category'">
+        </x-tacapro.object_>
+    @else
+    @php $position = ' ' @endphp
+        <x-tacapro.object_ 
+        :objects="$posts"
+        :$post :$parentId :$position
+        :name="'category'">
+        </x-tacapro.object_>
+    @endif
 
     {{-- New project  --}}
     <div data-accordion="collapse">
-        @php
-            $newObjectButtomId = 2;
-            foreach($posts as $post)
-            {
-                if(isset($post) && !empty($post))
-                {
-                    $newObjectButtomId = mt_rand($post->id + 200, ($post->id +10000));
-                    $newObjectButtomId += $post->id;
-                }else{
-                    $newObjectButtomId = 2;
-                }
-                break;
-            }
-        @endphp
+        @php $newObjectButtomId = $parentId->getId() @endphp
 
         <div id="accordion-collapse-body-{{$newObjectButtomId}}" aria-labelledby="accordion-collapse-heading-{{$newObjectButtomId}}" class="hidden">
             @include('shared.category.form',[
@@ -123,6 +114,5 @@
             </x-button.primary>
         </div>
     </div>
-
 </div>
 </x-layout.app-layout>
