@@ -42,15 +42,16 @@
     <x-tacapro.summary>
         <x-slot:title>Summary of your work</x-slot:title>
         <x-slot:sub-title>your current task progress</x-slot:sub-title>
-        <x-slot:todo>{{ isset($tasks) ? count($tasks['todo']) : 0 }}</x-slot:todo>
+        <x-slot:todo>{{ isset($tasks) ? $posts->count() : 0 }}</x-slot:todo>
         <x-slot:progress>{{ isset($tasks) ? count($tasks['progress']) : 0 }}</x-slot:progress>
         <x-slot:done>{{ isset($tasks) ? count($tasks['done']) : 0 }}</x-slot:done>
     </x-tacapro.summary>
 
     {{-- Stats --}}
-    <x-tacapro.stats :object="'category'">
-        <x-slot:sum>{{ isset($tasks) ? count($tasks['todo']) : 0 }}</x-slot:sum>
-        <x-slot:width>{{ isset($tasks) ? $tasks['donePercent'] . "%" : "0%" }}</x-slot:width>
+    @php $percent = $tasks['donePercent'] @endphp
+    <x-tacapro.stats :object="$percent">
+        <x-slot:sum>{{ isset($tasks) ? count($tasks['done']) : 0 }}</x-slot:sum>
+        <x-slot:width>{{ isset($tasks) ? $percent . "%" : "0%" }}</x-slot:width>
     </x-tacapro.stats>
 
     {{-- Nav --}}

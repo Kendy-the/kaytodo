@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\CreateTaskRequest;
+use Illuminate\Support\Facades\Validator;
 
 class TaskController extends Controller
 {
@@ -32,7 +34,15 @@ class TaskController extends Controller
         $task->description = $credentials['description'];
         $task->end_at = $credentials['end_at'];
         $task->category_id = $credentials['category'];
-        // participant - traitement
+
+        if(isset($credentials['contacts'])){
+            $task->contacts()->sync($credentials['contacts']);
+        }
+
+        if(isset($credentials['project'])){
+            $task->project_id = $credentials['project'];
+        }
+
         $task->user_id = (Auth::user())->id;
         $task->save();
         return redirect()->route('task.new.success');
@@ -43,9 +53,64 @@ class TaskController extends Controller
         return view('task.new.success');
     }
 
+    public function update(Request $request)
+    {
+        $credentials = $request->all();
+        $task = Task::find($credentials['id']);
+
+        Validator::make($credentials, [
+            'name' => ['required', 'string', 'min:3'],
+            'description' => ['required', 'string', 'min:10'],
+            'end_at' => ['required',Rule::date()->todayOrAfter()],
+            'category' => [
+                'required',
+                'integer',
+                Rule::exists('categories', 'id')->where(function ($query) {
+                    return $query->where('user_id', auth()->id());
+                })
+            ],
+            'contacts' => ['array', 
+                'nullable', Rule::exists('contacts', 'id')->where(function ($query) {
+                return $query->where('user_id', auth()->id());
+            })],
+            'project' => ['nullable','integer', Rule::exists('projects', 'id')->where(function ($query) {
+                return $query->where('user_id', auth()->id());
+            })],
+        ]);
+
+        $task->name = $credentials['name'];
+        $task->description = $credentials['description'];
+        $task->end_at = $credentials['end_at'];
+        $task->category_id = $credentials['category'];
+
+        if(isset($credentials['contacts'])){
+            $task->contacts()->sync($credentials['contacts']);
+        }
+
+        if(isset($credentials['project'])){
+            $task->project_id = $credentials['project'];
+        }
+
+        $task->user_id = (Auth::user())->id;
+        $task->save();
+        
+        return redirect()->route('task.edit.success');
+    }
+
     public function editSuccess()
     {
         return view('task.edit.success');
+    }
+
+    public function end(Request $request)
+    {
+        $credentials = $request->all();
+        $task = Task::find($credentials['id']);
+
+        $task->statut = env('TASK_DONE');
+        $task->save();
+
+        return redirect()->route('task.end.success');
     }
 
     public function endSuccess()
@@ -53,26 +118,17 @@ class TaskController extends Controller
         return view('task.end.success');
     }
 
+    public function delete(Request $request)
+    {
+        $credentials = $request->all();
+        $task = Task::find($credentials['id']);
+
+        $task->delete();
+        return redirect()->route('task.delete.success');
+    }
+
     public function deleteSuccess()
     {
         return view('task.delete.success');
-    }
-
-    public function update()
-    {
-        //traitement
-        return redirect()->route('task.edit.success');
-    }
-
-    public function end()
-    {
-        //traitement
-        return redirect()->route('task.end.success');
-    }
-
-    public function delete()
-    {
-        //traitement
-        return redirect()->route('task.delete.success');
     }
 }

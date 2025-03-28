@@ -3,6 +3,10 @@
 
     @csrf
 
+    @if($choice != 'create')
+        <input type="hidden" name="id" value="{{ $post->id }}">
+    @endif
+
     <div class="flex flex-col">
 
         @php $hasError = 'none' @endphp
@@ -51,15 +55,22 @@
     <div class="flex md:justify-between flex-wrap p-1 border-[#DFEAF2] border-t pt-5">
 
         @if ($position != 'm')
-            <select
-                class="mb-5 md:mb-0 bg-violet-50 rounded-xl p-2 text-[#718EBF] border-[#DFEAF2] focus:outline-2 focus:outline-offset-2 focus:outline-violet-500 border w-40"
-                name="category" id="category">
-                
+
+            @php $hasError = false @endphp
+            @error('category') @php $hasError = true @endphp @enderror
+
+            <select name="category" id="category"
+            @class(['border bg-violet-50 my-4 p-2 w-full rounded-xl text-[#718EBF]','border-red-500 focus:outline-0 focus:outline-offset-0'  => $hasError, 'focus:outline-2 border-[#DFEAF2] focus:outline-offset-2 focus:outline-violet-500' => !$hasError])>
+
+                <option class="">Selectionner une categorie </option>
                 @foreach ($categories as $category)
                     <option @selected($category->id == $post->category_id) value="{{ $category->id }}">{{ $category->name }}</option>
                 @endforeach
                 
             </select>
+            @error('category')   
+                <p class="text-[12px] text-red-500 mt-1">{{ $message }}</p>
+            @enderror
         @else
             @php $hasError = 'none' @endphp
             @error('end_at') @php $hasError = 'error'@endphp @enderror
@@ -78,13 +89,18 @@
                 </div>
             </div>
 
+            @if($name == 'category')
+                <input type="hidden" name="category" value="{{ $objectId}}"/>
+            @endif
+
             @if ($name == 'project')
+            <input type="hidden" name="project" value="{{ $objectId}}"/>
+
                 <div class="flex flex-col w-full lg:w-auto gap-1">
-                    <label for="participant">participants</label>
+                    <label for="contacts">participants</label>
                     <select multiple
                         class="md:h-20 overflow-y-auto mb-5 md:mb-0 bg-violet-50 rounded p-2 text-[#718EBF] border-[#DFEAF2] focus:outline-2 focus:outline-offset-2 focus:outline-violet-500 border lg:w-80 w-full"
-                        name="participant[]" id="participant">
-                        <option value="rood@gmail.com">Rood</option>
+                        name="contacts[]" id="contacts">
                         <option value="school">jhony</option>
                         <option value="game" selected>Chelbe</option>
                         <option value="church">don</option>

@@ -98,39 +98,41 @@
                     
                     </div>
 
-                    @forelse($object->tasks as $task)
-                        {{-- Task --}}
-                        <div class="tg-task flex w-full flex-wrap justify-around pt-4">
-                            <a href="/task/"
-                            class=" bg-gray-50 flex flex-col justify-center rounded my-2 p-3">
-                                <div class="flex justify-center items-center gap-2 pb-2">
-                                    <img src="{{ '/assets/img/task-home-icone.svg' }}" class="w-5"
-                                        alt="">
-                                    <h3 class="font-bold">
-                                        {{ !empty($task) ? $task->name : 'My Task analytics' }}
-                                    </h3>
-                                </div>
-                                <div class="flex justify-center items-center">
-                                    <div>
-                                        {{ !empty($task) ? substr($task->description, 0, 25) . '...' : 'Some activity for sunday...' }}
+                    <div class="flex justify-around flex-wrap md:flex-nowrap">
+                        @forelse($object->tasks as $task)
+                            {{-- Task --}}
+                            <div class="tg-task flex w-full flex-wrap justify-around pt-4">
+                                <a href="/task/{{$task->id}}"
+                                class=" bg-gray-50 flex flex-col justify-center rounded my-2 p-3">
+                                    <div class="flex justify-center items-center gap-2 pb-2">
+                                        <img src="{{ '/assets/img/task-home-icone.svg' }}" class="w-5"
+                                            alt="">
+                                        <h3 class="font-bold">
+                                            {{ !empty($task) ? $task->name : 'My Task analytics' }}
+                                        </h3>
                                     </div>
+                                    <div class="flex justify-center items-center">
+                                        <div>
+                                            {{ !empty($task) ? substr($task->description, 0, 25) . '...' : 'Some activity for sunday...' }}
+                                        </div>
+                                    </div>
+                                </a>  
+                            </div>
+                        @empty
+                            <div class="mt-5 pb-3 flex flex-col gap-3 justify-center items-center text-center">
+                                <div>
+                                    <img src="{{ '/assets/img/task-empty.svg' }}" alt="Task Empty">
                                 </div>
-                            </a>  
-                        </div>
-                    @empty
-                        <div class="mt-5 pb-3 flex flex-col gap-3 justify-center items-center text-center">
-                            <div>
-                                <img src="{{ '/assets/img/task-empty.svg' }}" alt="Task Empty">
+                                <div>
+                                    <h3 class="font-bold">No Tasked Assigned</h3>
+                                    <p>
+                                        it looks like you don't have any tasks assigned to you right now.<br>
+                                        Don't worry this space will be updated as new tasks become available.
+                                    </p>
+                                </div>
                             </div>
-                            <div>
-                                <h3 class="font-bold">No Tasked Assigned</h3>
-                                <p>
-                                    it looks like you don't have any tasks assigned to you right now.<br>
-                                    Don't worry this space will be updated as new tasks become available.
-                                </p>
-                            </div>
-                        </div>
-                    @endforelse
+                        @endforelse
+                    </div>
                 </div>
             </div>
 
@@ -139,6 +141,7 @@
                 @include('shared.task.form', [
                     'post' => $post,
                     'name' => $name,
+                    'objectId' => $object->id,
                     'itemId' => $newMedTaskId,
                     'position' => 'm',
                     'choice' => 'create',

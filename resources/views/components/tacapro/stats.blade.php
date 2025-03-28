@@ -9,7 +9,11 @@
         <div class="rounded-xl bg-gray-100 border-gray-300 border p-3 my-1">
             <div class="w-full my-2 h-3 rounded-2xl bg-gray-200">
                 <div style="width:{{ $width }};"
-                    class="relative my-2 h-3 rounded-2xl bg-[#795FFC]"></div>
+                @class(["relative my-2 h-3 rounded-2xl",
+                "bg-orange-500" => ($object < 50),
+                "bg-[#795FFC]" => ($object < 80),
+                "bg-green-500" => ($object <= 100)
+            ])></div>
             </div>
         </div>
     </div> 

@@ -14,7 +14,7 @@
             <x-slot:content>
                 You have been deleted your task successfully!
             </x-slot:content>
-            <x-slot:button-action>/task</x-slot:button-action>
+            <x-slot:button-action>/task/all</x-slot:button-action>
             <x-slot:button-name>Continue</x-slot:button-name>
         </x-status>
     </x-poppup>

@@ -96,7 +96,11 @@ Route::middleware(['auth'])->group(function () {
     });
     
     Route::prefix('/task')->name('task.')->controller(TaskController::class)->group(function(){
-        Route::get('/','index');
+        Route::get('/','index')->name('.');
+        Route::get('/all','index');
+        Route::get('/{id}','index')->where([
+            "id" => "[0-9]+",
+        ]);
         Route::get('/new','index')->name('new');
         Route::post('/new','store');
         Route::get('/new/success','newSuccess')->name('new.success');

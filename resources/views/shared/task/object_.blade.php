@@ -1,12 +1,16 @@
 @forelse ($objects as $object)
     <div data-accordion="collapse">
         <div class="flex flex-col  h-auto  my-2 text-sm md:text-[17px]">
-            <div class="flex flex-col px-3 pt-3 bg-gray-100 rounded-xl border border-gray-300">
+            <div class="flex flex-col px-3 pt-3 bg-gray-100 rounded-xl border border-gray-300" id="task">
                 {{-- Task - View --}}
                 @php $objectId = $parentId->getId() @endphp
+                   
                 <div id="accordion-collapse-heading-{{$objectId}}"
                     style="background-color: #f3f4f6; color:#444" class="flex justify-between cursor-pointer"
-                    data-accordion-target="#accordion-collapse-body-{{$objectId}}" aria-expanded="true"
+                    data-accordion-target="#accordion-collapse-body-{{$objectId}}"  
+                    @if(request()->path() == 'task/'.$object->id)
+                        aria-expanded="true"
+                    @endif
                     aria-controls="accordion-collapse-body-{{$objectId}}">
 
                     <div class="flex gap-2 pb-2 w-full">
@@ -37,8 +41,12 @@
 
                     <div>
                         <div class="w-full my-2 h-3 rounded-2xl bg-gray-200">
-                            <div style="width:<?= isset($task) ? $task->progress . '%' : '70%' ?>;"
-                                class="relative my-2 h-3 rounded-2xl bg-[#795FFC]"></div>
+                            <div style="width:{{ isset($object) ? $object->getProgression() . '%' : '0%' }};"
+                                @class(["relative my-2 h-3 rounded-2xl",
+                                    "bg-orange-500" => ($object->getProgression() < 50),
+                                    "bg-[#795FFC]" => ($object->getProgression() < 70),
+                                    "bg-green-500" => ($object->getProgression() <= 100)
+                                ])></div>
                         </div>
                     </div>
 
@@ -58,26 +66,31 @@
 
                     <div class="flex justify-between ps-3 pt-4 pb-3 border-t border-gray-300 mt-2 gap-2 md:gap-0">
 
-                        @php $editId = $parentId->getId(); @endphp
+                        @if($object->statut != env("TASK_DONE"))
+                            @php $editId = $parentId->getId(); @endphp
 
-                        <div id="accordion-collapse-heading-{{ $editId }}"
-                            data-accordion-target="#accordion-collapse-body-{{ $editId }}"
-                            aria-controls="accordion-collapse-body-{{ $editId }}"
-                            class="bg-white hover:bg-[#795FFC] hover:text-white gap-2 w-23 md:w-30 h-7 md:h-10 rounded-3xl flex items-center justify-center cursor-pointer focus:outline-2 focus:outline-offset-2 focus:outline-violet-500 active:bg-violet-500">
-                            <i class="bx bx-pencil"></i>
-                            <span>Edit</span>
-                        </div>
+                            <div id="accordion-collapse-heading-{{ $editId }}"
+                                data-accordion-target="#accordion-collapse-body-{{ $editId }}"
+                                aria-controls="accordion-collapse-body-{{ $editId }}"
+                                class="bg-white hover:bg-[#795FFC] hover:text-white gap-2 w-23 md:w-30 h-7 md:h-10 rounded-3xl flex items-center justify-center cursor-pointer focus:outline-2 focus:outline-offset-2 focus:outline-violet-500 active:bg-violet-500">
+                                <i class="bx bx-pencil"></i>
+                                <span>Edit</span>
+                            </div>
+                        @endif
 
                         <div class="flex justify-between gap-2 md:gap-4">
-                            @php $endId = $parentId->getId(); @endphp
+                        
+                            @if($object->statut != env("TASK_DONE"))
+                                @php $endId = $parentId->getId(); @endphp
 
-                            <div id="accordion-collapse-heading-{{ $endId }}"
-                                data-accordion-target="#accordion-collapse-body-{{ $endId }}"
-                                aria-controls="accordion-collapse-body-{{ $endId }}"
-                                class="bg-white hover:bg-[#795FFC] hover:text-white gap-2 w-23 md:w-30 h-7 md:h-10 rounded-3xl flex items-center justify-center cursor-pointer focus:outline-2 focus:outline-offset-2 focus:outline-violet-500 active:bg-violet-500">
-                                <i class="bx bx-check-square"></i>
-                                <span>End</span>
-                            </div>
+                                <div id="accordion-collapse-heading-{{ $endId }}"
+                                    data-accordion-target="#accordion-collapse-body-{{ $endId }}"
+                                    aria-controls="accordion-collapse-body-{{ $endId }}"
+                                    class="bg-white hover:bg-[#795FFC] hover:text-white gap-2 w-23 md:w-30 h-7 md:h-10 rounded-3xl flex items-center justify-center cursor-pointer focus:outline-2 focus:outline-offset-2 focus:outline-violet-500 active:bg-violet-500">
+                                    <i class="bx bx-check-square"></i>
+                                    <span>End</span>
+                                </div>
+                            @endif
 
                             @php $deleteId = $parentId->getId(); @endphp
 
@@ -93,16 +106,18 @@
                 </div>
 
 
-                {{-- Task - edit --}}
-                <div id="accordion-collapse-body-{{ $editId }}"
-                    aria-labelledby="accordion-collapse-heading-{{ $editId }}" class="hidden">
-                    @include('shared.task.form', [
-                        'post' => $object,
-                        'itemId' => $editId,
-                        'position' => 't',
-                        'choice' => 'edit',
-                    ])
-                </div>
+                @if($object->statut != env("TASK_DONE"))
+                    {{-- Task - edit --}}
+                    <div id="accordion-collapse-body-{{ $editId }}"
+                        aria-labelledby="accordion-collapse-heading-{{ $editId }}" class="hidden">
+                        @include('shared.task.form', [
+                            'post' => $object,
+                            'itemId' => $editId,
+                            'position' => 't',
+                            'choice' => 'edit',
+                        ])
+                    </div>
+                @endif
 
                 {{-- Task - delete --}}
                 <div id="accordion-collapse-body-{{ $deleteId }}"
@@ -113,14 +128,16 @@
                     ])
                 </div>
 
-                {{-- Task - end --}}
-                <div id="accordion-collapse-body-{{ $endId }}"
-                    aria-labelledby="accordion-collapse-heading-{{ $endId }}" class="hidden">
-                    @include('task.end.index', [
-                        'post' => $object,
-                        'itemId' => $endId,
-                    ])
-                </div>
+                @if($object->statut != env("TASK_DONE"))
+                    {{-- Task - end --}}
+                    <div id="accordion-collapse-body-{{ $endId }}"
+                        aria-labelledby="accordion-collapse-heading-{{ $endId }}" class="hidden">
+                        @include('task.end.index', [
+                            'post' => $object,
+                            'itemId' => $endId,
+                        ])
+                    </div>
+                @endif
             </div>
         </div>
     </div>

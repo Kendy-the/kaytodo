@@ -24,7 +24,7 @@ class Category extends Model
 
         foreach($categories as $category)
         {
-            $categoryDate = Carbon::parse($category->create_at);
+            $categoryDate = Carbon::parse($category->created_at);
             if(!$categoryDate->lessThan($date))
             {
                 array_push($recents,$category);
