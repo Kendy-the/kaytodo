@@ -16,11 +16,13 @@ class TaskController extends Controller
         $tasks = (Auth::User())->tasks()->orderByRaw('created_at DESC')->get();
         $taskNumber = Task::taskNumber((Auth::User())->tasks()->get());
         $categories = (Auth::User())->categories()->get();
+        $contacts = User::getContacts();
 
         return view('task.index',[
             'posts' => $tasks,
             'tasks' => $taskNumber,
             'categories' => $categories,
+            'contacts' => $contacts,
             'post' => new Task(),
             'parentId' => new idController()
         ]);
@@ -107,7 +109,7 @@ class TaskController extends Controller
         $credentials = $request->all();
         $task = Task::find($credentials['id']);
 
-        $task->statut = env('TASK_DONE');
+        $task->statut = env('DONE');
         $task->save();
 
         return redirect()->route('task.end.success');

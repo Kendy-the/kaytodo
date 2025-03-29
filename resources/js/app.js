@@ -23,6 +23,9 @@ showNavbar('header-toggle', 'nav-bar', 'body-pd', 'header')
 
 // scroll task page
 document.addEventListener("DOMContentLoaded", function () {
+
+  if(window.location.pathname.includes('/task'))
+  {
     if(window.location.pathname != '/task'){
       setTimeout(() => {
         const section = document.getElementById("task");
@@ -30,6 +33,29 @@ document.addEventListener("DOMContentLoaded", function () {
             section.scrollIntoView({ behavior: "smooth" });
         }
     }, 300);
+  }
+  } 
+  if(window.location.pathname.includes('/category'))
+  {
+    if(window.location.pathname != '/category'){
+      setTimeout(() => {
+        const category = document.getElementById("object");
+        if (category) {
+            category.scrollIntoView({ behavior: "smooth" });
+        }
+    }, 300);
+  }
+  } 
+  if(window.location.pathname.includes('/project'))
+  {
+    if(window.location.pathname != '/project'){
+      setTimeout(() => {
+        const project = document.getElementById("object");
+        if (project) {
+            project.scrollIntoView({ behavior: "smooth" });
+        }
+    }, 300);
+  }
   }
 });
 

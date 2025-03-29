@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -51,6 +52,19 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public static function getContacts()
+    {
+        $users = DB::table('users')
+        ->select(DB::raw(1))
+        ->whereColumn('users.email', 'contacts.email');
+                                                                                               
+        $contacts = DB::table('contacts')
+        ->whereExists($users)
+        ->get();                                                                                            
+
+        return $contacts;
     }
 
     public function categories()

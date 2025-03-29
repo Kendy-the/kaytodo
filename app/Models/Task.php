@@ -36,7 +36,7 @@ class Task extends Model
 
         foreach($tasks as $task)
         {
-            if($task->statut == env("TASK_DONE"))
+            if($task->statut == env("DONE"))
             {
                 array_push($done, $task);
             }
@@ -51,7 +51,7 @@ class Task extends Model
 
         foreach($tasks as $task)
         {
-            if($task->statut == env("TASK_PROGRESS"))
+            if($task->statut == env("PROGRESS"))
             {
                 array_push($progress, $task);
             }
@@ -60,9 +60,14 @@ class Task extends Model
         return $progress;
     }
 
+    public function getContacts()
+    {
+        return $this->contacts;
+    }
+
     public function getProgression()
     {
-        if($this->statut != env("TASK_DONE"))
+        if($this->statut != env("DONE"))
         {
             $today = Carbon::now();
 
@@ -80,7 +85,7 @@ class Task extends Model
                 return $percent;
             }
 
-            $this->statut = env("TASK_DONE");
+            $this->statut = env("DONE");
             $this->save();
         }
         return 100;
@@ -90,8 +95,8 @@ class Task extends Model
     {
         switch ($this->statut)
         {
-            case env("TASK_PROGRESS") : return "In Progress";
-            case env("TASK_DONE") : return "done";
+            case env("PROGRESS") : return "In Progress";
+            case env("DONE") : return "done";
         }
     }
 

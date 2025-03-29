@@ -11,20 +11,7 @@
         'imgPath' => '/assets/img/task-banner.svg'
     ])
 
-    @php
-        $newObjectTopId = 1;
-        foreach($posts as $post)
-        {
-            if(isset($post) && !empty($post))
-            {
-                $newObjectTopId = mt_rand($post->id + 100, ($post->id +10000));
-                $newObjectTopId += $post->id;
-            }else{
-                $newObjectTopId = 1;
-            }
-            break;
-        }
-    @endphp
+    @php $newObjectTopId = $parentId->getId() @endphp
 
     {{-- New Project Button  --}}
     <div data-accordion="collapse">
@@ -53,54 +40,59 @@
     {{-- Summary --}}
     <x-tacapro.summary>
         <x-slot:title>Summary of your work</x-slot:title>
-        <x-slot:sub-title>your current project progress</x-slot:sub-title>
-        <x-slot:todo>{{ isset($todo)? $todo : 0 }}</x-slot:todo>
-        <x-slot:progress>{{ isset($progress)? $progress : 0 }}</x-slot:progress>
-        <x-slot:done>{{ isset($done)? $done : '0' }}</x-slot:done>
+        <x-slot:sub-title>your current task progress</x-slot:sub-title>
+        <x-slot:todo>{{ isset($projects) ? (count($projects['progress']) + count($projects['done']))  : 0 }}</x-slot:todo>
+        <x-slot:progress>{{ isset($projects) ? count($projects['progress']) : 0 }}</x-slot:progress>
+        <x-slot:done>{{ isset($projects) ? count($projects['done']) : 0 }}</x-slot:done>
     </x-tacapro.summary>
 
     {{-- Stats --}}
-    <x-tacapro.stats :object="'project'">
-        <x-slot:sum>{{ isset($project) ? count($project->done) : 0 }}</x-slot:sum>
-        <x-slot:width>{{ isset($project) ? $project->progress . "%" : "0%" }}</x-slot:width>
+    @php $percent = $projects['donePercent'] @endphp
+    <x-tacapro.stats :object="$percent">
+        <x-slot:sum>{{ isset($projects) ? count($projects['done']) : 0 }}</x-slot:sum>
+        <x-slot:width>{{ isset($percent) ? $percent . "%" : "0%" }}</x-slot:width>
     </x-tacapro.stats>
 
     {{-- Nav --}}
     <x-tacapro.nav :name="'project'">
         <x-slot:first>All</x-slot:first>
-        <x-slot:first-value>{{ isset($project) ? count($project) : 0 }}</x-slot:first-value>
+        <x-slot:first-value>{{ isset($posts) ? $posts->count() : 0 }}</x-slot:first-value>
 
         <x-slot:second>Recently Add</x-slot:second>
-        <x-slot:second-value>{{ isset($project) ? count($project->progress) : 0 }}</x-slot:second-value>
+        <x-slot:second-value>{{ isset($recents) ? count($recents) : 0 }}</x-slot:second-value>
 
         <x-slot:third>Pin</x-slot:third>
-        <x-slot:third-value>{{ isset($project) ? count($project->finish) : 0 }}</x-slot:third-value>
+        <x-slot:third-value>{{ isset($pins) ? count($pins) : 0 }}</x-slot:third-value>
     </x-tacapro.nav>
 
     {{-- Object --}}
-    <x-tacapro.object_ 
-    :objects="$posts"  
-    :$post :$post 
-    :name="'project'">
-    </x-tacapro.object_>
+    @if(request()->path() == 'project/recently-add')
+        @php $position = 'rencently' @endphp
+        <x-tacapro.object_ 
+        :objects="$recents" 
+        :$post :$parentId :$position :$contacts :$categories
+        :name="'project'">
+        </x-tacapro.object_>
+    @elseif(request()->path() == 'project/pin')
+    @php $position = 'pin' @endphp
+        <x-tacapro.object_ 
+        :objects="$pins" 
+        :$post :$parentId :$position :$contacts :$categories
+        :name="'project'">
+        </x-tacapro.object_>
+    @else
+    @php $position = ' ' @endphp
+        <x-tacapro.object_ 
+        :objects="$posts"
+        :$post :$parentId :$position :$contacts :$categories
+        :name="'project'">
+        </x-tacapro.object_>
+    @endif
 
     {{-- New project  --}}
     <div data-accordion="collapse">
 
-        @php
-            $newObjectButtomId = 2;
-            foreach($posts as $post)
-            {
-                if(isset($post) && !empty($post))
-                {
-                    $newObjectButtomId = mt_rand($post->id + 200, ($post->id +10000));
-                    $newObjectButtomId += $post->id;
-                }else{
-                    $newObjectButtomId = 2;
-                }
-                break;
-            }
-        @endphp
+        @php $newObjectButtomId = $parentId->getId() @endphp
 
         <div id="accordion-collapse-body-{{$newObjectButtomId}}" aria-labelledby="accordion-collapse-heading-{{$newObjectButtomId}}" class="hidden">
             @include('shared.project.form',[

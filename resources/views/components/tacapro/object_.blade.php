@@ -3,7 +3,7 @@
     <div data-accordion="collapse" class="flex flex-col my-2 text-sm md:text-[17px]">
 
         {{-- object --}}
-        <div class="my-1 flex flex-col p-3 bg-gray-100 border border-gray-300 rounded-xl">
+        <div class="my-1 flex flex-col p-3 bg-gray-100 border border-gray-300 rounded-xl" id="object">
 
             {{-- object - View --}}
             @php $objectId = $parentId->getId() @endphp
@@ -42,16 +42,18 @@
                         </div>
                         <div class="cursor-pointer flex mb-2 ms-2 gap-2 items-center justify-center">
 
-                            {{-- id pour accordeon --}}
-                            @php $editId = $parentId->getId(); @endphp
-                            
-                            <div id="accordion-collapse-heading-{{ $editId }}" data-accordion-target="#accordion-collapse-body-{{ $editId }}"
-                            aria-controls="accordion-collapse-body-{{ $editId }}"
-                            class="flex items-center justify-center">
-                                <i class="bx bx-pencil hover:text-violet-700 mx-1" title="Edit"></i>
-                            </div>
+                            @if(!isset($object->statut) || $object->statut != env("DONE"))
+                                {{-- id pour accordeon --}}
+                                @php $editId = $parentId->getId(); @endphp
+                                
+                                <div id="accordion-collapse-heading-{{ $editId }}" data-accordion-target="#accordion-collapse-body-{{ $editId }}"
+                                aria-controls="accordion-collapse-body-{{ $editId }}"
+                                class="flex items-center justify-center">
+                                    <i class="bx bx-pencil hover:text-violet-700 mx-1" title="Edit"></i>
+                                </div>
+                            @endif
 
-                            @if ($name == 'project')
+                            @if ($name == 'project' && $object->statut != env("DONE"))
 
                                 {{-- id pour accordeon --}}
                                 @php $endId = $parentId->getId(); @endphp
@@ -71,15 +73,16 @@
                                 <i class="bx bx-task-x hover:text-violet-700 text-red-500 mx-1" title="Delete"></i>
                             </div>
 
-                            {{-- id pour accordeon --}}
-                            @php $pinId = $parentId->getId(); @endphp
-                            
-                            <div id="accordion-collapse-heading-{{ $pinId }}" data-accordion-target="#accordion-collapse-body-{{ $pinId }}"
-                            aria-controls="accordion-collapse-body-{{ $pinId }}"
-                            class="flex items-center justify-center">
-                                <i class="bx bx-pin hover:text-violet-700 mx-1" title="pin"></i>
-                            </div>
-
+                            @if(!isset($object->statut) || $object->statut != env("DONE"))
+                                {{-- id pour accordeon --}}
+                                @php $pinId = $parentId->getId(); @endphp
+                                
+                                <div id="accordion-collapse-heading-{{ $pinId }}" data-accordion-target="#accordion-collapse-body-{{ $pinId }}"
+                                aria-controls="accordion-collapse-body-{{ $pinId }}"
+                                class="flex items-center justify-center">
+                                    <i class="bx bx-pin hover:text-violet-700 mx-1" title="pin"></i>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -142,24 +145,28 @@
                     'post' => $post,
                     'name' => $name,
                     'objectId' => $object->id,
+                    'contacts' => $contacts,
+                    'categories' => $categories,
                     'itemId' => $newMedTaskId,
                     'position' => 'm',
                     'choice' => 'create',
                 ])
             </div>
             
-            {{-- object - edit --}}
-            <div id="accordion-collapse-body-{{$editId}}" aria-labelledby="accordion-collapse-heading-{{$editId}}" class="hidden">
-                @include('shared.' . $name . '.form', [
-                    'post' => $object,
-                    'itemId' => $editId,
-                    'position' => 't',
-                    'choice' => 'edit',
-                ])
-            </div>
+            @if(!isset($object->statut) || $object->statut != env("DONE"))
+                {{-- object - edit --}}
+                <div id="accordion-collapse-body-{{$editId}}" aria-labelledby="accordion-collapse-heading-{{$editId}}" class="hidden">
+                    @include('shared.' . $name . '.form', [
+                        'post' => $object,
+                        'itemId' => $editId,
+                        'position' => 't',
+                        'choice' => 'edit',
+                    ])
+                </div>
+            @endif
 
             {{-- object - end --}}
-            @if ($name == 'project')
+            @if ($name == 'project' && $object->statut != env("DONE"))
                 <div id="accordion-collapse-body-{{$endId}}" aria-labelledby="accordion-collapse-heading-{{$endId}}" class="hidden">
                     @include('project.end.index', [
                         'post' => $object,
@@ -176,13 +183,15 @@
                 ])
             </div>
 
-            {{-- object - pin --}}
-            <div id="accordion-collapse-body-{{$pinId}}" aria-labelledby="accordion-collapse-heading-{{$pinId}}" class="hidden">
-                @include($name . '.pin.index', [
-                    'post' => $object,
-                    'itemId' => $pinId,
-                ])
-            </div>
+            @if(!isset($object->statut) || $object->statut != env("DONE"))
+                {{-- object - pin --}}
+                <div id="accordion-collapse-body-{{$pinId}}" aria-labelledby="accordion-collapse-heading-{{$pinId}}" class="hidden">
+                    @include($name . '.pin.index', [
+                        'post' => $object,
+                        'itemId' => $pinId,
+                    ])
+                </div>
+            @endif
 
         </div>
         

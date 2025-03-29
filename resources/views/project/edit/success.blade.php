@@ -14,7 +14,7 @@
             <x-slot:content>
                 You have been edited your project successfully!
             </x-slot:content>
-            <x-slot:button-action>/project</x-slot:button-action>
+            <x-slot:button-action>/project/all</x-slot:button-action>
             <x-slot:button-name>Continue</x-slot:button-name>
         </x-status>
     </x-poppup>

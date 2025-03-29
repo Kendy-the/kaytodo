@@ -42,7 +42,7 @@
     <x-tacapro.summary>
         <x-slot:title>Summary of your work</x-slot:title>
         <x-slot:sub-title>your current task progress</x-slot:sub-title>
-        <x-slot:todo>{{ isset($tasks) ? $posts->count() : 0 }}</x-slot:todo>
+        <x-slot:todo>{{ isset($tasks) ? (count($tasks['progress']) + count($tasks['done']))  : 0 }}</x-slot:todo>
         <x-slot:progress>{{ isset($tasks) ? count($tasks['progress']) : 0 }}</x-slot:progress>
         <x-slot:done>{{ isset($tasks) ? count($tasks['done']) : 0 }}</x-slot:done>
     </x-tacapro.summary>
