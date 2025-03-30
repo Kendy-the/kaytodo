@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Project;
+use App\Models\Category;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -28,6 +30,42 @@ class Task extends Model
         $newTasks ['donePercent'] = round((count($done) * 100 / ($tasks->count() > 0 ? $tasks->count() : 1)), 0);
 
         return $newTasks;
+    }
+
+    public static function getTodayTask($tasks)
+    {
+        $date = Carbon::today();
+        $today = [];
+
+        foreach($tasks as $task)
+        {
+            $categoryDate = Carbon::parse($task->end_at);
+            if($categoryDate->equalTo($date))
+            {
+                array_push($today,$task);
+            }
+        }   
+
+        return $today;
+    }
+
+    public static function recent($tasks)
+    {
+
+        $week = 1;
+        $date = Carbon::today()->subWeek($week);
+        $recents = [];
+
+        foreach($tasks as $task)
+        {
+            $categoryDate = Carbon::parse($task->created_at);
+            if(!$categoryDate->lessThan($date))
+            {
+                array_push($recents,$task);
+            }
+        }   
+
+        return $recents;
     }
 
     public static function getDone($tasks)
@@ -98,6 +136,27 @@ class Task extends Model
             case env("PROGRESS") : return "In Progress";
             case env("DONE") : return "done";
         }
+    }
+
+    public function getCategory()
+    {
+        if(isset($this->category_id))
+        return (Category::find($this->category_id))->name;
+    }
+
+    public function getProject()
+    {
+        if(isset($this->project_id))
+        return (Project::find($this->project_id))->name;
+    }
+
+    public function getDate()
+    {
+        $createDate = Carbon::parse($this->created_at);
+        $endDate = Carbon::parse($this->end_at);
+
+        return $createDate->format('d/m/y') . " - " . $endDate->format('d/m/y');
+
     }
 
     public function category()

@@ -49,6 +49,7 @@
     {{-- Stats --}}
     @php $percent = $projects['donePercent'] @endphp
     <x-tacapro.stats :object="$percent">
+        <x-slot:name>projects</x-slot:name>
         <x-slot:sum>{{ isset($projects) ? count($projects['done']) : 0 }}</x-slot:sum>
         <x-slot:width>{{ isset($percent) ? $percent . "%" : "0%" }}</x-slot:width>
     </x-tacapro.stats>

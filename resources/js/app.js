@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
   {
     if(window.location.pathname != '/category'){
       setTimeout(() => {
-        const category = document.getElementById("object");
+        const category = document.getElementById("category");
         if (category) {
             category.scrollIntoView({ behavior: "smooth" });
         }
@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
   {
     if(window.location.pathname != '/project'){
       setTimeout(() => {
-        const project = document.getElementById("object");
+        const project = document.getElementById("project");
         if (project) {
             project.scrollIntoView({ behavior: "smooth" });
         }

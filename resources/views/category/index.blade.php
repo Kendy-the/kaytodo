@@ -68,24 +68,24 @@
 
     {{-- Object --}}
     @if(request()->path() == 'category/recently-add')
-        @php $position = 'rencently' @endphp
+        @php $position = 'rencently'; $contacts = " "; $categories = " " @endphp
         <x-tacapro.object_ 
         :objects="$recents" 
-        :$post :$parentId :$position
+        :$post :$parentId :$position :$contacts :$categories
         :name="'category'">
         </x-tacapro.object_>
     @elseif(request()->path() == 'category/pin')
     @php $position = 'pin' @endphp
         <x-tacapro.object_ 
         :objects="$pins" 
-        :$post :$parentId :$position
+        :$post :$parentId :$position :$contacts :$categories
         :name="'category'">
         </x-tacapro.object_>
     @else
-    @php $position = ' ' @endphp
+    @php $position = " "; $contacts = " "; $categories = " " @endphp
         <x-tacapro.object_ 
         :objects="$posts"
-        :$post :$parentId :$position
+        :$post :$parentId :$position :$contacts :$categories
         :name="'category'">
         </x-tacapro.object_>
     @endif

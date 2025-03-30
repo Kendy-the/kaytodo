@@ -102,11 +102,13 @@
             </div>
 
             @if ($name == 'category')
-                <input type="hidden" name="category" value="{{ $objectId }}" />
+                <input type="hidden" name="category" value="{{ $object->id }}" />
             @endif
 
             @if ($name == 'project')
-                <input type="hidden" name="project" value="{{ $objectId }}" />
+
+                <input type="hidden" name="project" value="{{ $object->id }}" />
+                <input type="hidden" name="category" value="{{ $object->category_id }}">
 
                 <div class="flex flex-col w-full lg:w-auto gap-1">
                     @php $hasError = false @endphp
@@ -114,12 +116,12 @@
                         @php $hasError = true @endphp
                     @enderror
 
-                    <label for="participant">participants</label>
+                    <label for="contacts">participants</label>
                     <select multiple @class([
                         'md:h-20 overflow-y-auto mb-5 md:mb-0 bg-violet-50 rounded p-2 text-[#718EBF] border-[#DFEAF2] border lg:w-80 w-full',
                         'border-red-500 focus:outline-0 focus:outline-offset-0' => $hasError,
                         'focus:outline-2 border-[#DFEAF2] focus:outline-offset-2 focus:outline-violet-500' => !$hasError,
-                    ]) name="participant[]" id="participant">
+                    ]) name="contacts[]" id="contacts">
 
                         @foreach ($contacts as $contact)
                         <option 

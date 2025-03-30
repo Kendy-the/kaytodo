@@ -3,7 +3,7 @@
     <div class=" bg-white rounded-xl p-5 pb-3 mt-5">
         <div>
             <h2 class="font-bold">Burnout Stats</h2>
-            <p>you've completed {{ $sum }} more tasks than usual, maintain
+            <p>you've completed {{ $sum }} more {{ isset($name) ? $name : "tasks"}} than usual, maintain
                 your task with your supervor</p>
         </div>
         <div class="rounded-xl bg-gray-100 border-gray-300 border p-3 my-1">

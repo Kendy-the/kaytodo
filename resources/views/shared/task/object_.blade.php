@@ -1,7 +1,7 @@
 @forelse ($objects as $object)
     <div data-accordion="collapse">
         <div class="flex flex-col  h-auto  my-2 text-sm md:text-[17px]">
-            <div class="flex flex-col px-3 pt-3 bg-gray-100 rounded-xl border border-gray-300" id="task">
+            <div class="flex flex-col px-3 pt-3 bg-gray-100 rounded-xl border border-gray-300">
                 {{-- Task - View --}}
                 @php $objectId = $parentId->getId() @endphp
                    
@@ -27,7 +27,7 @@
 
                 <div id="accordion-collapse-body-{{$objectId}}"
                     aria-labelledby="accordion-collapse-heading-{{$objectId}}" class="hidden">
-                    <div class="py-4">
+                    <div class="py-4 flex gap-3">
                         <div
                             class="bg-gray-200 w-33 h-8 rounded-3xl flex gap-1 items-center justify-center cursor-pointer">
                             <div>
@@ -37,6 +37,30 @@
                                 {{ $object->getStatut() }}
                             </div>
                         </div>
+                        
+                        @if(!empty($object->getCategory()))
+                            <div
+                                class="bg-gray-200 w-33 h-8 rounded-3xl flex gap-1 items-center justify-center cursor-pointer">
+                                <div>
+                                    <img src="{{ '/assets/img/grid-icone.svg' }}" alt="">
+                                </div>
+                                <div>
+                                    {{ $object->getCategory() }}
+                                </div>
+                            </div>
+                        @endif
+
+                        @if(!empty($object->getProject()))
+                            <div
+                                class="bg-gray-200 w-33 h-8 rounded-3xl flex gap-1 items-center justify-center cursor-pointer">
+                                <div>
+                                    <img src="{{ '/assets/img/category-icone.svg' }}" alt="">
+                                </div>
+                                <div>
+                                    {{ $object->getProject() }}
+                                </div>
+                            </div>
+                        @endif
                     </div>
 
                     <div>
@@ -66,7 +90,7 @@
 
                     <div class="flex justify-between ps-3 pt-4 pb-3 border-t border-gray-300 mt-2 gap-2 md:gap-0">
 
-                        @if($object->statut != env("TASK_DONE"))
+                        @if($object->statut != env("DONE"))
                             @php $editId = $parentId->getId(); @endphp
 
                             <div id="accordion-collapse-heading-{{ $editId }}"
@@ -80,7 +104,7 @@
 
                         <div class="flex justify-between gap-2 md:gap-4">
                         
-                            @if($object->statut != env("TASK_DONE"))
+                            @if($object->statut != env("DONE"))
                                 @php $endId = $parentId->getId(); @endphp
 
                                 <div id="accordion-collapse-heading-{{ $endId }}"
@@ -106,7 +130,7 @@
                 </div>
 
 
-                @if($object->statut != env("TASK_DONE"))
+                @if($object->statut != env("DONE"))
                     {{-- Task - edit --}}
                     <div id="accordion-collapse-body-{{ $editId }}"
                         aria-labelledby="accordion-collapse-heading-{{ $editId }}" class="hidden">
@@ -128,7 +152,7 @@
                     ])
                 </div>
 
-                @if($object->statut != env("TASK_DONE"))
+                @if($object->statut != env("DONE"))
                     {{-- Task - end --}}
                     <div id="accordion-collapse-body-{{ $endId }}"
                         aria-labelledby="accordion-collapse-heading-{{ $endId }}" class="hidden">

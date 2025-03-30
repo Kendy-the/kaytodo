@@ -1,5 +1,5 @@
 {{-- Nav --}}
-<div class="bg-white rounded-3xl w-full flex justify-between my-4 text-sm md:text-lg">
+<div class="bg-white rounded-3xl w-full flex justify-between my-4 text-sm md:text-lg" id="{{$name}}">
     <a href="/{{ $name }}/all" @class([
         'group hover:bg-[#795FFC] hover:text-white transition-all duration-500 rounded-3xl w-[33%] p-2 flex items-center justify-center gap-1',
         'bg-[#795FFC] text-white' => (Request::is($name) || Request::is($name.'/all')),

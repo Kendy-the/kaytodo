@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
@@ -37,16 +38,17 @@ class TaskController extends Controller
         $task->end_at = $credentials['end_at'];
         $task->category_id = $credentials['category'];
 
-        if(isset($credentials['contacts'])){
-            $task->contacts()->sync($credentials['contacts']);
-        }
-
         if(isset($credentials['project'])){
             $task->project_id = $credentials['project'];
         }
 
         $task->user_id = (Auth::user())->id;
         $task->save();
+
+        if(isset($credentials['contacts'])){
+            $task->contacts()->sync($credentials['contacts']);
+        }
+        
         return redirect()->route('task.new.success');
     }
 

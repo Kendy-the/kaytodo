@@ -57,6 +57,10 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('/project')->name('project.')->controller(ProjectController::class)->group(function(){
         Route::get('/','index')->name('.');
         Route::get('/all','index');
+        Route::get('/{id}','index')->where([
+            "id" => "[0-9]+",
+        ]);
+
         Route::get('/new','index')->name('new');
         Route::post('/new','store');
         Route::get('/new/success','newSuccess')->name('new.success');
@@ -81,6 +85,10 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('/category')->name('category.')->controller(CategoryController::class)->group(function(){
         Route::get('/','index')->name('.');
         Route::get('/all','index');
+        Route::get('/{id}','index')->where([
+            "id" => "[0-9]+",
+        ]);
+
         Route::get('/new','index')->name('new');
         Route::post('/new','store');
         Route::get('/new/success','newSuccess')->name('new.success');

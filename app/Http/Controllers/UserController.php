@@ -16,7 +16,10 @@ class UserController extends Controller
 {
     public function home()
     {
-        return view('home');
+        $recent = Task::recent((Auth::User())->tasks()->orderByRaw('created_at DESC')->get());
+        return view('home',[
+            'posts' => $recent
+        ]);
     }
 
     public function attendant()

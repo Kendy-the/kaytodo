@@ -14,198 +14,137 @@
 
         <div class="bg-white rounded-xl p-5 pb-3 mt-5">
             <div>
-                <h2 class="font-bold">Today Meeting <?= isset($meeting) ? count($meeting) : '2' ?></h2>
+                <h2 class="font-bold">Recent Activities</h2>
                 <p>Your schedule for the day</p>
             </div>
+            @forelse ($posts as $post)
+                <div class="flex flex-col bg-gray-100 border border-gray-300 rounded-xl my-5 text-sm md:text-[17px]">
+                    <div class="flex justify-between px-3 pb-1 pt-3">
+                        <div class="flex gap-2">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="12" fill="#7A5AF8" />
+                                <path
+                                    d="M16.575 9.085C16.37 8.975 15.94 8.86 15.355 9.27L14.62 9.79C14.565 8.235 13.89 7.625 12.25 7.625H9.25C7.54 7.625 6.875 8.29 6.875 10V14C6.875 15.15 7.5 16.375 9.25 16.375H12.25C13.89 16.375 14.565 15.765 14.62 14.21L15.355 14.73C15.665 14.95 15.935 15.02 16.15 15.02C16.335 15.02 16.48 14.965 16.575 14.915C16.78 14.81 17.125 14.525 17.125 13.81V10.19C17.125 9.475 16.78 9.19 16.575 9.085ZM11.5 11.69C10.985 11.69 10.56 11.27 10.56 10.75C10.56 10.23 10.985 9.81 11.5 9.81C12.015 9.81 12.44 10.23 12.44 10.75C12.44 11.27 12.015 11.69 11.5 11.69Z"
+                                    fill="#FAFAFF" />
+                            </svg>
 
-            <!-- Si aucun enregistrement -->
-            <?php if(isset($meeting)): ?>
-            <div class="mt-5 pb-3 flex flex-col gap-3 justify-center items-center text-center">
-                <div>
-                    <svg width="122" height="82" viewBox="0 0 122 82" fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <rect width="39.3333" height="40" rx="4" fill="#EBE9FE" />
-                        <rect x="41.3335" width="39.3333" height="40" rx="4" fill="#EBE9FE" />
-                        <rect x="82.6665" width="39.3333" height="40" rx="4" fill="#EBE9FE" />
-                        <path
-                            d="M102 20.0001C104.301 20.0001 106.167 18.1346 106.167 15.8334C106.167 13.5322 104.301 11.6667 102 11.6667C99.699 11.6667 97.8335 13.5322 97.8335 15.8334C97.8335 18.1346 99.699 20.0001 102 20.0001Z"
-                            fill="#D9D6FE" />
-                        <path
-                            d="M102 22.0833C97.8248 22.0833 94.4248 24.8833 94.4248 28.3333C94.4248 28.5666 94.6081 28.7499 94.8415 28.7499H109.158C109.391 28.7499 109.575 28.5666 109.575 28.3333C109.575 24.8833 106.175 22.0833 102 22.0833Z"
-                            fill="#D9D6FE" />
-                        <path
-                            d="M61.0002 20.0001C63.3013 20.0001 65.1668 18.1346 65.1668 15.8334C65.1668 13.5322 63.3013 11.6667 61.0002 11.6667C58.699 11.6667 56.8335 13.5322 56.8335 15.8334C56.8335 18.1346 58.699 20.0001 61.0002 20.0001Z"
-                            fill="#D9D6FE" />
-                        <path
-                            d="M60.9998 22.0833C56.8248 22.0833 53.4248 24.8833 53.4248 28.3333C53.4248 28.5666 53.6081 28.7499 53.8415 28.7499H68.1581C68.3915 28.7499 68.5748 28.5666 68.5748 28.3333C68.5748 24.8833 65.1748 22.0833 60.9998 22.0833Z"
-                            fill="#D9D6FE" />
-                        <path
-                            d="M20.0002 20.0001C22.3013 20.0001 24.1668 18.1346 24.1668 15.8334C24.1668 13.5322 22.3013 11.6667 20.0002 11.6667C17.699 11.6667 15.8335 13.5322 15.8335 15.8334C15.8335 18.1346 17.699 20.0001 20.0002 20.0001Z"
-                            fill="#D9D6FE" />
-                        <path
-                            d="M19.9998 22.0833C15.8248 22.0833 12.4248 24.8833 12.4248 28.3333C12.4248 28.5666 12.6081 28.7499 12.8415 28.7499H27.1581C27.3915 28.7499 27.5748 28.5666 27.5748 28.3333C27.5748 24.8833 24.1748 22.0833 19.9998 22.0833Z"
-                            fill="#D9D6FE" />
-                        <rect y="42" width="39.3333" height="40" rx="4" fill="#EBE9FE" />
-                        <rect x="41.3335" y="42" width="39.3333" height="40" rx="4" fill="#EBE9FE" />
-                        <rect x="82.6665" y="42" width="39.3333" height="40" rx="4" fill="#EBE9FE" />
-                        <path
-                            d="M61.0002 62.0001C63.3013 62.0001 65.1668 60.1346 65.1668 57.8334C65.1668 55.5322 63.3013 53.6667 61.0002 53.6667C58.699 53.6667 56.8335 55.5322 56.8335 57.8334C56.8335 60.1346 58.699 62.0001 61.0002 62.0001Z"
-                            fill="#D9D6FE" />
-                        <path
-                            d="M60.9998 64.0833C56.8248 64.0833 53.4248 66.8833 53.4248 70.3333C53.4248 70.5666 53.6081 70.7499 53.8415 70.7499H68.1581C68.3915 70.7499 68.5748 70.5666 68.5748 70.3333C68.5748 66.8833 65.1748 64.0833 60.9998 64.0833Z"
-                            fill="#D9D6FE" />
-                        <path
-                            d="M102 62.0001C104.301 62.0001 106.167 60.1346 106.167 57.8334C106.167 55.5322 104.301 53.6667 102 53.6667C99.699 53.6667 97.8335 55.5322 97.8335 57.8334C97.8335 60.1346 99.699 62.0001 102 62.0001Z"
-                            fill="#D9D6FE" />
-                        <path
-                            d="M102 64.0833C97.8248 64.0833 94.4248 66.8833 94.4248 70.3333C94.4248 70.5666 94.6081 70.7499 94.8415 70.7499H109.158C109.391 70.7499 109.575 70.5666 109.575 70.3333C109.575 66.8833 106.175 64.0833 102 64.0833Z"
-                            fill="#D9D6FE" />
-                        <path
-                            d="M20.0002 62.0001C22.3013 62.0001 24.1668 60.1346 24.1668 57.8334C24.1668 55.5322 22.3013 53.6667 20.0002 53.6667C17.699 53.6667 15.8335 55.5322 15.8335 57.8334C15.8335 60.1346 17.699 62.0001 20.0002 62.0001Z"
-                            fill="#D9D6FE" />
-                        <path
-                            d="M19.9998 64.0833C15.8248 64.0833 12.4248 66.8833 12.4248 70.3333C12.4248 70.5666 12.6081 70.7499 12.8415 70.7499H27.1581C27.3915 70.7499 27.5748 70.5666 27.5748 70.3333C27.5748 66.8833 24.1748 64.0833 19.9998 64.0833Z"
-                            fill="#D9D6FE" />
-                    </svg>
-                </div>
-                <div>
-                    <h3 class="font-bold">No Meeting Available</h3>
-                    <p>
-                        it looks like you don't have any meeting scheduled at the moment.<br>
-                        This space will be updated as new meeting are added!
-                    </p>
-                </div>
-            </div>
-            <?php endif ?>
+                            <h3 class="font-bold">{{ $post->name }}</h3>
+                        </div>
+                        <div class="flex gap-2">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M11.1667 2.37337V1.33337C11.1667 1.06004 10.94 0.833374 10.6667 0.833374C10.3933 0.833374 10.1667 1.06004 10.1667 1.33337V2.33337H5.83332V1.33337C5.83332 1.06004 5.60666 0.833374 5.33332 0.833374C5.05999 0.833374 4.83332 1.06004 4.83332 1.33337V2.37337C3.03332 2.54004 2.15999 3.61337 2.02666 5.20671C2.01332 5.40004 2.17332 5.56004 2.35999 5.56004H13.64C13.8333 5.56004 13.9933 5.39337 13.9733 5.20671C13.84 3.61337 12.9667 2.54004 11.1667 2.37337Z"
+                                    fill="#D0D5DD" />
+                                <path
+                                    d="M13.3333 6.55994H2.66667C2.3 6.55994 2 6.85994 2 7.2266V11.3333C2 13.3333 3 14.6666 5.33333 14.6666H10.6667C13 14.6666 14 13.3333 14 11.3333V7.2266C14 6.85994 13.7 6.55994 13.3333 6.55994ZM6.14 12.1399C6.07333 12.1999 6 12.2466 5.92 12.2799C5.84 12.3133 5.75333 12.3333 5.66667 12.3333C5.58 12.3333 5.49333 12.3133 5.41333 12.2799C5.33333 12.2466 5.26 12.1999 5.19333 12.1399C5.07333 12.0133 5 11.8399 5 11.6666C5 11.4933 5.07333 11.3199 5.19333 11.1933C5.26 11.1333 5.33333 11.0866 5.41333 11.0533C5.57333 10.9866 5.76 10.9866 5.92 11.0533C6 11.0866 6.07333 11.1333 6.14 11.1933C6.26 11.3199 6.33333 11.4933 6.33333 11.6666C6.33333 11.8399 6.26 12.0133 6.14 12.1399ZM6.28 9.5866C6.24667 9.6666 6.2 9.73994 6.14 9.8066C6.07333 9.8666 6 9.91327 5.92 9.9466C5.84 9.97994 5.75333 9.99994 5.66667 9.99994C5.58 9.99994 5.49333 9.97994 5.41333 9.9466C5.33333 9.91327 5.26 9.8666 5.19333 9.8066C5.13333 9.73994 5.08667 9.6666 5.05333 9.5866C5.02 9.5066 5 9.41994 5 9.33327C5 9.2466 5.02 9.15994 5.05333 9.07994C5.08667 8.99994 5.13333 8.9266 5.19333 8.85994C5.26 8.79994 5.33333 8.75327 5.41333 8.71994C5.57333 8.65327 5.76 8.65327 5.92 8.71994C6 8.75327 6.07333 8.79994 6.14 8.85994C6.2 8.9266 6.24667 8.99994 6.28 9.07994C6.31333 9.15994 6.33333 9.2466 6.33333 9.33327C6.33333 9.41994 6.31333 9.5066 6.28 9.5866ZM8.47333 9.8066C8.40667 9.8666 8.33333 9.91327 8.25333 9.9466C8.17333 9.97994 8.08667 9.99994 8 9.99994C7.91333 9.99994 7.82667 9.97994 7.74667 9.9466C7.66667 9.91327 7.59333 9.8666 7.52667 9.8066C7.40667 9.67994 7.33333 9.5066 7.33333 9.33327C7.33333 9.15994 7.40667 8.9866 7.52667 8.85994C7.59333 8.79994 7.66667 8.75327 7.74667 8.71994C7.90667 8.6466 8.09333 8.6466 8.25333 8.71994C8.33333 8.75327 8.40667 8.79994 8.47333 8.85994C8.59333 8.9866 8.66667 9.15994 8.66667 9.33327C8.66667 9.5066 8.59333 9.67994 8.47333 9.8066Z"
+                                    fill="#D0D5DD" />
+                            </svg>
 
-            <!-- S'il ya enregistrement -->
-            <div class="flex flex-col bg-gray-100 border border-gray-300 rounded-xl my-2 text-sm md:text-[17px]">
-                <div class="flex justify-between px-3 pb-1 pt-3">
-                    <div class="flex gap-2">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            <p>{{ $post->getDate() }} </p>
+                        </div>
+                    </div>
+                    <div class="flex justify-between px-3 pt-2 pb-3">
+                        <div class="flex gap-3">
+                            <a href="/task/{{ strtolower(str_replace(' ', '-', $post->statut == env("DONE") ?"finish" : $post->getStatut() )) }}"
+                                class="bg-gray-200 w-33 h-8 rounded-3xl flex gap-1 items-center justify-center cursor-pointer hover:bg-gray-500 hover:text-white">
+                                <div>
+                                    <img src="{{ '/assets/img/hours-icone.svg' }}" alt="">
+                                </div>
+                                <div>
+                                    {{ $post->getStatut() }}
+                                </div>
+                            </a>
+
+                            @if (!empty($post->getCategory()))
+                                <a href="/category/{{$post->category_id}}"
+                                    class="bg-gray-200 w-33 h-8 rounded-3xl flex gap-1 items-center justify-center cursor-pointer hover:bg-gray-500 hover:text-white">
+                                    <div>
+                                        <img src="{{ '/assets/img/grid-icone.svg' }}" alt="">
+                                    </div>
+                                    <div>
+                                        {{ $post->getCategory() }}
+                                    </div>
+                                </a>
+                            @endif
+
+                            @if (!empty($post->getProject()))
+                                <a href="/project/{{$post->project_id}}"
+                                    class="bg-gray-200 w-33 h-8 rounded-3xl flex gap-1 items-center justify-center cursor-pointer hover:bg-gray-500 hover:text-white">
+                                    <div>
+                                        <img src="{{ '/assets/img/category-icone.svg' }}" alt="">
+                                    </div>
+                                    <div>
+                                        {{ $post->getProject() }}
+                                    </div>
+                                </a>
+                            @endif
+                        </div>
+                        <a href="/task/{{ $post->id }}"
+                            class="bg-[#795FFC] w-25 h-7 md:w-30 md:h-10 rounded-3xl text-white flex items-center justify-center cursor-pointer">
+                            access to
+                        </a>
+                    </div>
+                </div>
+            @empty
+                <div class="mt-5 pb-3 flex flex-col gap-3 justify-center items-center text-center">
+                    <div>
+                        <svg width="122" height="82" viewBox="0 0 122 82" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="12" cy="12" r="12" fill="#7A5AF8" />
+                            <rect width="39.3333" height="40" rx="4" fill="#EBE9FE" />
+                            <rect x="41.3335" width="39.3333" height="40" rx="4" fill="#EBE9FE" />
+                            <rect x="82.6665" width="39.3333" height="40" rx="4" fill="#EBE9FE" />
                             <path
-                                d="M16.575 9.085C16.37 8.975 15.94 8.86 15.355 9.27L14.62 9.79C14.565 8.235 13.89 7.625 12.25 7.625H9.25C7.54 7.625 6.875 8.29 6.875 10V14C6.875 15.15 7.5 16.375 9.25 16.375H12.25C13.89 16.375 14.565 15.765 14.62 14.21L15.355 14.73C15.665 14.95 15.935 15.02 16.15 15.02C16.335 15.02 16.48 14.965 16.575 14.915C16.78 14.81 17.125 14.525 17.125 13.81V10.19C17.125 9.475 16.78 9.19 16.575 9.085ZM11.5 11.69C10.985 11.69 10.56 11.27 10.56 10.75C10.56 10.23 10.985 9.81 11.5 9.81C12.015 9.81 12.44 10.23 12.44 10.75C12.44 11.27 12.015 11.69 11.5 11.69Z"
-                                fill="#FAFAFF" />
-                        </svg>
-
-                        <h3 class="font-bold"><?= !empty($metting) ? $metting->title : 'Townhall Meeting' ?></h3>
-                    </div>
-                    <div class="flex gap-2">
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
+                                d="M102 20.0001C104.301 20.0001 106.167 18.1346 106.167 15.8334C106.167 13.5322 104.301 11.6667 102 11.6667C99.699 11.6667 97.8335 13.5322 97.8335 15.8334C97.8335 18.1346 99.699 20.0001 102 20.0001Z"
+                                fill="#D9D6FE" />
                             <path
-                                d="M8.00016 1.33331C4.32683 1.33331 1.3335 4.32665 1.3335 7.99998C1.3335 11.6733 4.32683 14.6666 8.00016 14.6666C11.6735 14.6666 14.6668 11.6733 14.6668 7.99998C14.6668 4.32665 11.6735 1.33331 8.00016 1.33331ZM10.9002 10.38C10.8068 10.54 10.6402 10.6266 10.4668 10.6266C10.3802 10.6266 10.2935 10.6066 10.2135 10.5533L8.14683 9.31998C7.6335 9.01331 7.2535 8.33998 7.2535 7.74665V5.01331C7.2535 4.73998 7.48016 4.51331 7.7535 4.51331C8.02683 4.51331 8.2535 4.73998 8.2535 5.01331V7.74665C8.2535 7.98665 8.4535 8.33998 8.66016 8.45998L10.7268 9.69331C10.9668 9.83331 11.0468 10.14 10.9002 10.38Z"
-                                fill="#D0D5DD" />
+                                d="M102 22.0833C97.8248 22.0833 94.4248 24.8833 94.4248 28.3333C94.4248 28.5666 94.6081 28.7499 94.8415 28.7499H109.158C109.391 28.7499 109.575 28.5666 109.575 28.3333C109.575 24.8833 106.175 22.0833 102 22.0833Z"
+                                fill="#D9D6FE" />
+                            <path
+                                d="M61.0002 20.0001C63.3013 20.0001 65.1668 18.1346 65.1668 15.8334C65.1668 13.5322 63.3013 11.6667 61.0002 11.6667C58.699 11.6667 56.8335 13.5322 56.8335 15.8334C56.8335 18.1346 58.699 20.0001 61.0002 20.0001Z"
+                                fill="#D9D6FE" />
+                            <path
+                                d="M60.9998 22.0833C56.8248 22.0833 53.4248 24.8833 53.4248 28.3333C53.4248 28.5666 53.6081 28.7499 53.8415 28.7499H68.1581C68.3915 28.7499 68.5748 28.5666 68.5748 28.3333C68.5748 24.8833 65.1748 22.0833 60.9998 22.0833Z"
+                                fill="#D9D6FE" />
+                            <path
+                                d="M20.0002 20.0001C22.3013 20.0001 24.1668 18.1346 24.1668 15.8334C24.1668 13.5322 22.3013 11.6667 20.0002 11.6667C17.699 11.6667 15.8335 13.5322 15.8335 15.8334C15.8335 18.1346 17.699 20.0001 20.0002 20.0001Z"
+                                fill="#D9D6FE" />
+                            <path
+                                d="M19.9998 22.0833C15.8248 22.0833 12.4248 24.8833 12.4248 28.3333C12.4248 28.5666 12.6081 28.7499 12.8415 28.7499H27.1581C27.3915 28.7499 27.5748 28.5666 27.5748 28.3333C27.5748 24.8833 24.1748 22.0833 19.9998 22.0833Z"
+                                fill="#D9D6FE" />
+                            <rect y="42" width="39.3333" height="40" rx="4" fill="#EBE9FE" />
+                            <rect x="41.3335" y="42" width="39.3333" height="40" rx="4" fill="#EBE9FE" />
+                            <rect x="82.6665" y="42" width="39.3333" height="40" rx="4" fill="#EBE9FE" />
+                            <path
+                                d="M61.0002 62.0001C63.3013 62.0001 65.1668 60.1346 65.1668 57.8334C65.1668 55.5322 63.3013 53.6667 61.0002 53.6667C58.699 53.6667 56.8335 55.5322 56.8335 57.8334C56.8335 60.1346 58.699 62.0001 61.0002 62.0001Z"
+                                fill="#D9D6FE" />
+                            <path
+                                d="M60.9998 64.0833C56.8248 64.0833 53.4248 66.8833 53.4248 70.3333C53.4248 70.5666 53.6081 70.7499 53.8415 70.7499H68.1581C68.3915 70.7499 68.5748 70.5666 68.5748 70.3333C68.5748 66.8833 65.1748 64.0833 60.9998 64.0833Z"
+                                fill="#D9D6FE" />
+                            <path
+                                d="M102 62.0001C104.301 62.0001 106.167 60.1346 106.167 57.8334C106.167 55.5322 104.301 53.6667 102 53.6667C99.699 53.6667 97.8335 55.5322 97.8335 57.8334C97.8335 60.1346 99.699 62.0001 102 62.0001Z"
+                                fill="#D9D6FE" />
+                            <path
+                                d="M102 64.0833C97.8248 64.0833 94.4248 66.8833 94.4248 70.3333C94.4248 70.5666 94.6081 70.7499 94.8415 70.7499H109.158C109.391 70.7499 109.575 70.5666 109.575 70.3333C109.575 66.8833 106.175 64.0833 102 64.0833Z"
+                                fill="#D9D6FE" />
+                            <path
+                                d="M20.0002 62.0001C22.3013 62.0001 24.1668 60.1346 24.1668 57.8334C24.1668 55.5322 22.3013 53.6667 20.0002 53.6667C17.699 53.6667 15.8335 55.5322 15.8335 57.8334C15.8335 60.1346 17.699 62.0001 20.0002 62.0001Z"
+                                fill="#D9D6FE" />
+                            <path
+                                d="M19.9998 64.0833C15.8248 64.0833 12.4248 66.8833 12.4248 70.3333C12.4248 70.5666 12.6081 70.7499 12.8415 70.7499H27.1581C27.3915 70.7499 27.5748 70.5666 27.5748 70.3333C27.5748 66.8833 24.1748 64.0833 19.9998 64.0833Z"
+                                fill="#D9D6FE" />
                         </svg>
-
-                        <p><?= !empty($metting) ? $metting->hours : '01:30 AM - 02:00 AM' ?></p>
                     </div>
-                </div>
-                <div class="flex justify-between px-3 pt-2 pb-3">
                     <div>
-                        <img src="{{ '/assets/img/join-meet-icone.svg' }}" alt="">
-                    </div>
-                    <div
-                        class="bg-[#795FFC] w-25 h-7 md:w-30 md:h-10 rounded-3xl text-white flex items-center justify-center cursor-pointer">
-                        Join Meet
-                    </div>
-                </div>
-            </div>
-
-            <div class="flex flex-col bg-gray-100 border border-gray-300 rounded-xl my-2 text-sm md:text-[17px]">
-                <div class="flex justify-between px-3 pb-1 pt-3">
-                    <div class="flex gap-2">
-                        <img src="{{ 'build/assets/img/meeting-icone.svg' }}" alt="">
-                        <h3 class="font-bold"><?= !empty($metting) ? $metting->title : 'Townhall Meeting' ?></h3>
-                    </div>
-                    <div class="flex gap-2">
-                        <img src="{{ '/assets/img/hours-icone.svg' }}" alt="">
-                        <p><?= !empty($metting) ? $metting->hours : '01:30 AM - 02:00 AM' ?></p>
+                        <h3 class="font-bold">No Meeting Available</h3>
+                        <p>
+                            it looks like you don't have any meeting scheduled at the moment.<br>
+                            This space will be updated as new meeting are added!
+                        </p>
                     </div>
                 </div>
-                <div class="flex justify-between px-3 pt-2 pb-3">
-                    <div>
-                        <img src="{{ '/assets/img/join-meet-icone.svg' }}" alt="">
-                    </div>
-                    <div
-                        class="bg-[#795FFC] w-25 h-7 md:w-30 md:h-10 rounded-3xl text-white flex items-center justify-center cursor-pointer">
-                        Join Meet
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="bg-white rounded-xl p-5 pb-3 mt-5">
-            <div>
-                <h2 class="font-bold">Today Task <?= isset($task) ? count($task) : '2' ?></h2>
-                <p>The task assigned to you for the day</p>
-            </div>
-
-            <!-- Si aucun enregistrement -->
-            <?php if(isset($task)): ?>
-            <div class="mt-5 pb-3 flex flex-col gap-3 justify-center items-center text-center">
-                <div>
-                    <img src="{{ '/assets/img/task-empty.svg' }}" alt="Task Empty">
-                </div>
-                <div>
-                    <h3 class="font-bold">No Tasked Assigned</h3>
-                    <p>
-                        it looks like you don't have any tasks assigned to you right now.<br>
-                        Don't worry this space will be updated as new tasks become available.
-                    </p>
-                </div>
-            </div>
-            <?php endif ?>
-
-            <!-- S'il ya enregistrement -->
-            <div class="flex flex-col bg-gray-100 border border-gray-300 rounded-xl my-2 text-sm md:text-[17px]">
-                <div class="flex flex-col px-3 pb-1 pt-3">
-
-                    <div class="flex gap-2">
-                        <img src="{{ '/assets/img/task-home-icone.svg' }}" alt="">
-                        <h3 class="font-bold"><?= !empty($task) ? $task->title : 'Wiring dashboard analytics' ?></h3>
-                    </div>
-
-                    <div class="py-4">
-                        <div
-                            class="bg-gray-200 w-33 h-8 rounded-3xl flex gap-1 items-center justify-center cursor-pointer">
-                            <div>
-                                <img src="{{ '/assets/img/hours-icone.svg' }}" alt="">
-                            </div>
-                            <div>
-                                <?= !empty($task) ? $task->statut : 'In Progress' ?>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <div class="w-full my-2 h-3 rounded-2xl bg-gray-200">
-                            <div style="width:<?= isset($task) ? $task->progress . '%' : '70%' ?>;"
-                                class="relative my-2 h-3 rounded-2xl bg-[#795FFC]"></div>
-                        </div>
-                    </div>
-
-                    <div class="flex justify-between ps-3 pt-2 pb-3">
-                        <div>
-                            <img src="{{ '/assets/img/join-meet-icone.svg' }}>" alt="">
-                        </div>
-                        <div class="flex justify-between gap-4">
-                            <div
-                                class="bg-white gap-2 w-23 md:w-30 h-7 md:h-10 rounded-3xl flex items-center justify-center cursor-pointer">
-                                <img src="{{ '/assets/img/calendar-icone.svg' }}" alt="">
-                                <span><?= isset($task) ? $task->date : '27 April' ?></span>
-                            </div>
-                            <div
-                                class="bg-white gap-2 w-13 md:w-20 h-7 md:h-10 rounded-3xl flex items-center justify-center cursor-pointer">
-                                <img src="{{ '/assets/img/message-gray-icone.svg' }}" alt="">
-                                <span><?= isset($task) ? count($task->message) : '2' ?></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @endforelse
         </div>
     </div>
 </x-layout.app-layout>

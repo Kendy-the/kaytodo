@@ -3,13 +3,17 @@
     <div data-accordion="collapse" class="flex flex-col my-2 text-sm md:text-[17px]">
 
         {{-- object --}}
-        <div class="my-1 flex flex-col p-3 bg-gray-100 border border-gray-300 rounded-xl" id="object">
+        <div class="my-1 flex flex-col p-3 bg-gray-100 border border-gray-300 rounded-xl">
 
             {{-- object - View --}}
             @php $objectId = $parentId->getId() @endphp
             <div id="accordion-collapse-heading-{{$objectId}}" 
                 data-accordion-target="#accordion-collapse-body-{{$objectId}}"       
-                aria-controls="accordion-collapse-body-{{$objectId}}" class="flex justify-between cursor-pointer" title="Cliquez"
+                aria-controls="accordion-collapse-body-{{$objectId}}" class="flex justify-between cursor-pointer"
+                @if(request()->path() == $name.'/'.$object->id)
+                    aria-expanded="true"
+                @endif
+                title="Cliquez"
                 style="background-color: #f3f4f6; color:#444" >
                 <div class="flex gap-2 pb-2 w-full">
                     <img src="{{ '/assets/img/task-home-icone.svg' }}" alt="">
@@ -144,7 +148,7 @@
                 @include('shared.task.form', [
                     'post' => $post,
                     'name' => $name,
-                    'objectId' => $object->id,
+                    'object' => $object,
                     'contacts' => $contacts,
                     'categories' => $categories,
                     'itemId' => $newMedTaskId,
