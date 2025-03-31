@@ -48,14 +48,16 @@
                         <div class="cursor-pointer flex mb-2 ms-2 gap-2 items-center justify-center">
 
                             @if(!isset($object->statut) || $object->statut != env("DONE"))
-                                {{-- id pour accordeon --}}
-                                @php $editId = $parentId->getId(); @endphp
                                 
-                                <div id="accordion-collapse-heading-{{ $editId }}" data-accordion-target="#accordion-collapse-body-{{ $editId }}"
-                                aria-controls="accordion-collapse-body-{{ $editId }}"
-                                class="flex items-center justify-center">
-                                    <i class="bx bx-pencil hover:text-violet-700 mx-1" title="Edit"></i>
-                                </div>
+                                @if($object->name != "default")
+                                    @php $editId = $parentId->getId(); @endphp
+                                    
+                                    <div id="accordion-collapse-heading-{{ $editId }}" data-accordion-target="#accordion-collapse-body-{{ $editId }}"
+                                    aria-controls="accordion-collapse-body-{{ $editId }}"
+                                    class="flex items-center justify-center">
+                                        <i class="bx bx-pencil hover:text-violet-700 mx-1" title="Edit"></i>
+                                    </div>
+                                @endif
                             @endif
 
                             @if ($name == 'project' && $object->statut != env("DONE"))
@@ -69,24 +71,25 @@
                                 </div>
                             @endif
 
-                            {{-- id pour accordeon --}}
-                            @php $deleteId = $parentId->getId(); @endphp
-                            
-                            <div id="accordion-collapse-heading-{{ $deleteId }}" data-accordion-target="#accordion-collapse-body-{{ $deleteId }}"
-                            aria-controls="accordion-collapse-body-{{ $deleteId }}"
-                            class="flex items-center justify-center">
-                                <i class="bx bx-task-x hover:text-violet-700 text-red-500 mx-1" title="Delete"></i>
-                            </div>
+                            @if($object->name != "default")
+                                @php $deleteId = $parentId->getId(); @endphp
+                                
+                                <div id="accordion-collapse-heading-{{ $deleteId }}" data-accordion-target="#accordion-collapse-body-{{ $deleteId }}"
+                                aria-controls="accordion-collapse-body-{{ $deleteId }}"
+                                class="flex items-center justify-center">
+                                    <i class="bx bx-task-x hover:text-violet-700 text-red-500 mx-1" title="Delete"></i>
+                                </div>
+                            @endif
 
                             @if(!isset($object->statut) || $object->statut != env("DONE"))
-                                {{-- id pour accordeon --}}
-                                @php $pinId = $parentId->getId(); @endphp
-                                
-                                <div id="accordion-collapse-heading-{{ $pinId }}" data-accordion-target="#accordion-collapse-body-{{ $pinId }}"
-                                aria-controls="accordion-collapse-body-{{ $pinId }}"
-                                class="flex items-center justify-center">
-                                    <i class="bx bx-pin hover:text-violet-700 mx-1" title="pin"></i>
-                                </div>
+                                @if($object->name != "default")
+                                    @php $pinId = $parentId->getId(); @endphp
+                                    <div id="accordion-collapse-heading-{{ $pinId }}" data-accordion-target="#accordion-collapse-body-{{ $pinId }}"
+                                    aria-controls="accordion-collapse-body-{{ $pinId }}"
+                                    class="flex items-center justify-center">
+                                        <i class="bx bx-pin hover:text-violet-700 mx-1" title="pin"></i>
+                                    </div>
+                                @endif
                             @endif
                         </div>
                     </div>
@@ -173,14 +176,16 @@
             
             @if(!isset($object->statut) || $object->statut != env("DONE"))
                 {{-- object - edit --}}
-                <div id="accordion-collapse-body-{{$editId}}" aria-labelledby="accordion-collapse-heading-{{$editId}}" class="hidden">
-                    @include('shared.' . $name . '.form', [
-                        'post' => $object,
-                        'itemId' => $editId,
-                        'position' => 't',
-                        'choice' => 'edit',
-                    ])
-                </div>
+                @if($object->name != "default")
+                    <div id="accordion-collapse-body-{{$editId}}" aria-labelledby="accordion-collapse-heading-{{$editId}}" class="hidden">
+                        @include('shared.' . $name . '.form', [
+                            'post' => $object,
+                            'itemId' => $editId,
+                            'position' => 't',
+                            'choice' => 'edit',
+                        ])
+                    </div>
+                @endif
             @endif
 
             {{-- object - end --}}
@@ -194,21 +199,25 @@
             @endif
 
             {{-- object - delete --}}
-            <div id="accordion-collapse-body-{{$deleteId}}" aria-labelledby="accordion-collapse-heading-{{$deleteId}}" class="hidden">
-                @include($name . '.delete.index', [
-                    'post' => $object,
-                    'itemId' => $deleteId,
-                ])
-            </div>
+            @if($object->name != "default")
+                <div id="accordion-collapse-body-{{$deleteId}}" aria-labelledby="accordion-collapse-heading-{{$deleteId}}" class="hidden">
+                    @include($name . '.delete.index', [
+                        'post' => $object,
+                        'itemId' => $deleteId,
+                    ])
+                </div>
+            @endif
 
             @if(!isset($object->statut) || $object->statut != env("DONE"))
                 {{-- object - pin --}}
-                <div id="accordion-collapse-body-{{$pinId}}" aria-labelledby="accordion-collapse-heading-{{$pinId}}" class="hidden">
-                    @include($name . '.pin.index', [
-                        'post' => $object,
-                        'itemId' => $pinId,
-                    ])
-                </div>
+                @if($object->name != "default")
+                    <div id="accordion-collapse-body-{{$pinId}}" aria-labelledby="accordion-collapse-heading-{{$pinId}}" class="hidden">
+                        @include($name . '.pin.index', [
+                            'post' => $object,
+                            'itemId' => $pinId,
+                        ])
+                    </div>
+                @endif
             @endif
 
         </div>
@@ -221,7 +230,7 @@
             <img src="{{ '/assets/img/task-empty.svg' }}" alt="Task Empty">
         </div>
         <div>
-            <h3 class="font-bold">No {{ $position }} {{ $name }} Assigned</h3>
+            <h3 class="font-bold">No {{ $position }} {{ $name }}</h3>
             <p>
                 it looks like you don't have any {{ $position }} {{ $name }}.<br>
                 Don't worry this space will be updated as new {{ $position }} {{ $name }} become available.

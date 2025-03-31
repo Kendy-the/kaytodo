@@ -67,13 +67,18 @@
                 @php $hasError = true @endphp
             @enderror
 
+            @if($categories->count() == 1)
+                <label for="category">Selectionner une categorie</label>
+            @endif
             <select name="category" id="category" @class([
                 'border bg-violet-50 my-4 p-2 w-full rounded-xl text-[#718EBF]',
                 'border-red-500 focus:outline-0 focus:outline-offset-0' => $hasError,
                 'focus:outline-2 border-[#DFEAF2] focus:outline-offset-2 focus:outline-violet-500' => !$hasError,
             ])>
 
-                <option class="">Selectionner une categorie </option>
+                @if($categories->count() != 1)
+                    <option class="">Selectionner une categorie </option>
+                @endif
                 @foreach ($categories as $category)
                     <option @selected($category->id == $post->category_id) value="{{ $category->id }}">{{ $category->name }}</option>
                 @endforeach
@@ -116,21 +121,28 @@
                         @php $hasError = true @endphp
                     @enderror
 
-                    <label for="contacts">participants</label>
-                    <select multiple @class([
-                        'md:h-20 overflow-y-auto mb-5 md:mb-0 bg-violet-50 rounded p-2 text-[#718EBF] border-[#DFEAF2] border lg:w-80 w-full',
-                        'border-red-500 focus:outline-0 focus:outline-offset-0' => $hasError,
-                        'focus:outline-2 border-[#DFEAF2] focus:outline-offset-2 focus:outline-violet-500' => !$hasError,
-                    ]) name="contacts[]" id="contacts">
+                    @if($contacts->count() != 0)
+                        <label for="contacts">participants</label>
+                        <select multiple @class([
+                            'md:h-20 overflow-y-auto mb-5 md:mb-0 bg-violet-50 rounded p-2 text-[#718EBF] border-[#DFEAF2] border lg:w-80 w-full',
+                            'border-red-500 focus:outline-0 focus:outline-offset-0' => $hasError,
+                            'focus:outline-2 border-[#DFEAF2] focus:outline-offset-2 focus:outline-violet-500' => !$hasError,
+                        ]) name="contacts[]" id="contacts">
 
-                        @foreach ($contacts as $contact)
-                        <option 
-                            @foreach ($post->getContacts() as $postContact) 
-                                @selected($contact->email == $postContact->email)
+                            @foreach ($contacts as $contact)
+                            <option 
+                                @foreach ($post->getContacts() as $postContact) 
+                                    @selected($contact->email == $postContact->email)
+                                @endforeach
+                                value="{{ $contact->id }}">{{ $contact->email }}</option>
                             @endforeach
-                            value="{{ $contact->id }}">{{ $contact->email }}</option>
-                        @endforeach
-                    </select>
+                        </select>
+                    @else
+                        <b><i>you have no contacts</i></b>
+                        <x-button.primary :action="'/account/contact'" :type="''" :name="''">
+                            Add Contacts
+                        </x-button.primary>
+                    @endif
                     @error('contacts')
                         <p class="text-[12px] text-red-500 mt-1">{{ $message }}</p>
                     @enderror

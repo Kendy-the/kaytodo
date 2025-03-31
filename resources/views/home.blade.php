@@ -7,31 +7,52 @@
         <div class="bg-[#795FFC] rounded-xl p-5 pe-0 flex items-center text-white justify-between">
             <div>
                 <h1 class="text-xl font-semibold">My Work Summary</h1>
-                <p>Today task & Presence activity</p>
+                <p>Recent task & Presence activity</p>
             </div>
             <img src="{{ '/assets/img/home-banner.svg' }}" alt="" />
+        </div>
+
+        @php $newObjectTopId = $parentId->getId() @endphp
+        <div data-accordion="collapse">
+            {{-- New task Button  --}}
+            <div id="accordion-collapse-heading-{{ $newObjectTopId }}"
+                data-accordion-target="#accordion-collapse-body-{{ $newObjectTopId }}"
+                aria-controls="accordion-collapse-body-{{ $newObjectTopId }}" title="Cliquez"
+                style="background-color: white" class="rounded-xl p-4 flex justify-center items-center text-center mt-4">
+                <x-button.primary :action="'none'" :type="'button'" :name="'new'">
+                    New Task
+                </x-button.primary>
+            </div>
+
+            {{-- New task  --}}
+            <div id="accordion-collapse-body-{{ $newObjectTopId }}"
+                aria-labelledby="accordion-collapse-heading-{{ $newObjectTopId }}" class="hidden">
+                @include('shared.task.form', [
+                    'post' => $task,
+                    'position' => 't',
+                    'itemId' => $newObjectTopId,
+                    'choice' => 'create',
+                ])
+            </div>
         </div>
 
         <div class="bg-white rounded-xl p-5 pb-3 mt-5">
             <div>
                 <h2 class="font-bold">Recent Activities</h2>
-                <p>Your schedule for the day</p>
+                <p>your last five activities</p>
             </div>
             @forelse ($posts as $post)
                 <div class="flex flex-col bg-gray-100 border border-gray-300 rounded-xl my-5 text-sm md:text-[17px]">
                     <div class="flex justify-between px-3 pb-1 pt-3">
                         <div class="flex gap-2">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="12" cy="12" r="12" fill="#7A5AF8" />
-                                <path
-                                    d="M16.575 9.085C16.37 8.975 15.94 8.86 15.355 9.27L14.62 9.79C14.565 8.235 13.89 7.625 12.25 7.625H9.25C7.54 7.625 6.875 8.29 6.875 10V14C6.875 15.15 7.5 16.375 9.25 16.375H12.25C13.89 16.375 14.565 15.765 14.62 14.21L15.355 14.73C15.665 14.95 15.935 15.02 16.15 15.02C16.335 15.02 16.48 14.965 16.575 14.915C16.78 14.81 17.125 14.525 17.125 13.81V10.19C17.125 9.475 16.78 9.19 16.575 9.085ZM11.5 11.69C10.985 11.69 10.56 11.27 10.56 10.75C10.56 10.23 10.985 9.81 11.5 9.81C12.015 9.81 12.44 10.23 12.44 10.75C12.44 11.27 12.015 11.69 11.5 11.69Z"
-                                    fill="#FAFAFF" />
-                            </svg>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="12" fill="#7A5AF8"/>
+                                <path d="M14.9548 11.3601H13.4098V7.76007C13.4098 6.92007 12.9548 6.75007 12.3998 7.38007L11.9998 7.83507L8.61476 11.6851C8.14976 12.2101 8.34476 12.6401 9.04476 12.6401H10.5898V16.2401C10.5898 17.0801 11.0448 17.2501 11.5998 16.6201L11.9998 16.1651L15.3848 12.3151C15.8498 11.7901 15.6548 11.3601 14.9548 11.3601Z" fill="#FAFAFF"/>
+                                </svg>                                
 
                             <h3 class="font-bold">{{ $post->name }}</h3>
                         </div>
-                        <div class="flex gap-2">
+                        <div class="flex items-center gap-2">
                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -45,7 +66,7 @@
                             <p>{{ $post->getDate() }} </p>
                         </div>
                     </div>
-                    <div class="flex justify-between px-3 pt-2 pb-3">
+                    <div class="flex flex-col px-3 pt-2 pb-3">
                         <div class="flex gap-3">
                             <a href="/task/{{ strtolower(str_replace(' ', '-', $post->statut == env("DONE") ?"finish" : $post->getStatut() )) }}"
                                 class="bg-gray-200 w-33 h-8 rounded-3xl flex gap-1 items-center justify-center cursor-pointer hover:bg-gray-500 hover:text-white">
@@ -81,10 +102,13 @@
                                 </a>
                             @endif
                         </div>
-                        <a href="/task/{{ $post->id }}"
-                            class="bg-[#795FFC] w-25 h-7 md:w-30 md:h-10 rounded-3xl text-white flex items-center justify-center cursor-pointer">
-                            view
-                        </a>
+                        <div class="w-full flex justify-end">
+                            <div class="pt-2 w-full md:w-30">
+                                <x-button.primary :action="'/task/'. $post->id " :type="''" :name="''">
+                                    View
+                                </x-button.primary>
+                            </div>
+                        </div>
                     </div>
                 </div>
             @empty
@@ -137,14 +161,40 @@
                         </svg>
                     </div>
                     <div>
-                        <h3 class="font-bold">No Meeting Available</h3>
+                        <h3 class="font-bold">No Activities</h3>
                         <p>
-                            it looks like you don't have any meeting scheduled at the moment.<br>
-                            This space will be updated as new meeting are added!
+                            it looks like you don't have any activities.<br>
+                            This space will be updated as new activity are added!
                         </p>
                     </div>
                 </div>
             @endforelse
+        </div>
+
+        <div data-accordion="collapse">
+
+            @php $newObjectButtomId = $parentId->getId() @endphp
+    
+            <div id="accordion-collapse-body-{{$newObjectButtomId}}" aria-labelledby="accordion-collapse-heading-{{$newObjectButtomId}}" class="hidden">
+                @include('shared.project.form',[
+                    'post' => $project,
+                    'position' => 'b',
+                    'itemId' => $newObjectButtomId,
+                    'choice' => 'create'
+                ])
+            </div>
+        
+            {{-- New Project Button  --}}
+            <div id="accordion-collapse-heading-{{$newObjectButtomId}}" 
+            data-accordion-target="#accordion-collapse-body-{{$newObjectButtomId}}"       
+            aria-controls="accordion-collapse-body-{{$newObjectButtomId}}" 
+            title="Cliquez"
+            style="background-color: white;"  
+            class="rounded-xl p-4 flex justify-center items-center text-center mt-4">
+                <x-button.primary :action="'none'" :type="'button'" :name="'new'">
+                    New Project
+                </x-button.primary>
+            </div>
         </div>
     </div>
 </x-layout.app-layout>

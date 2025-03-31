@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -59,11 +60,12 @@ class User extends Authenticatable
         $users = DB::table('users')
         ->select(DB::raw(1))
         ->whereColumn('users.email', 'contacts.email');
-                                                                                               
+
         $contacts = DB::table('contacts')
         ->whereExists($users)
-        ->get();                                                                                            
-
+        ->where('contacts.user_id', '=', (Auth::user())->id)
+        ->get();
+        
         return $contacts;
     }
 

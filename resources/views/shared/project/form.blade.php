@@ -56,21 +56,28 @@
             @error('contacts') @php $hasError = true @endphp @enderror
 
             <label for="participant">participants</label>
-            <select multiple
-                @class(['md:h-20 overflow-y-auto mb-5 md:mb-0 bg-violet-50 rounded p-2 text-[#718EBF] border-[#DFEAF2] border lg:w-80 w-full','border-red-500 focus:outline-0 focus:outline-offset-0'  => $hasError, 'focus:outline-2 border-[#DFEAF2] focus:outline-offset-2 focus:outline-violet-500' => !$hasError
-                ])
-                name="contacts[]" id="contacts">
+            @if($contacts->count() != 0)
+                <select multiple
+                    @class(['md:h-20 overflow-y-auto mb-5 md:mb-0 bg-violet-50 rounded p-2 text-[#718EBF] border-[#DFEAF2] border lg:w-80 w-full','border-red-500 focus:outline-0 focus:outline-offset-0'  => $hasError, 'focus:outline-2 border-[#DFEAF2] focus:outline-offset-2 focus:outline-violet-500' => !$hasError
+                    ])
+                    name="contacts[]" id="contacts">
 
-                @foreach ($contacts as $contact)
-                <option 
-                    @forelse ($post->getContacts() as $postContact) 
-                        @selected($postContact->email == $contact->email)
-                    @empty
-                        
-                    @endforelse
-                     value="{{ $contact->id }}">{{ $contact->email }}</option>
-                @endforeach
-            </select>
+                    @foreach ($contacts as $contact)
+                    <option 
+                        @forelse ($post->getContacts() as $postContact) 
+                            @selected($postContact->email == $contact->email)
+                        @empty
+                            
+                        @endforelse
+                        value="{{ $contact->id }}">{{ $contact->email }}</option>
+                    @endforeach
+                </select>
+            @else
+                <b><i>you have no contacts</i></b>
+                <x-button.primary :action="'/account/contact'" :type="''" :name="''">
+                    Add Contacts
+                </x-button.primary>
+            @endif
             @error('contacts')
                 <p class="text-[12px] text-red-500 mt-1">{{ $message }}</p>
             @enderror
@@ -82,10 +89,17 @@
         @php $hasError = false @endphp
         @error('category') @php $hasError = true @endphp @enderror
 
+        @if($categories->count() == 1)
+            <label for="category">Selectionner une categorie</label>
+        @endif
+
         <select name="category" id="category"
             @class(['border bg-violet-50 my-4 p-2 w-full rounded-xl text-[#718EBF]','border-red-500 focus:outline-0 focus:outline-offset-0'  => $hasError, 'focus:outline-2 border-[#DFEAF2] focus:outline-offset-2 focus:outline-violet-500' => !$hasError])>
 
-            <option class="">Selectionner une categorie </option>
+            @if($categories->count() != 1)
+                <option class="">Selectionner une categorie </option>
+            @endif
+
             @foreach ($categories as $category)
                 <option @selected($category->id == $post->category_id) value="{{ $category->id }}">{{ $category->name }}</option>
             @endforeach
@@ -97,7 +111,7 @@
 
         <div class="flex w-full md:justify-between md:w-[40%] md:gap-5 md:flex-nowrap flex-wrap mt-3 md:mt-0">
 
-            <div style="background-color: white;" 
+            <div style="background-color: white; color:white;" 
             class="w-full">
                 <x-button.primary :action="'none'" :type="'reset'" :name="'reset'" data-accordion-target="#accordion-collapse-body-{{ $itemId }}">
                     Cancel

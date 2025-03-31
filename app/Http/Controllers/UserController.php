@@ -16,9 +16,17 @@ class UserController extends Controller
 {
     public function home()
     {
-        $recent = Task::recent((Auth::User())->tasks()->orderByRaw('created_at DESC')->get());
+        $recent = (Auth::User())->tasks()->limit(5)->orderByRaw('updated_at DESC')->get();
+        $categories = (Auth::User())->categories()->get();
+        $contacts = User::getContacts();
+
         return view('home',[
-            'posts' => $recent
+            'posts' => $recent,
+            'categories' => $categories,
+            'contacts' => $contacts,
+            'project' => new Project(),
+            'task' => new Task(),
+            'parentId' => new idController()
         ]);
     }
 

@@ -27,8 +27,7 @@ class CreateTaskRequest extends FormRequest
             'description' => ['required', 'string', 'min:10'],
             'end_at' => ['required',Rule::date()->todayOrAfter()],
             'category' => [
-                'required',
-                'integer',
+                'required','integer',
                 Rule::exists('categories', 'id')->where(function ($query) {
                     return $query->where('user_id', auth()->id());
                 })

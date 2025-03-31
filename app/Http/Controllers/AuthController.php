@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Category;
 use Illuminate\Http\Request;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\DB;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\RegisterRequest;
 
 class AuthController extends Controller
@@ -58,6 +60,16 @@ class AuthController extends Controller
 
         // renvoie la popupp de verification email
         // return $this->registerOTP();
+
+        $post = DB::table('users')
+        ->where('email', '=', $user->email)
+        ->get();
+
+        Category::create([
+            'name' => 'default',
+            'description' => 'default category',
+            'user_id' => $post[0]->id
+        ]);
 
         //welcome
         return $this->authWelcome();
