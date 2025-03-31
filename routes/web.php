@@ -54,11 +54,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/home','home')->name('home');
     });
     
-    Route::prefix('/attendant')->name('attendant.')->controller(AttendantController::class)->group(function(){
-        Route::get('/','index')->name('.');
-        Route::post('/new','store');
-    });
-    
     Route::prefix('/project')->name('project.')->controller(ProjectController::class)->group(function(){
         Route::get('/','index')->name('.');
         Route::get('/all','index');
