@@ -1,17 +1,15 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<p align="center"><a href="#https://kaytodo.com" target="_blank">Kaytodo></a></p>
 
-<p align="center">
-
-# Task Management App
+# KayTodo
 
 &#x20;&#x20;
 
 ## 📌 Description
 
-Task Management App est une application de gestion de tâches développée avec Laravel et TailwindCSS. Elle permet aux utilisateurs de :
+KayTodo est une application de gestion de tâches développée avec Laravel et TailwindCSS. Elle permet aux utilisateurs de :
 
 - 📋 **Créer et gérer des tâches** : Ajouter, modifier, supprimer et marquer les tâches comme terminées.
-- 📂 **Organiser des projets** : Gérer des projets avec une structure claire et organiser les tâches par projet.
+- 📂 **Organiser des projets** : Gérer des projets avec une structure claire et organiser les tâches par projet et par categorie.
 - 🗓️ **Planifier des rendez-vous** : Ajouter des événements et organiser les réunions importantes.
 - 💬 **Messagerie instantanée** : Discuter avec les membres d’un projet grâce à un système de chat en temps réel.
 
@@ -28,8 +26,8 @@ Task Management App est une application de gestion de tâches développée avec 
 
 ```bash
 # Cloner le dépôt
-git clone https://github.com/ton_github/task-management-app.git
-cd task-management-app
+git clone https://github.com/kendy-the/kaytodo.git
+cd kaytodo
 
 # Installer les dépendances
 composer install
