@@ -52,8 +52,8 @@
                                 fill="#6E62FF" />
                         </svg>
                         <h2 class="font-bold text-2xl my-4">Contact Customer Support</h2>
-                        <p class="text-center text-3xs my-4">Sometimes you need a little help from your friends. Or a
-                            HubSpot support rep. Don’t worry…
+                        <p class="text-center text-3xs my-4">Sometimes you need a little help Or a
+                            kaytodo support rep. Don’t worry…
                             we’re here for you.</p>
                         <address>
                             <div>KayTODO</div>
@@ -78,43 +78,52 @@
                                 fill="#795FFC" />
                         </svg>
                     </div>
-                    <form action="/contact" method="post" class="mt-10 w-full">
-                        <div class="flex flex-col md:ms-10">
+                    <form action="/support/contact" method="post" class="mt-10 w-full">
+                        @csrf
+                        @auth
+                            <input type="hidden" name="user_id" value="{{ (Auth::User())->id }}">
+                        @endauth
+                        <div class="flex flex-col gap-3 md:ms-10">
                             <div>
                                 <h3 class="font-bold text-2xl mb-5">Get in touch</h3>
                             </div>
                             <div class="w-full">
-                                @error('name')
-                                    @php $error['name'] = $message; @endphp
-                                @enderror
-                                <input
-                                    class="border {{ isset($error['name']) ? 'border-red-500 focus:outline-0 focus:outline-offset-0' : 'border-[#DFEAF2] focus:outline-2 focus:outline-offset-2 focus:outline-violet-500' }} mt-1 p-3 w-full rounded-[15px] text-[#718EBF]"
-                                    type="text" name="name" placeholder="Doe" id="">
-
-                                <!-- A implementer -->
-                                @error('name')
-                                    <p class="text-[12px] text-red-500 mt-1">{{ $message }}</p>
-                                @enderror
+                                @php $hasError = 'none' @endphp
+                                @error('name') @php $hasError = 'error' @endphp @enderror
+    
+                                <x-input :label="'none'" :value="''" :type="'text'" :name="'name'" :$hasError>
+                                    <x-slot:placeholder>Doe</x-slot:placeholder>
+                                    @error('name')
+                                        <x-slot:input-error>
+                                            <p class="text-[12px] text-red-500 mt-1">{{ $message }}</p>
+                                        </x-slot:input-error>
+                                    @enderror
+                                </x-input>
                             </div>
 
                             <div class="w-full">
 
-                                @error('email')
-                                    @php $error['email'] = $message; @endphp
-                                @enderror
+                                @php $hasError = 'none' @endphp
+                                @error('email') @php $hasError = 'error' @endphp @enderror
 
-                                <input
-                                    class="border {{ isset($error['email']) ? 'border-red-500 focus:outline-0 focus:outline-offset-0' : 'border-[#DFEAF2] focus:outline-2 focus:outline-offset-2 focus:outline-violet-500' }} mt-1 p-3 w-full rounded-[15px] text-[#718EBF]"
-                                    type="text" name="email" placeholder="jhondoe@gmail.com" id="">
-
-                                @error('email')
-                                    <p class="text-[12px] text-red-500 mt-1">{{ $message }}</p>
-                                @enderror
+                                <x-input :label="'none'" :value="''" :type="'email'" :name="'email'" :$hasError>
+                                    <x-slot:placeholder>youremail@example.com</x-slot:placeholder>
+                                    @error('email')
+                                        <x-slot:input-error>
+                                            <p class="text-[12px] text-red-500 mt-1">{{ $message }}</p>
+                                        </x-slot:input-error>
+                                    @enderror
+                                </x-input>
 
                             </div>
+                                
                             <textarea
-                                class="border border-[#DFEAF2] focus:outline-2 focus:outline-offset-2 focus:outline-violet-500' ?> mt-1 p-3 w-full rounded-[15px] text-[#718EBF]"
+                                placeholder="Your message"
+                                class="border border-[#DFEAF2] focus:outline-2 focus:outline-offset-2 focus:outline-violet-500 mt-1 p-3 w-full rounded-[15px] text-[#718EBF]"
                                 name="message" id="" cols="20" rows="5"></textarea>
+                                @error('message')
+                                    <p class="text-[12px] text-red-500 mt-1">{{ $message }}</p>
+                                @enderror
                             <div>
                                 <button name="submit"
                                     class="mt-4 cursor-pointer text-[20px] w-full h-10 border border-white text-white rounded-full bg-linear-to-b from-violet-400 to-[#4F1ED8]  hover:bg-violet-600 focus:outline-2 focus:outline-offset-2 focus:outline-violet-500 active:bg-violet-700">Send

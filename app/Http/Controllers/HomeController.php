@@ -12,11 +12,6 @@ class HomeController extends Controller
         return view('welcome');
     }
     
-    public function aboutAndTeam()
-    {
-        return view('about-team');
-    }
-    
     public function price()
     {
         return view('price');

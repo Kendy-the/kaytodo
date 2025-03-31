@@ -54,15 +54,15 @@
                         <img src="{{"/assets/img/versioning.svg"}}" alt="">
                         <div>Versioning</div>
                     </div>
-                    <a href="/account/faq-and-help" class="cursor-pointer flex gap-2 mt-2">
+                    <a href="/support/faq-and-help" class="cursor-pointer flex gap-2 mt-2">
                         <img src="{{"/assets/img/faq-help.svg"}}" alt="">
                         <div>Faq & Help</div>
                     </a>
-                    <a href="/account/about" class="cursor-pointer flex gap-2 mt-2 items-center">
+                    <a href="/support/contact" class="cursor-pointer flex gap-2 mt-2 items-center">
                         <i class='bx bxs-contact text-[#795FFC]'></i>
                         <div>Contact Us</div>
                     </a>
-                    <a href="/account/about" class="cursor-pointer flex gap-2 mt-2 items-center">
+                    <a href="/support/contact" class="cursor-pointer flex gap-2 mt-2 items-center">
                         <i class='bx bxs-group text-[#795FFC]'></i>
                         <div>About Us</div>
                     </a>

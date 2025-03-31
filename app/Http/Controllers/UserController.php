@@ -166,14 +166,4 @@ class UserController extends Controller
         //
         return redirect()->route('account.profile');
     }
-
-    public function faqAndHelp()
-    {
-        return view('account.faq-and-help');
-    }
-
-    public function about()
-    {
-        return view('account.about-team');
-    }
 }

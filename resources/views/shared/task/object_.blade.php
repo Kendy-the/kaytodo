@@ -28,38 +28,38 @@
                 <div id="accordion-collapse-body-{{$objectId}}"
                     aria-labelledby="accordion-collapse-heading-{{$objectId}}" class="hidden">
                     <div class="py-4 flex gap-3">
-                        <div
-                            class="bg-gray-200 w-33 h-8 rounded-3xl flex gap-1 items-center justify-center cursor-pointer">
+                        <a href="/task/{{ strtolower(str_replace(' ', '-', $object->statut == env("DONE") ?"finish" : $object->getStatut() )) }}"
+                            class="bg-gray-200 w-33 h-8 rounded-3xl flex gap-1 items-center justify-center cursor-pointer hover:bg-gray-500 hover:text-white">
                             <div>
                                 <img src="{{ '/assets/img/hours-icone.svg' }}" alt="">
                             </div>
                             <div>
                                 {{ $object->getStatut() }}
                             </div>
-                        </div>
+                        </a>
                         
                         @if(!empty($object->getCategory()))
-                            <div
-                                class="bg-gray-200 w-33 h-8 rounded-3xl flex gap-1 items-center justify-center cursor-pointer">
+                            <a href="/category/{{$object->category_id}}"
+                                class="bg-gray-200 w-33 h-8 rounded-3xl flex gap-1 items-center justify-center cursor-pointer hover:bg-gray-500 hover:text-white">
                                 <div>
                                     <img src="{{ '/assets/img/grid-icone.svg' }}" alt="">
                                 </div>
                                 <div>
                                     {{ $object->getCategory() }}
                                 </div>
-                            </div>
+                            </a>
                         @endif
 
                         @if(!empty($object->getProject()))
-                            <div
-                                class="bg-gray-200 w-33 h-8 rounded-3xl flex gap-1 items-center justify-center cursor-pointer">
+                            <a href="/project/{{$object->project_id}}"
+                                class="bg-gray-200 w-33 h-8 rounded-3xl flex gap-1 items-center justify-center cursor-pointer hover:bg-gray-500 hover:text-white">
                                 <div>
                                     <img src="{{ '/assets/img/category-icone.svg' }}" alt="">
                                 </div>
                                 <div>
                                     {{ $object->getProject() }}
                                 </div>
-                            </div>
+                            </a>
                         @endif
                     </div>
 
@@ -71,6 +71,9 @@
                                     "bg-[#795FFC]" => ($object->getProgression() < 70),
                                     "bg-green-500" => ($object->getProgression() <= 100)
                                 ])></div>
+                        </div>
+                        <div class="text-center mt-2">
+                            <b><i>{{ $object->getStatut() . " : " . $object->getProgression() . "%"}}</i></b>
                         </div>
                     </div>
 

@@ -1,23 +1,28 @@
 <?php
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\AttendantController;
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\SupportController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\AttendantController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 //Home - website
 
 Route::prefix('/')->controller(HomeController::class)->group(function(){ 
     Route::get('/','welcome')->name('welcome');
     Route::get('/price','price')->name('price');
-    Route::get('/about-team','aboutAndTeam')->name('about-team');
+});
+
+Route::prefix('/support')->name('support.')->controller(SupportController::class)->group(function(){ 
+    Route::get('/contact','index')->name('contact');
+    Route::post('/contact','store');
+    Route::get('/success','success')->name('success');
     Route::get('/faq-and-help','faqAndhelp')->name('faq-help');
-    Route::post('/contact','contact')->name('contact');
 });
 
 Route::prefix('/auth')->name('auth.')->controller(AuthController::class)->group(function(){ 
@@ -165,7 +170,5 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/message/send','sendMessage')->name('message.send');
     
         Route::get('/notification','notification')->name('notification');
-        Route::get('/about','about')->name('about');
-        Route::get('/faq-and-help','faqAndHelp')->name('faq-and-help');
     });
 });

@@ -36,7 +36,7 @@
                 
             <div id="accordion-collapse-body-{{$objectId}}" aria-labelledby="accordion-collapse-heading-{{$objectId}}" class="hidden cursor-auto">
 
-                <div class="py-4">
+                <div class="py-2">
                     <div class="bg-gray-200 w-full p-2 rounded-3xl flex gap-1 items-center justify-center">
                         <div>
                             <img src="{{ '/assets/img/grid-icone.svg' }}" alt="">
@@ -44,6 +44,7 @@
                         <div>
                             {{ $object->description }}
                         </div>
+
                         <div class="cursor-pointer flex mb-2 ms-2 gap-2 items-center justify-center">
 
                             @if(!isset($object->statut) || $object->statut != env("DONE"))
@@ -89,12 +90,25 @@
                             @endif
                         </div>
                     </div>
+                    @if ($name == 'project')
+                        <div class="w-full mt-5 h-3 rounded-2xl bg-gray-200">
+                            <div style="width:{{ isset($object) ? $object->getProgression() . '%' : '0%' }};"
+                                @class(["relative my-2 h-3 rounded-2xl",
+                                    "bg-orange-500" => ($object->getProgression() < 50),
+                                    "bg-[#795FFC]" => ($object->getProgression() < 70),
+                                    "bg-green-500" => ($object->getProgression() <= 100)
+                                ])></div>
+                        </div>
+                        <div class="text-center mt-2">
+                            <b><i>{{ $object->getStatut() . " : " . $object->getProgression() . "%"}}</i></b>
+                        </div>
+                    @endif
                 </div>
 
                 {{-- id pour accordeon --}}
                 @php $newMedTaskId = $parentId->getId(); @endphp
 
-                <div class="flex flex-col ps-3 pt-4 pb-3 border-t border-gray-300 mt-2 gap-1">
+                <div class="flex flex-col ps-3 pt-4 pb-3 border-t border-gray-300 mt-1 gap-1">
                     <div class="bg-gray-200 gap-2 w-full p-2 rounded-3xl flex items-center justify-center">
                         My Tasks
                         <div id="accordion-collapse-heading-{{ $newMedTaskId }}" data-accordion-target="#accordion-collapse-body-{{ $newMedTaskId }}"

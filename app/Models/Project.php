@@ -22,11 +22,11 @@ class Project extends Model
         $progress = self::getProgress($projects);
         $done = self::getDone($projects);
     
-        $newTasks ['progress'] = array_reverse($progress);
-        $newTasks ['done'] = array_reverse($done);
-        $newTasks ['donePercent'] = round((count($done) * 100 / ($projects->count() > 0 ? $projects->count() : 1)), 0);
+        $newProjects ['progress'] = array_reverse($progress);
+        $newProjects ['done'] = array_reverse($done);
+        $newProjects ['donePercent'] = round((count($done) * 100 / ($projects->count() > 0 ? $projects->count() : 1)), 0);
 
-        return $newTasks;
+        return $newProjects;
     }
 
     public static function getDone($projects)
@@ -91,6 +91,41 @@ class Project extends Model
         }
 
         return $pins;
+    }
+
+    public function getStatut()
+    {
+        switch ($this->statut)
+        {
+            case env("PROGRESS") : return "In Progress";
+            case env("DONE") : return "done";
+        }
+    }
+
+    public function getProgression()
+    {
+        if($this->statut != env("DONE"))
+        {
+            $today = Carbon::now();
+
+            $createDate = Carbon::parse($this->created_at);
+            $endDate = Carbon::parse($this->end_at);
+
+            $hours = $createDate->diffInHours($endDate);
+            $interval = $today->diffInHours($endDate);
+            $interval = $hours - $interval;
+
+            $percent = intval(round((($interval * 100) / ($hours > 0 ? $hours : 1)), 0));
+
+            if($percent <= 100)
+            {
+                return $percent;
+            }
+
+            $this->statut = env("DONE");
+            $this->save();
+        }
+        return 100;
     }
 
     public function getContacts()

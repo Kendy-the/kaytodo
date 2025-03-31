@@ -83,7 +83,7 @@
                         </div>
                         <a href="/task/{{ $post->id }}"
                             class="bg-[#795FFC] w-25 h-7 md:w-30 md:h-10 rounded-3xl text-white flex items-center justify-center cursor-pointer">
-                            access to
+                            view
                         </a>
                     </div>
                 </div>

@@ -55,19 +55,19 @@
                             ])>Price</a>
                         </li>
                         <li>
-                            <a href="/about-team" @class([
+                            <a href="/support/contact" @class([
                                 'hover:underline',
                                 'underline' => str_contains(
                             ((request()->route()) != null ? request()->route()->getName() : ' '), 
-                            'about'),
+                            'contact'),
                             ])>Team/About</a>
                         </li>
                         <li>
-                            <a href="/faq-help" @class([
+                            <a href="/support/faq-and-help" @class([
                                 'hover:underline',
                                 'underline' => str_contains(
                             ((request()->route()) != null ? request()->route()->getName() : ' '), 
-                            'faq-help'),
+                            'faq'),
                             ])>Faq/Help</a>
                         </li>
                     </ul>
@@ -94,10 +94,10 @@
                         <h2 class="mb-6 text-sm font-semibold uppercase">Resources</h2>
                         <ul class="text-gray-300 font-medium">
                             <li class="mb-4">
-                                <a href="/about-team" class="hover:underline hover:text-white">Team/About</a>
+                                <a href="/support/contact" class="hover:underline hover:text-white">Team/About</a>
                             </li>
                             <li>
-                                <a href="/about-team" class="hover:underline hover:text-white">Contact</a>
+                                <a href="/support/contact" class="hover:underline hover:text-white">Contact</a>
                             </li>
                         </ul>
                     </div>
@@ -105,7 +105,7 @@
                         <h2 class="mb-6 text-sm font-semibold uppercase dark:text-white">Follow us</h2>
                         <ul class="text-gray-300 font-medium">
                             <li class="mb-4">
-                                <a href="https://github.com/kendy-the"
+                                <a href="https://github.com/kendy-the" target="_blank"
                                     class="hover:text-white hover:underline ">Github</a>
                             </li>
                             <li>
@@ -158,7 +158,7 @@
                         </svg>
                         <span class="sr-only">Twitter page</span>
                     </a>
-                    <a href="#" class="text-gray-300 hover:text-white ms-5">
+                    <a href="https://github.com/kendy-the" target="_blank" class="text-gray-300 hover:text-white ms-5">
                         <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                             fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd"
