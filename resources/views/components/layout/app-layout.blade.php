@@ -36,15 +36,28 @@
                 {{-- second part --}}
                 <div class="flex items-center justify-between w-full lg:w-auto">
                     <div class="flex me-3 items-center">
-                        <a href="/account/profile">
-                            @if (is_null($user->image))
-                                <div class="bg-violet-100 rounded-full w-13 h-13 me-3 flex justify-center items-center">
-                                    {{ isset($user) ? Str::upper(Str::substr($user->first_name, 0, 1)) . ' ' . Str::upper(Str::substr($user->last_name, 0, 1)) : 'JD' }}
-                                </div>
-                            @else
-                                <img src="{{ $user->imageUrl() }}" class="rounded-full w-12 h-12 me-3 border border-gray-300 object-cover">
-                            @endif
-                        </a>
+
+                        <div>
+                            <a href="/account/profile" data-popover-target="popover-user-profile">
+                                @if (is_null($user->image))
+                                    <div class="bg-violet-100 rounded-full w-13 h-13 me-3 flex justify-center items-center">
+                                        {{ isset($user) ? Str::upper(Str::substr($user->first_name, 0, 1)) . ' ' . Str::upper(Str::substr($user->last_name, 0, 1)) : 'JD' }}
+                                    </div>
+                                @else
+                                    <img src="{{ $user->imageUrl() }}" class="rounded-full w-12 h-12 me-3 border border-gray-300 object-cover">
+                                @endif
+                            </a>
+
+                            {{-- pop over data --}}
+                            <div data-popover id="popover-user-profile" role="tooltip" class="absolute p-1 z-10 invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-xs opacity-0 hover:bg-violet-400 hover:text-white active:bg-violet-500">
+                                <a href="/auth/logout" class="cursor-pointer font-semibold flex gap-2 p-2">
+                                    <img src="{{"/assets/img/logout.svg"}}" alt="">
+                                    <div>logout</div>
+                                </a>
+                            </div>
+                        </div>
+
+
                         <div class="flex flex-col">
                             <div class="flex">
                                 {{ isset($user) ? Str::ucfirst($user->first_name) . ' ' . Str::ucfirst($user->last_name) : 'Joe Don' }}
