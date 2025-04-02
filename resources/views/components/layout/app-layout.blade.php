@@ -37,12 +37,12 @@
                 <div class="flex items-center justify-between w-full lg:w-auto">
                     <div class="flex me-3 items-center">
                         <a href="/account/profile">
-                            @if (isset($profile_picture))
-                                <img src="" alt="PP" class="rounded-full w-12 h-12 me-3">
-                            @else
+                            @if (is_null($user->image))
                                 <div class="bg-violet-100 rounded-full w-13 h-13 me-3 flex justify-center items-center">
                                     {{ isset($user) ? Str::upper(Str::substr($user->first_name, 0, 1)) . ' ' . Str::upper(Str::substr($user->last_name, 0, 1)) : 'JD' }}
                                 </div>
+                            @else
+                                <img src="{{ $user->imageUrl() }}" class="rounded-full w-12 h-12 me-3 border border-gray-300 object-cover">
                             @endif
                         </a>
                         <div class="flex flex-col">

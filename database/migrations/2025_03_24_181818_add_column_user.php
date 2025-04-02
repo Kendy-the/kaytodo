@@ -25,6 +25,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        $table->dropColumn('profession');
+        $table->dropColumn('state');
+        $table->dropColumn('city');
+        $table->dropColumn('country');
+        $table->dropColumn('other');
     }
 };

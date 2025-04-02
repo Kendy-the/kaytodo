@@ -87,6 +87,30 @@ if (pinInputs) {
   });
 }
 
+const fileInput = document.getElementById("fileInput");
+const imagePreview = document.getElementById("imagePreview");
+const uploadButton = document.getElementById("uploadButton");
+
+// Ouvrir l'explorateur de fichiers quand on clique sur l'icône
+if(fileInput)
+{
+  uploadButton.addEventListener("click", function () {
+    fileInput.click();
+  });
+
+  // Mettre à jour l'aperçu de l'image
+  fileInput.addEventListener("change", function (event) {
+    const file = event.target.files[0]; // Récupère l'objet File
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            imagePreview.src = e.target.result; // Met à jour l'image
+        };
+        reader.readAsDataURL(file);
+    }
+  });
+}
+
 /* TACHE - AFFICHAGE */
 // function toogleView(button, forms) {
 //   button.forEach((btn) => {

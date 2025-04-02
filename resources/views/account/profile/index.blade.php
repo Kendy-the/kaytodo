@@ -13,7 +13,14 @@
         <div class="flex flex-col">
             <div class="flex items-center justify-center mt-2">
                 <div class="flex flex-col items-center justify-center">
-                    <img class="w-40 h-40" src="{{ isset($user) ? $user->image : "/assets/img/profile.svg" }}" alt="">
+                    @if(is_null($user->image))
+                        <div class="bg-violet-100 font-semibold text-5xl rounded-full w-40 h-40 me-3 flex justify-center items-center">
+                        {{ isset($user) ? Str::upper(Str::substr($user->first_name, 0, 1)) . ' ' . Str::upper(Str::substr($user->last_name, 0, 1)) : 'JD' }}
+                    </div>
+                    @else
+                        <img class="w-40 h-40 border border-gray-300 rounded-md object-cover" src="{{ $user->imageUrl() }}" alt="">
+                    @endif
+                    
                     <div class="flex gap-1 justify-center items-center mt-2 text-xl">
                         <div class="font-bold">{{ isset($user) ? Str::ucfirst($user->first_name) . ' ' . Str::ucfirst($user->last_name) : "Chelbe Design" }}
                         </div>

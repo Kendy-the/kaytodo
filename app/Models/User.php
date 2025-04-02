@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -67,6 +68,12 @@ class User extends Authenticatable
         ->get();
         
         return $contacts;
+    }
+
+    public function imageUrl()
+    {
+        return "/storage/" . $this->image;
+        // return Storage::disk('public')->url($this->image);
     }
 
     public function categories()

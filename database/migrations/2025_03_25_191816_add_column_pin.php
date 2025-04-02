@@ -24,6 +24,11 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::table('Categories', function(Blueprint $table) {
+            $table->dropColumn('pin');
+        });
+        Schema::table('Projects', function(Blueprint $table) {
+            $table->dropColumn('pin');
+        });
     }
 };

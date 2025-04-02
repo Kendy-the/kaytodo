@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\PasswordRequest;
 use App\Http\Requests\RegisterRequest;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -51,6 +53,14 @@ class UserController extends Controller
 
     public function update(Request $request)
     {
+        $request->validate([
+            'profession' => ['nullable','string'],
+            'country' => ['nullable','string'],
+            'state' => ['nullable','string'],
+            'other' => ['nullable','string'],
+            'image' => ['nullable','image'],
+        ]);
+
         $credentials = $request->all();
         $user = User::find($credentials['id']);
  
@@ -59,10 +69,23 @@ class UserController extends Controller
         $user->city = $credentials['city'];
         $user->state = $credentials['state'];
         $user->other = $credentials['other'];
-        
+
+        /** @var UploadedFile|null $image */
+        $image =  $credentials['image'];
+
+        if(!is_null($user->image))
+        {
+            Storage::disk('public')->delete($user->image);
+        }
+
+        if($image !== null && !$image->getError())
+        {
+            $user->image = $image->store('user','public');
+        }
+
         $user->save();
 
-        return redirect()->route('account.profile');
+        return redirect()->route('account.profile');    
     }
 
     public function editPass()
