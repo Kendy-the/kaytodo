@@ -1,4 +1,3 @@
-<x-layout.app-layout>
 <x-poppup>
     <x-slot:notice-icone>
         <svg  
@@ -10,17 +9,16 @@
 
     <x-otp :choice="'none'">
         <x-slot:action>
-            /account/message/delete
+            /account/contact/delete
         </x-slot:action>
 
         <x-slot:title>
-            Delete message
+            Delete contact
         </x-slot:title>
 
         <x-slot:content>
-            Are you sure you want to delete this message ?
+            Are you sure you want to delete this contact ?
         </x-slot:content>
-        <x-slot:action1>/account/message/show/{{$id}}</x-slot:action1>
+        <x-slot:action1>/account/message/</x-slot:action1>
     </x-otp >
 </x-poppup>
-</x-layout.app-layout>

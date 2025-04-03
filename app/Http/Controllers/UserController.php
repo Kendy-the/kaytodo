@@ -191,6 +191,18 @@ class UserController extends Controller
         //traitement
         return redirect()->route('account.message.show',2);
     }
+    public function deleteContact($id)
+    {
+        return view('account.contact.delete',[
+            'id' => $id
+        ]);
+    }
+
+    public function deleteContactPost()
+    {    
+        //traitement
+        return redirect()->route('account.message');
+    }
 
     public function search()
     {

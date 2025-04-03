@@ -111,6 +111,51 @@ if(fileInput)
   });
 }
 
+// toggle message
+const toggleMessage = document.querySelectorAll(".toggle-message");
+const contactId = document.getElementById("contact");
+const messageId = document.getElementById("message");
+const firstPost = document.querySelectorAll('.first-post')
+const secondPost = document.querySelectorAll('.second-post')
+
+if(toggleMessage){
+    toggleMessage.forEach((el) => {
+      el.addEventListener("click", () => {
+        if(contactId.classList.toggle('col-span-3'))
+        {
+          firstPost.forEach((firstP) => {
+            firstP.classList.remove('hidden');
+          }); 
+        }else{
+          firstPost.forEach((firstP) => {
+            firstP.classList.add('hidden');
+          });
+        }
+
+        if(messageId.classList.toggle('col-span-3'))
+        {
+          secondPost.forEach((secondP) => {
+            secondP.classList.remove('hidden');
+          }); 
+        }else{
+          secondPost.forEach((secondP) => {
+            secondP.classList.add('hidden');
+          }); 
+        }
+      });
+    });
+}
+
+// document.getElementById('contact').addEventListener('click', function() {
+//   document.getElementById('section1').classList.remove('hidden');
+//   document.getElementById('section2').classList.add('hidden');
+// });
+
+// document.getElementById('btn2').addEventListener('click', function() {
+//   document.getElementById('section2').classList.remove('hidden');
+//   document.getElementById('section1').classList.add('hidden');
+// });
+
 /* TACHE - AFFICHAGE */
 // function toogleView(button, forms) {
 //   button.forEach((btn) => {

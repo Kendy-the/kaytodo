@@ -163,6 +163,11 @@ Route::middleware(['auth'])->group(function () {
         ])->name('message.delete');
         Route::post('/message/delete','deleteMessagePost');
         Route::post('/message/send','sendMessage')->name('message.send');
+
+        Route::get('/contact/delete/{id}','deleteContact')->where([
+            "id" => "[0-9]+"
+        ])->name('contact.delete');
+        Route::post('/contact/delete','deleteContactPost');
     
         Route::get('/notification','notification')->name('notification');
     });

@@ -31,6 +31,12 @@
 .black{color: #1b1b1b;font-weight: 600;}
 .upper{text-transform: uppercase;}
 
+@media (min-width: 1024px) {
+    .first-post,.second-post {
+        display: block !important; /* Toujours visible en mode desktop */
+    }
+}
+
 *,::before,::after{
     box-sizing: border-box
 }

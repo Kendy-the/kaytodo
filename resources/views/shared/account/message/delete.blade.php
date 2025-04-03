@@ -1,4 +1,3 @@
-<x-layout.app-layout>
 <x-poppup>
     <x-slot:notice-icone>
         <svg  
@@ -23,4 +22,3 @@
         <x-slot:action1>/account/message/show/{{$id}}</x-slot:action1>
     </x-otp >
 </x-poppup>
-</x-layout.app-layout>

@@ -60,7 +60,7 @@
 
                         <div class="flex flex-col">
                             <div class="flex">
-                                {{ isset($user) ? Str::ucfirst($user->first_name) . ' ' . Str::ucfirst($user->last_name) : 'Joe Don' }}
+                                {{ isset($user) ? Str::substr(Str::ucfirst($user->first_name),0,3) . "..." : 'Don...' }}
                                 <svg class="ms-1 w-4" width="18" height="19" viewBox="0 0 18 19" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path
