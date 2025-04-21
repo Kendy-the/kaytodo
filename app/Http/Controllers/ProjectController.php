@@ -16,6 +16,10 @@ class ProjectController extends Controller
     public function index()
     {
         $projects = (Auth::User())->projects()->orderByRaw('created_at DESC')->get();
+        // $projects = (Auth::User())->projects()->with('tasks')->orderByRaw('created_at DESC')->get();
+
+        // $categories = (Auth::User())->categories()->with('tasks')->get();
+
         $categories = (Auth::User())->categories()->get();
         $recents = Project::recent($projects);
         $pins = Project::pin($projects);

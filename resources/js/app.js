@@ -21,6 +21,16 @@ const showNavbar = (toggleId, navId, bodyId, headerId) => {
 }
 showNavbar('header-toggle', 'nav-bar', 'body-pd', 'header')
 
+//vider le form send
+window.addEventListener('load', function () {
+  // Cible ton formulaire
+  const inputName = document.getElementById('send-content');
+
+  if (inputName) {
+      inputName.reset(); // Cette ligne vide tous les champs du formulaire
+  }
+});
+
 // scroll task page
 document.addEventListener("DOMContentLoaded", function () {
 

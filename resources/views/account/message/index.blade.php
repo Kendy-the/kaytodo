@@ -3,7 +3,7 @@
         <x-slot:first-title>Contact</x-slot:first-title>
         <x-slot:first>
             @include('shared.account.contact.index', [
-                    "post" => [],
+                    "posts" => $contacts,
                     "position" => "first-post",
                 ])
         </x-slot:first>
@@ -11,7 +11,8 @@
         <x-slot:second-title>message</x-slot:second-title>
         <x-slot:second>
             @include('shared.account.message.index', [
-                    "post" => [],
+                    "posts" => $chats,
+                    "contacts" => $contacts,
                     "position" => "second-post",
                 ])
         </x-slot:second>

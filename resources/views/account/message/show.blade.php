@@ -3,17 +3,49 @@
         <x-slot:first-title>Message</x-slot:first-title>
         <x-slot:first>
             @include('shared.account.message.index', [
-                    "post" => [],
-                    "position" => "first-post"
-                ])
+                'posts' => $chats,
+                'contacts' => $contacts,
+                'position' => 'first-post',
+            ])
         </x-slot:first>
 
-        <x-slot:second-title>{{ isset($name) && !empty($name) ? $name : 'Jhon Doe'}}</x-slot:second-title>
+        @php $trouver = false; $empty = false @endphp
+
+        @forelse ($contacts as $contact)
+            @if ($contact->id == $messages[0]->invite->id)
+                @php $trouver = true @endphp
+            @endif
+        @empty
+            @php $empty = true @endphp
+            @if ($messages[0]->invite->id != (Auth::user())->id)
+                <x-slot:second-title>{{ isset($messages[0]->invite) ? $messages[0]->invite->email : 'no message' }}</x-slot:second-title>
+            @else
+                <x-slot:second-title>{{ isset($messages[0]->user) ? $messages[0]->user->email : 'no message' }}</x-slot:second-title>
+            @endif
+        @endforelse
+
+        @if ($trouver)
+            @if ($messages[0]->invite->id != (Auth::user())->id)
+                <x-slot:second-title>{{ isset($messages[0]->invite) ? $messages[0]->invite->first_name : 'no message' }}</x-slot:second-title>
+            @else
+                <x-slot:second-title>{{ isset($messages[0]->user) ? $messages[0]->user->first_name : 'no message' }}</x-slot:second-title>
+            @endif
+        @else
+            @if(!$empty)
+                @if ($messages[0]->invite->id != (Auth::user())->id)
+                    <x-slot:second-title>{{ isset($messages[0]->invite) ? $messages[0]->invite->email : 'no message' }}</x-slot:second-title>
+                @else
+                    <x-slot:second-title>{{ isset($messages[0]->user) ? $messages[0]->user->email : 'no message' }}</x-slot:second-title>
+                @endif
+            @endif
+        @endif
+
         <x-slot:second>
             @include('shared.account.message.show', [
-                    "post" => [],
-                    "position" => "second-post",
-                ])
+                'posts' => $messages,
+                'position' => 'second-post',
+            ])
         </x-slot:second>
+
     </x-layout.messcontact-layout>
 </x-layout.app-layout>

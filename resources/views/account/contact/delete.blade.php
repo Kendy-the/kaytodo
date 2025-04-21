@@ -1,26 +1,22 @@
-<x-layout.app-layout>
-<x-poppup>
-    <x-slot:notice-icone>
-        <svg  
-        width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M41.8202 22.24V13.46C41.8202 11.82 40.5802 9.96001 39.0402 9.34001L27.9002 4.78001C25.4002 3.76001 22.5802 3.76001 20.0802 4.78001L8.94018 9.34001C7.42018 9.96001 6.18018 11.82 6.18018 13.46V22.24C6.18018 32.02 13.2802 41.18 22.9802 43.86C23.6402 44.04 24.3602 44.04 25.0202 43.86C34.7202 41.18 41.8202 32.02 41.8202 22.24ZM25.5002 25.74V31C25.5002 31.82 24.8202 32.5 24.0002 32.5C23.1802 32.5 22.5002 31.82 22.5002 31V25.74C20.4802 25.1 19.0002 23.22 19.0002 21C19.0002 18.24 21.2402 16 24.0002 16C26.7602 16 29.0002 18.24 29.0002 21C29.0002 23.24 27.5202 25.1 25.5002 25.74Z" fill="#FEFEFE"/>
-            </svg>
+<x-layout.auth-layout>
 
-    </x-slot:notice-icone>
+    @section('title', 'Delete Contact Success')
 
-    <x-otp :choice="'none'">
-        <x-slot:action>
-            /account/contact/delete
-        </x-slot:action>
+    <x-poppup>
+        <x-slot:notice-icone>
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M39.0198 11.7L27.1398 4.84C25.1998 3.72 22.7998 3.72 20.8398 4.84L8.97984 11.7C7.03984 12.82 5.83984 14.9 5.83984 17.16V30.84C5.83984 33.08 7.03984 35.16 8.97984 36.3L20.8598 43.16C22.7998 44.28 25.1998 44.28 27.1598 43.16L39.0398 36.3C40.9798 35.18 42.1798 33.1 42.1798 30.84V17.16C42.1598 14.9 40.9598 12.84 39.0198 11.7ZM23.9998 14.68C26.5798 14.68 28.6598 16.76 28.6598 19.34C28.6598 21.92 26.5798 24 23.9998 24C21.4198 24 19.3398 21.92 19.3398 19.34C19.3398 16.78 21.4198 14.68 23.9998 14.68ZM29.3598 33.32H18.6398C17.0198 33.32 16.0798 31.52 16.9798 30.18C18.3398 28.16 20.9798 26.8 23.9998 26.8C27.0198 26.8 29.6598 28.16 31.0198 30.18C31.9198 31.5 30.9598 33.32 29.3598 33.32Z" fill="#FEFEFE"/>
+                </svg>                
+        </x-slot:notice-icone>
 
-        <x-slot:title>
-            Delete contact
-        </x-slot:title>
+        <x-status>
+            <x-slot:title>Contact Deleted!</x-slot:title>
+            <x-slot:content>
+                You have been deleted your Contact successfully!
+            </x-slot:content>
+            <x-slot:button-action>/account/message</x-slot:button-action>
+            <x-slot:button-name>Continue</x-slot:button-name>
+        </x-status>
+    </x-poppup>
 
-        <x-slot:content>
-            Are you sure you want to delete this contact ?
-        </x-slot:content>
-        <x-slot:action1>/account/message/</x-slot:action1>
-    </x-otp >
-</x-poppup>
-</x-layout.app-layout>
+</x-layout.auth-layout>

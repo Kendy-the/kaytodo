@@ -2,9 +2,12 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SupportController;
 use App\Http\Controllers\CategoryController;
@@ -155,20 +158,33 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/profile/pass/otp','passOtpPost');
     
         Route::get('/profile/pass/success','passSuccess')->name('profile.pass.success');;
-    
-        Route::get('/message','message')->name('message');
-        Route::get('/message/show/{id}','showMessage')->name('message.show');
-        Route::get('/message/delete/{id}','deleteMessage')->where([
-            "id" => "[0-9]+"
-        ])->name('message.delete');
-        Route::post('/message/delete','deleteMessagePost');
-        Route::post('/message/send','sendMessage')->name('message.send');
-
-        Route::get('/contact/delete/{id}','deleteContact')->where([
-            "id" => "[0-9]+"
-        ])->name('contact.delete');
-        Route::post('/contact/delete','deleteContactPost');
-    
+       
         Route::get('/notification','notification')->name('notification');
+    });
+
+    Route::prefix('/account')->name('account.')->controller(MessageController::class)->group(function(){
+        Route::get('/message','index')->name('message');
+        Route::get('/message/show','index');
+        Route::post('/message/show','show');
+        Route::get('/message/delete','delete');
+        Route::post('/message/delete','deletePost');
+        Route::get('/message/send','index');
+        Route::post('/message/send','send');
+    });
+
+    Route::prefix('/account')->name('account.')->controller(ContactController::class)->group(function(){
+        Route::get('/contact/new','index');
+        Route::post('/contact/new','store');
+        
+        Route::post('/contact/delete','deletePost');
+        Route::get('/contact/delete','index');
+    });
+
+    Route::prefix('/account')->name('account.')->controller(ChatController::class)->group(function(){
+        Route::get('/chat/new','index');
+        Route::post('/chat/new','store');
+        
+        Route::post('/chat/delete','deletePost');
+        Route::get('/chat/delete','index');
     });
 });

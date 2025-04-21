@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use App\Models\User;
+use App\Models\Contact;
 use App\Models\Project;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -160,48 +161,6 @@ class UserController extends Controller
     public function notification()
     {
         return view('account.notification');
-    }
-
-    public function message()
-    {
-        return view('account.message.index');
-    }
-
-    public function showMessage()
-    {
-        return view('account.message.show');
-    }
-
-    public function sendMessage()
-    {
-        //traitement
-        $reciepientId = 1;
-        return redirect()->route('account.message.show',$reciepientIid);
-    }
-
-    public function deleteMessage($id)
-    {
-        return view('account.message.delete',[
-            'id' => $id
-        ]);
-    }
-
-    public function deleteMessagePost()
-    {    
-        //traitement
-        return redirect()->route('account.message.show',2);
-    }
-    public function deleteContact($id)
-    {
-        return view('account.contact.delete',[
-            'id' => $id
-        ]);
-    }
-
-    public function deleteContactPost()
-    {    
-        //traitement
-        return redirect()->route('account.message');
     }
 
     public function search()

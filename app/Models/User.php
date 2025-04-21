@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Message;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -70,6 +71,26 @@ class User extends Authenticatable
         return $contacts;
     }
 
+    public static function showMessages()
+    {
+        $send = (Auth::user())->senders()->get();
+        $recieve = Message::makeView((Auth::user())->recipients()->get());
+        $messages = ($send->merge($recieve))->sortBy('created_at');
+
+        return $messages;
+    }
+
+    public static function getContactsForUser()
+    {
+        $contacts = DB::table('contacts')
+            ->select(DB::raw(1))
+            ->whereColumn('users.email', 'contacts.email')
+            ->where('contacts.user_id', '=', (Auth::user())->id);
+
+        return User::whereExists($contacts)
+            ->get();
+    }
+
     public function imageUrl()
     {
         return "/storage/" . $this->image;
@@ -99,5 +120,25 @@ class User extends Authenticatable
     public function meetings()
     {
         return $this->hasMany(Meeting::class);
+    }
+
+    public function recipients()
+    {
+        return $this->hasMany(Message::class,'recipient_id');
+    }
+
+    public function senders()
+    {
+        return $this->hasMany(Message::class,'sender_id');
+    }
+
+    public function chats()
+    {
+        return $this->hasMany(chat::class);
+    }
+
+    public function invites()
+    {
+        return $this->hasMany(chat::class,'invite_id');
     }
 }

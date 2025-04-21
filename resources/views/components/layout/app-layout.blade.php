@@ -39,12 +39,12 @@
 
                         <div>
                             <a href="/account/profile" data-popover-target="popover-user-profile">
-                                @if (is_null($user->image))
+                                @if (isset($user) && is_null($user->image))
                                     <div class="bg-violet-100 rounded-full w-13 h-13 me-3 flex justify-center items-center">
                                         {{ isset($user) ? Str::upper(Str::substr($user->first_name, 0, 1)) . ' ' . Str::upper(Str::substr($user->last_name, 0, 1)) : 'JD' }}
                                     </div>
                                 @else
-                                    <img src="{{ $user->imageUrl() }}" class="rounded-full w-12 h-12 me-3 border border-gray-300 object-cover">
+                                    <img src="{{ isset($user) ? $user->imageUrl() : '' }}" class="rounded-full w-12 h-12 me-3 border border-gray-300 object-cover">
                                 @endif
                             </a>
 
