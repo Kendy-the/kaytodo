@@ -46,7 +46,7 @@ class Message extends Model
 
         if($date->lessThan($today))
         {
-            return $date->format("d/m/y h:i");
+            return $date->format("d/m/y");
         }
         
         return $date->format("h:i");

@@ -1,41 +1,16 @@
-{{-- <script>
-    function getLastMessageId() {
-        let messages = document.querySelectorAll('#messages .message');
-        if (messages.length > 0) {
-            return messages[messages.length - 1].dataset.id;
-        }
-        return null;
-    }
-
-    function refreshMessages() {
-        fetch('/messages/refresh', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            },
-            body: JSON.stringify({
-                last_id: getLastMessageId()
-            })
-        })
-        .then(response => response.text())
-        .then(html => {
-            if (html.trim() !== '') {
-                document.getElementById('messages').innerHTML += html;
-                scrollToBottom();
-            }
-        })
-        .catch(error => console.error('Erreur :', error));
-    }
-
-    function scrollToBottom() {
-        var messagesDiv = document.getElementById('messages');
-        messagesDiv.scrollTop = messagesDiv.scrollHeight;
-    }
-
-    setInterval(refreshMessages, 3000); // toutes les 3 secondes
-</script> --}}
-<div class="h-dvh overflow-y-scroll pb-65 md:pb-60 ps-2 {{ $position }} hidden" id="show-refresh">
+<div class="absolute top-4 left-4 right-4">
+    <div class="flex justify-between">
+        <button x-on:click="currentView = 'messages'; mainBtn = !mainBtn"
+            class="cursor-pointer bg-white border px-7 py-1 rounded text-sm hover:bg-gray-100">
+            ← Retour
+        </button>
+        {{-- Nom du recipient --}}
+        <div>
+            alpine jean
+        </div>
+    </div>
+</div>
+<div class="h-dvh overflow-y-scroll pb-65 md:pb-60 ps-2" id="show-refresh">
 
     @php $auth = (Auth::user())->id @endphp
 
@@ -87,13 +62,13 @@
         @error('content')
             <p class="text-[12px] text-red-500 mt-1">{{ $message }}</p>
         @enderror
-        <form action="/account/message/send" method="post" class="{{ $position }} hidden">
+        <form action="/account/message/send" method="post">
             @csrf
             <input type="hidden" name="chat_id" value="{{ $posts[0]->messages[0]->chat_id }}"/>
             <input type="hidden" name="recipient_id" value="{{ $posts[0]->messages[0]->recipient_id }}"/>
 
-            <div class="fixed bottom-17 md:bottom-2 bg-white rounded-xl p-2 md:p-3 w-[70%] md:w-[55%] lg:w-[57%]">
-                <div class="flex items-center w-full">
+            <div class="fixed bg-white p-2 shadow bottom-17 md:bottom-2 rounded-xl md:right-10 right-7 left-5 right-5 lg:right-15 md:left-30">
+                <div class="flex items-center justify-between w-full">
                     <div class="flex justify-between rounded-xl w-[80%] md:w-[87%] lg:w-[90%] bg-gray-300 me-3 lg:me-4">
                         <textarea name="content" id="send-content" placeholder="type a message..."
                             class="w-full focus:outline-2 border-[#DFEAF2] focus:outline-offset-2 focus:outline-violet-500 rounded-xl p-2 h-10 lg:h-13"></textarea>

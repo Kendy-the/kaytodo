@@ -22,7 +22,6 @@ class Chat extends Model
     public static function getChatsShow($chat_id)
     {
         $user = (Auth::user())->id;
-    
         return Chat::orWhere('invite_id',$user)
             ->orWhere('user_id',$user)
             ->with('invite','user','messages')

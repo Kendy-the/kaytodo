@@ -1,6 +1,6 @@
 <x-layout.app-layout>
     <x-layout.messcontact-layout>
-        <x-slot:first-title>Message</x-slot:first-title>
+        {{-- <x-slot:first-title>Message</x-slot:first-title>
         <x-slot:first>
             @include('shared.account.message.index', [
                 'posts' => $chats,
@@ -45,7 +45,7 @@
                 'posts' => $messages,
                 'position' => 'second-post',
             ])
-        </x-slot:second>
+        </x-slot:second> --}}
 
     </x-layout.messcontact-layout>
 </x-layout.app-layout>
