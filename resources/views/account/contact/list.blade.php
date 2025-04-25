@@ -72,13 +72,13 @@
             </div>
         @endif
     @empty
-        <div class="border-t p-2 border-gray-200 text-center">
+        {{-- <div class="border-t p-2 border-gray-200 text-center">
             Add contact to chat, click on the plus button
-            {{-- New contact --}}
+            {{-- New contact --}}{{--
             @include('shared.account.contact.form', [
                 'parentId' => $parentId,
             ])
-        </div>
+        </div> --}}
     @endforelse
 
     <div class="col-span-3 border-t p-2 border-gray-200 text-center">

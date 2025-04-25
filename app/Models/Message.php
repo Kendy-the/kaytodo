@@ -28,15 +28,35 @@ class Message extends Model
         return $notView;
     }
 
-    public static function makeView($chat)
+    public static function makeView($posts, $mes = true)
     {
-        foreach ($chat[0]->messages as $message) {
-            if(!$message->view && ($message->sender_id != (Auth::user())->id))
-            {
-                $message->view = env("VIEW");
-                $message->save();
+        if($mes)
+        {
+            foreach ($posts as $message) {
+                self::mkView($message);
+            }
+        }else{
+            foreach ($posts->messages as $message) {
+                self::mkView($message);
             }
         }
+
+    }
+
+    public static function mkView($message)
+    {
+        if(!$message->view && ($message->sender_id != (Auth::user())->id))
+        {
+            $message->view = env("VIEW");
+            $message->save();
+        }
+    }
+
+    public static function getRecent($chat_id)
+    {
+        return Message::where('chat_id',$chat_id)
+            ->where('view',false)
+            ->get();
     }
 
     public function getHour()

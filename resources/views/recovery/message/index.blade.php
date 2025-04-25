@@ -1,99 +1,128 @@
-<div class="absolute top-4 left-4 right-4">
-    <div class="flex justify-between">
-        <button x-on:click="currentView = 'messages'; mainBtn = !mainBtn"
-            class="cursor-pointer bg-white border px-7 py-1 rounded text-sm hover:bg-gray-100">
-            ← Retour
-        </button>
-        {{-- Nom du recipient --}}
-        <div>{{ \App\Models\User::getContactName($contacts,$posts[0]) }}</div>
-    </div>
-</div>
-
-<div class="h-dvh overflow-y-scroll pb-65 md:pb-60 ps-2" id="show-refresh">
-
-    @php $auth = (Auth::user())->id @endphp
-
-    @if (isset($posts[0]->messages))
-        @forelse ($posts[0]->messages as $post)
-            @if (!is_null($post->content))
-                @if ($post->sender_id != $auth)
-                    {{-- message recieved --}}
-                    <div class="my-4">
-                        <div class="flex">
-                            <div class="flex flex-col gap-3 rounded-xl p-4 bg-gray-100 w-[80%] group">
-                                <div class="flex justify-between">
-                                    <div>
-                                        {{ $post->content }}
-                                    </div>
-                                    <form action="/account/message/delete" method="post"
-                                        class="text-red-700 lg:text-gray-100 lg:group-hover:text-red-700 font-bold text-2xl cursor-pointer"><input type="hidden" value="{{ $post->id }}" /><button
-                                            class='bx bx-message-rounded-x'></button></form>
-                                </div>
-
-                                <div class="text-end">{{ $post->getHour() }}</div>
-                            </div>
-                            <div class="w-[20%]"></div>
-                        </div>
-                    </div>
-                @else
-                    {{-- message send --}}
-                    <div class="my-4">
-                        <div class="flex">
-                            <div class="w-[20%]"></div>
-                            <div
-                                class="flex flex-col gap-3 rounded-xl text-white text-end p-4 bg-violet-500 w-[80%] group">
-                                <div class="flex justify-between">
-                                    <div>
-                                        {{ $post->content }}
-                                    </div>
-                                    <form action="/account/message/delete" method="post"
-                                        class="text-red-700 lg:text-gray-100 lg:group-hover:text-red-700 font-bold text-2xl cursor-pointer"><input type="hidden" value="{{ $post->id }}" /><button
-                                            class='bx bx-message-rounded-x'></button></form>
-                                </div>
-                                <div>{{ $post->getHour() }}</div>
-                            </div>
-                        </div>
-                    </div>
-                @endif
-            @endif
-        @empty
-        @endforelse
-        {{-- on doit recuperer automatiquement les messages ici et seulement les messages --}}
-        <div id="message-load">
-            {{-- recent messages --}}
+{{-- <div class="h-dvh overflow-y-scroll pb-50" id="message-refresh">
+    @php $newChatId = $parentId->getId(); @endphp
+    <div data-accordion="collapse"
+        class="flex flex-col items-center gap-2 border-t my-1 py-3 px-2 md:px-4 border-gray-200 bg-gray-50">
+        <div style="background-color:rgb(252, 248, 248)" id="accordion-collapse-heading-{{ $newChatId }}"
+            data-accordion-target="#accordion-collapse-body-{{ $newChatId }}"
+            aria-controls="accordion-collapse-body-{{ $newChatId }}">
+            <i style="color:black" class='bx bxs-plus-circle hover:text-violet-700 cursor-pointer'></i>
         </div>
-        @error('content')
-            <p class="text-[12px] text-red-500 mt-1">{{ $message }}</p>
-        @enderror
-        <form action="/account/message/send" method="post">
-            @csrf
-            <input type="hidden" name="chat_id" value="{{ $posts[0]->messages[0]->chat_id }}"/>
-            <input type="hidden" name="recipient_id" value="{{ $posts[0]->messages[0]->recipient_id }}"/>
 
-            <div class="fixed bg-white p-2 shadow bottom-17 md:bottom-2 rounded-xl md:right-10 right-7 left-5 right-5 lg:right-15 md:left-30">
-                <div class="flex items-center justify-between w-full">
-                    <div class="flex justify-between rounded-xl w-[80%] md:w-[87%] lg:w-[90%] bg-gray-300 me-3 lg:me-4">
-                        <textarea name="content" id="send-content" placeholder="type a message..."
-                            class="w-full focus:outline-2 border-[#DFEAF2] focus:outline-offset-2 focus:outline-violet-500 rounded-xl p-2 h-10 lg:h-13"></textarea>
-                    </div>
-                    <button
-                        class="cursor-pointer bg-violet-500 rounded-full w-10 h-10 lg:w-13 lg:h-13 flex justify-center items-center"
-                        title="send">
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M5.92492 4.96667L13.4416 2.45834C16.8166 1.33334 18.6499 3.17501 17.5333 6.55001L15.0249 14.0667C13.3416 19.125 10.5749 19.125 8.89159 14.0667L8.14992 11.8333L5.91659 11.0917C0.866586 9.41667 0.866586 6.65834 5.92492 4.96667Z"
-                                fill="#FEFEFE" />
-                            <path d="M10.1001 9.69167L13.2751 6.50833L10.1001 9.69167Z" fill="#FEFEFE" />
-                            <path
-                                d="M10.1 10.3167C9.94163 10.3167 9.7833 10.2583 9.6583 10.1333C9.41663 9.89166 9.41663 9.49166 9.6583 9.24999L12.825 6.06666C13.0666 5.82499 13.4666 5.82499 13.7083 6.06666C13.95 6.30832 13.95 6.70832 13.7083 6.94999L10.5416 10.1333C10.4166 10.25 10.2583 10.3167 10.1 10.3167Z"
-                                fill="#7A5AF8" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </form>
-    @else
+        <div id="accordion-collapse-body-{{ $newChatId }}"
+            aria-labelledby="accordion-collapse-heading-{{ $newChatId }}" class="hidden">
+            @include('account.contact.list', [
+                'posts' => $contacts,
+                'chats' => $posts,
+            ])
+        </div>
+    </div>
+
+    @forelse ($posts as $post)
+        <div class="border-gray-200 border-t bg-gray-50 rounded flex group">
+            <form method="post" action="/account/message/show" class="w-full">
+                @csrf
+                <input type="hidden" name="id" value="{{ $post->id }}" />
+                <button class="w-full flex gap-2 justify-around my-1 px-2 py-3 cursor-pointer">
+                    @if ($post->invite->id != (Auth::user())->id)
+                        <div>
+                            @if (is_null($post->invite->image))
+                                <div
+                                    class="bg-violet-100 font-semibold rounded-full w-13 h-13 flex justify-center items-center">
+                                    {{ Str::upper(Str::substr($post->invite->first_name, 0, 1)) . ' ' . Str::upper(Str::substr($post->invite->last_name, 0, 1)) }}
+                                </div>
+                            @else
+                                <img class="w-12 h-12 border border-gray-300 rounded-full object-cover"
+                                    src="{{ $post->invite->imageUrl() }}">
+                            @endif
+                        </div>
+                        @if (isset($post->messages[0]))
+                            <div class="{{ $position }}">
+                                <div class="flex justify-between">
+                                    @php $trouver = false @endphp
+                                    @php $empty = false @endphp
+                                    @forelse ($contacts as $contact)
+                                        @if($contact->id == $post->invite->id)
+                                            @php $trouver = true @endphp
+                                        @endif
+                                    @empty
+                                        @php $empty = true @endphp
+                                        <h2 class="font-bold text-lg mb-1 me-1">{{ $post->invite->email }}</h2>
+                                    @endforelse
+
+                                    @if($trouver)
+                                        <h2 class="font-bold text-lg mb-1 me-1">{{ $post->invite->first_name }}</h2>
+                                    @else
+                                        @if(!$empty)
+                                            <h2 class="font-bold text-lg mb-1 me-1">{{ $post->invite->email }}</h2>
+                                        @endif
+                                    @endif
+                                    <span>{{ $post->messages->last()->getHour() }}</span>
+                                </div>
+                                <div class="flex justify-between items-center gap-7">
+                                    <p>{{ $post->messages->last()->getContent() }}</p>
+                                    <span
+                                        @class([
+                                            'text-white rounded-full w-5 h-5 md:w-7 md:h-7 flex justify-center items-center',
+                                            'bg-violet-500' => \App\Models\Message::notView($post->messages),
+                                        ])>{{ \App\Models\Message::notView($post->messages) }}</span>
+                                </div>
+                            </div>
+                        @endif
+                    @else
+                        <div>
+                            @if (is_null($post->user->image))
+                                <div
+                                    class="bg-violet-100 font-semibold rounded-full w-13 h-13 flex justify-center items-center">
+                                    {{ Str::upper(Str::substr($post->user->first_name, 0, 1)) . ' ' . Str::upper(Str::substr($post->user->last_name, 0, 1)) }}
+                                </div>
+                            @else
+                                <img class="w-12 h-12 border border-gray-300 rounded-md object-cover"
+                                    src="{{ $post->user->imageUrl() }}">
+                            @endif
+                        </div>
+                        @if (isset($post->messages[0]))
+                            <div class="{{ $position }}">
+                                <div class="flex justify-between">
+                                    @php $trouver = false @endphp
+                                    @php $empty = false @endphp
+                                    @forelse ($contacts as $contact)
+                                        @if($contact->id == $post->invite->id)
+                                            @php $trouver = true @endphp
+                                        @endif
+                                    @empty
+                                        @php $empty = true @endphp
+                                        <h2 class="font-bold text-lg mb-1 me-1">{{ $post->user->email }}</h2>
+                                    @endforelse
+
+                                    @if($trouver)
+                                        <h2 class="font-bold text-lg mb-1 me-1">{{ $post->user->first_name }}</h2>
+                                    @else
+                                        @if(!$empty)
+                                            <h2 class="font-bold text-lg mb-1 me-1">{{ $post->user->email }}</h2>
+                                        @endif
+                                    @endif
+                                    <span>{{ $post->messages->last()->getHour() }}</span>
+                                </div>
+                                <div class="flex justify-between items-center gap-7">
+                                    <p>{{ $post->messages->last()->getContent() }}</p>
+                                    <span
+                                        @class([
+                                            'text-white rounded-full w-5 h-5 md:w-7 md:h-7 flex justify-center items-center',
+                                            'bg-violet-500' => \App\Models\Message::notView($post->messages),
+                                        ])>{{ \App\Models\Message::notView($post->messages) }}</span>
+                                </div>
+                            </div>
+                        @endif
+                    @endif
+                </button>
+            </form>
+            <form action="/account/chat/delete" method="post"
+                class="text-red-700 lg:text-gray-100 lg:group-hover:text-red-700 font-bold text-2xl">@csrf<input
+                    type="hidden" name="chat_id" value="{{ $post->id }}" /><button name="delete_chat"
+                    title="delete" class='bx bx-message-rounded-x'></button>
+            </form>
+        </div>
+    @empty
         <div
             class="border-t my-1 py-3 border-gray-200 mt-5 pb-3 flex flex-col gap-3 justify-center items-center text-center">
             <div>
@@ -282,6 +311,53 @@
                 </p>
             </div>
         </div>
-    @endif
+    @endforelse
+</div> --}}
 
-</div>
+{{-- 
+    <form class="space-y-2">
+        <input type="text" placeholder="Nom de la discussion"
+            class="w-full border rounded px-3 py-2">
+        <button type="submit" class="bg-purple-600 text-white px-4 py-2 rounded">Créer
+            discussion</button>
+    </form> 
+--}}
+
+{{-- 
+    <div class="cursor-pointer p-4 border-b flex justify-between items-center" @click="currentView = 'discussion'">
+        {{-- Nom de l'expediteur
+        💬 alpine
+        {{--<button class="cursor-pointer text-sm text-purple-600" >Ouvrir</button>
+    </div>
+    <div class="cursor-pointer p-4 border-b flex justify-between items-center" @click="currentView = 'discussion'">
+        {{-- Nom de l'expediteur
+        💬 Josue
+        {{--<button class="cursor-pointer text-sm text-purple-600" >Ouvrir</button>
+    </div> 
+--}}
+
+{{-- 
+<x-slot:first-title>Contact</x-slot:first-title>
+    <x-slot:first>
+        @include('shared.account.contact.index', [
+                "posts" => $contacts,
+                "position" => "first-post",
+            ])
+    </x-slot:first>
+
+    <x-slot:second>
+        @include('shared.account.message.index', [
+                "posts" => $chats,
+                "contacts" => $contacts,
+                "position" => "second-post",
+            ])
+    </x-slot:second>
+
+    <x-slot:third>
+        @include('shared.account.message.index', [
+                "posts" => $chats,
+                "contacts" => $contacts,
+                "position" => "second-post",
+            ])
+    </x-slot:third> 
+--}}

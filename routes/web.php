@@ -166,6 +166,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/message','index')->name('message');
         Route::get('/message/show','index');
         Route::post('/message/show','show');
+        Route::post('/message/load','load');
         Route::get('/message/delete','delete');
         Route::post('/message/delete','deletePost');
         Route::get('/message/send','index');

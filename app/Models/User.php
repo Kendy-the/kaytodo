@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Message;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -89,6 +90,43 @@ class User extends Authenticatable
 
         return User::whereExists($contacts)
             ->get();
+    }
+
+    public static function getContactName($contacts, $post, $invite = true)
+    {
+        $trouver = false;
+        $empty = empty($contacts) ? true : false;
+
+        foreach($contacts as $contact)
+        {
+            if($contact->id == $post->invite->id)
+            {
+                $trouver = true;
+                break;
+            }
+        }
+        
+        if(!$empty)
+        {
+            if($trouver)
+            {
+                return $invite ? $post->invite->first_name : $post->user->first_name;
+            }else{
+                return $invite ? $post->invite->email : $post->user->email;
+            }
+        }
+        
+        return $invite ? $post->invite->email : $post->user->email;
+    }
+
+    public function getAbrName()
+    {
+        return Str::upper(Str::substr($this->first_name, 0, 1)) . ' ' . Str::upper(Str::substr($this->last_name, 0, 1));
+    }
+
+    public function getName()
+    {
+        return $this->first_name . " " . $this->last_name;
     }
 
     public function imageUrl()

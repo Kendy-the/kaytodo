@@ -14,32 +14,19 @@ class MessageController extends NoticeController
     public function show(Request $request)
     {
         $posts = Chat::getChatsShow($request->input('id'));
-        Message::makeView($posts);
+        Message::makeView($posts[0],false);
+        $contacts = User::getContactsForUser();
 
-        return view('shared.account.message.show', compact('posts'));
+        return view('shared.account.message.show', compact('posts'), compact('contacts'));
         
     }
-    // public function show(Request $request)
-    // {
-    //     $chat = Chat::getChatsShow($request['id']);
-        
-    //     Message::makeView($chat);
 
-    //     $contacts = User::getContactsForUser();
-
-    //     $chats = (Auth::user())
-    //         ->chats()
-    //         ->with('invite','messages')
-    //         ->orderByRaw('created_at Desc')
-    //         ->get();
-
-    //     return view('account.message.show', [
-    //         "chats" => $chats,
-    //         "contacts" => $contacts,
-    //         "messages" => $chat,
-    //         'parentId' => new idController()
-    //     ]);
-    // }
+    public function load(Request $request)
+    {
+        $recent = Message::getRecent($request->input('id'));
+        Message::makeView($recent);
+        return view('shared.account.message.recent', compact('recent'));
+    }
 
     public function send(Request $request)
     {
