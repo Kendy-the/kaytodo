@@ -164,7 +164,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::prefix('/account')->name('account.')->controller(MessageController::class)->group(function(){
         Route::get('/message','index')->name('message');
+        Route::get('/message/back/load', 'index');
+        Route::post('/message/back/load', 'backLoad');
         Route::get('/message/show','index');
+        Route::get('/message/load','index');
         Route::post('/message/show','show');
         Route::post('/message/load','load');
         Route::get('/message/delete','delete');

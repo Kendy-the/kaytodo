@@ -23,13 +23,14 @@ class MessageController extends NoticeController
 
     public function load(Request $request)
     {
-        $recent = Message::getRecent($request->input('id'));
-        Message::makeView($recent);
-        return view('shared.account.message.recent', compact('recent'));
+        $recents = Message::getRecent($request->input('id'));
+        Message::makeView($recents);
+        return view('shared.account.message.recent', compact('recents'));
     }
 
     public function send(Request $request)
     {
+        dd($request->all());
         $request->validate([
             "content" => ['required','string'],
             "recipient_id" => ['exists:users,id'],
@@ -37,7 +38,7 @@ class MessageController extends NoticeController
         ]);
 
         DB::table('messages')
-            ->where('content', '=', NULL)
+            ->where('content', NULL)
             ->delete();
 
         $message = new Message();
@@ -47,11 +48,12 @@ class MessageController extends NoticeController
         $message->sender_id = (Auth::user())->id;
         $message->save();
 
-        $requstPost = Request::create('/message/show', 'POST', [
+        $requstPost = Request::create('/account/message/show', 'POST', [
             'id' => $request['chat_id'],
         ]);
 
-        return $this->show($requstPost);
+        return response()->json(['status' => 'success']);
+        // return $this->show($requstPost);
     }
 
     public function delete($id)
@@ -67,10 +69,10 @@ class MessageController extends NoticeController
         $message = Message::find($request['id']);
         $message->delete();
 
-        $requstPost = Request::create('/message/show', 'POST', [
+        $requstPost = Request::create('/account/message/load', 'POST', [
             'id' => $request['chat_id'],
         ]);
         
-        return $this->show($requstPost);
+        return $this->load($requstPost);
     }
 }

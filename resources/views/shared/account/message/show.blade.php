@@ -14,7 +14,9 @@
     @php $auth = (Auth::user())->id @endphp
 
     @if (isset($posts[0]->messages))
+        @php session(['lastPost' =>  $posts[0]->messages->last()->id]) @endphp
         @forelse ($posts[0]->messages as $post)
+            @php $lastPost = $post->id @endphp
             @if (!is_null($post->content))
                 @if ($post->sender_id != $auth)
                     {{-- message recieved --}}
@@ -26,7 +28,7 @@
                                         {{ $post->content }}
                                     </div>
                                     <form action="/account/message/delete" method="post"
-                                        class="text-red-700 lg:text-gray-100 lg:group-hover:text-red-700 font-bold text-2xl cursor-pointer"><input type="hidden" value="{{ $post->id }}" /><button
+                                        class="text-red-700 lg:text-gray-100 lg:group-hover:text-red-700 font-bold text-2xl cursor-pointer">@csrf<input name="id" type="hidden" value="{{ $post->id }}" /><button
                                             class='bx bx-message-rounded-x'></button></form>
                                 </div>
 
@@ -47,7 +49,7 @@
                                         {{ $post->content }}
                                     </div>
                                     <form action="/account/message/delete" method="post"
-                                        class="text-red-700 lg:text-gray-100 lg:group-hover:text-red-700 font-bold text-2xl cursor-pointer"><input type="hidden" value="{{ $post->id }}" /><button
+                                        class="text-red-700 lg:text-gray-100 lg:group-hover:text-red-700 font-bold text-2xl cursor-pointer">@csrf<input name="id" type="hidden" value="{{ $post->id }}" /><button
                                             class='bx bx-message-rounded-x'></button></form>
                                 </div>
                                 <div>{{ $post->getHour() }}</div>
@@ -65,18 +67,15 @@
         @error('content')
             <p class="text-[12px] text-red-500 mt-1">{{ $message }}</p>
         @enderror
-        <form action="/account/message/send" method="post">
-            @csrf
-            <input type="hidden" name="chat_id" value="{{ $posts[0]->messages[0]->chat_id }}"/>
-            <input type="hidden" name="recipient_id" value="{{ $posts[0]->messages[0]->recipient_id }}"/>
-
+        <div>
+            <meta name="csrs-token" content="{{ csrf_token() }}">
             <div class="fixed bg-white p-2 shadow bottom-17 md:bottom-2 rounded-xl md:right-10 right-7 left-5 right-5 lg:right-15 md:left-30">
                 <div class="flex items-center justify-between w-full">
                     <div class="flex justify-between rounded-xl w-[80%] md:w-[87%] lg:w-[90%] bg-gray-300 me-3 lg:me-4">
                         <textarea name="content" id="send-content" placeholder="type a message..."
                             class="w-full focus:outline-2 border-[#DFEAF2] focus:outline-offset-2 focus:outline-violet-500 rounded-xl p-2 h-10 lg:h-13"></textarea>
                     </div>
-                    <button
+                    <div onclick="sendMessage({{ $posts[0]->messages[0]->chat_id }},{{ $posts[0]->messages[0]->recipient_id }})"
                         class="cursor-pointer bg-violet-500 rounded-full w-10 h-10 lg:w-13 lg:h-13 flex justify-center items-center"
                         title="send">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
@@ -89,10 +88,10 @@
                                 d="M10.1 10.3167C9.94163 10.3167 9.7833 10.2583 9.6583 10.1333C9.41663 9.89166 9.41663 9.49166 9.6583 9.24999L12.825 6.06666C13.0666 5.82499 13.4666 5.82499 13.7083 6.06666C13.95 6.30832 13.95 6.70832 13.7083 6.94999L10.5416 10.1333C10.4166 10.25 10.2583 10.3167 10.1 10.3167Z"
                                 fill="#7A5AF8" />
                         </svg>
-                    </button>
+                    </div>
                 </div>
             </div>
-        </form>
+        </f>
     @else
         <div
             class="border-t my-1 py-3 border-gray-200 mt-5 pb-3 flex flex-col gap-3 justify-center items-center text-center">

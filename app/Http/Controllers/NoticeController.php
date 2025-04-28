@@ -19,4 +19,15 @@ class NoticeController extends Controller
             'parentId' => new idController()
         ]);
     }
+
+    public function backLoad()
+    {
+        $contacts = User::getContactsForUser();
+        $chats = Chat::getChats();
+        return view('shared.account.message.index',[
+            "contacts" => $contacts,
+            "posts" => $chats,
+            'parentId' => new idController()
+        ]);
+    }
 }

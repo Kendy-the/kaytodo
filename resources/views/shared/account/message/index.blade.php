@@ -1,5 +1,3 @@
-<meta name="csr-token" content="{{ csrf_token() }}">
-<meta name="csrr-token" content="{{ csrf_token() }}">
 @forelse ($posts as $post)
     <div class="border-gray-200 border-t bg-gray-50 rounded flex group">
         <div class="w-full"  onclick="loadDiscussion({{ $post->id }})" @click="disk = {{ $post->id }}; currentView = 'discussion'; mainBtn = false">
@@ -24,10 +22,13 @@
                                 }}
                                 </h2>
                                 
-                                <span>{{ $post->messages->last()->getHour() }}</span>
+                                {{-- message - fetch --}}
+                                <span>{{ $post->messages->last()->getLast($post->id)->getHour() }}</span>
                             </div>
+
+                            {{-- message - fetch --}}
                             <div class="flex justify-between items-center gap-7">
-                                <p>{{ $post->messages->last()->getContent() }}</p>
+                                <p>{{ $post->messages->last()->getLast($post->id)->getContent() }}</p>
                                 <span
                                     @class([
                                         'text-white rounded-full w-5 h-5 md:w-7 md:h-7 flex justify-center items-center',
@@ -56,10 +57,13 @@
                                 }}
                                 </h2>
                                 
-                                <span>{{ $post->messages->last()->getHour() }}</span>
+                                <span>{{ $post->messages->last()->getLast($post->id)->getHour() }}</span>
+                                {{-- message - fetch --}}
                             </div>
+
+                            {{-- message - fetch --}}
                             <div class="flex justify-between items-center gap-7">
-                                <p>{{ $post->messages->last()->getContent() }}</p>
+                                <p>{{ $post->messages->last()->getLast($post->id)->getContent() }}</p>
                                 <span
                                     @class([
                                         'text-white rounded-full w-5 h-5 md:w-7 md:h-7 flex justify-center items-center',

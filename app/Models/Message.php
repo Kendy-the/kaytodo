@@ -56,7 +56,27 @@ class Message extends Model
     {
         return Message::where('chat_id',$chat_id)
             ->where('view',false)
+            ->orderByRaw('created_at Desc')
+            ->limit(1)
             ->get();
+    }
+
+    public static function backLoad($chat_id,$post_id)
+    {
+        return Message::where('id','>=',$post_id)
+            ->where('chat_id',$chat_id)
+            ->orderByRaw('created_at DESC')
+            ->limit(1)
+            ->get()[0];
+    }
+
+    public function getLast($chat_id)
+    {
+        return Message::where('id','>=',$this->id)
+            ->where('chat_id',$chat_id)
+            ->orderByRaw('created_at DESC')
+            ->limit(1)
+            ->get()[0];
     }
 
     public function getHour()
