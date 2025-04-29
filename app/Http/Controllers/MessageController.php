@@ -30,7 +30,6 @@ class MessageController extends NoticeController
 
     public function send(Request $request)
     {
-        dd($request->all());
         $request->validate([
             "content" => ['required','string'],
             "recipient_id" => ['exists:users,id'],
@@ -48,31 +47,31 @@ class MessageController extends NoticeController
         $message->sender_id = (Auth::user())->id;
         $message->save();
 
-        $requstPost = Request::create('/account/message/show', 'POST', [
-            'id' => $request['chat_id'],
-        ]);
+        // $requstPost = Request::create('/account/message/show', 'POST', [
+        //     'id' => $request['chat_id'],
+        // ]);
 
-        return response()->json(['status' => 'success']);
+        // return response()->json(['status' => 'success']);
         // return $this->show($requstPost);
     }
 
-    public function delete($id)
+    public function delete(Request $request)
     {
-        return view('account.message.delete',[
-            'id' => $id
-        ]);
+        DB::table('messages')
+            ->where('id', $request->input('id'))
+            ->delete();
     }
 
-    public function deletePost(Request $request)
-    {    
-        //traitement
-        $message = Message::find($request['id']);
-        $message->delete();
+    // public function deletePost(Request $request)
+    // {    
+    //     //traitement
+    //     $message = Message::find($request['id']);
+    //     $message->delete();
 
-        $requstPost = Request::create('/account/message/load', 'POST', [
-            'id' => $request['chat_id'],
-        ]);
+    //     $requstPost = Request::create('/account/message/load', 'POST', [
+    //         'id' => $request['chat_id'],
+    //     ]);
         
-        return $this->load($requstPost);
-    }
+    //     return $this->load($requstPost);
+    // }
 }

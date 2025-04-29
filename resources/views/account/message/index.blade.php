@@ -4,7 +4,7 @@
     <meta name="csr-token" content="{{ csrf_token() }}">
     <meta name="csrr-token" content="{{ csrf_token() }}">
     <meta name="csrt-token" content="{{ csrf_token() }}">
-    {{-- <meta name="csrs-token" content="{{ csrf_token() }}"> --}}
+    <meta name="csrd-token" content="{{ csrf_token() }}">
     {{-- End token for auto refresh --}}
 
     <div class="fixed w-[90%]">
@@ -34,7 +34,7 @@
                     if (refreshNewMessageInterval) clearInterval(refreshNewMessageInterval);
                     refreshNewMessageInterval = setInterval(() => {
                         newMessage();
-                    }, 3000);
+                    }, 2000);
                     if (refreshInterval) {
                         clearInterval(refreshInterval);
                         refreshInterval = null;
@@ -90,6 +90,8 @@
                 <div id="message-container" x-show="currentView === 'discussion'" class="flex-1 flex flex-col">
                     {{-- messages --}}
                 </div>
+
+                <div id="scoll-to-down"></div>
 
                 {{-- BOUTON FLOTTANT --}}
                 <div class="absolute bottom-40 right-4 flex flex-col items-end space-y-2" @click.outside="open = false">
@@ -163,6 +165,7 @@
 
                     setTimeout(() => container.classList.remove('fade-in'), 300);
                 })
+                toDown()
                 // .finally(() => loader.classList.add('hidden'));
         }
 
@@ -190,33 +193,51 @@
         }
     
         function sendMessage(chat_id,recipient_id){
-            const content = document.getElementById('send-content').value;
+            let content = document.getElementById('send-content');
             const data = new URLSearchParams();
             data.append('chat_id',chat_id);
             data.append('recipient_id',recipient_id);
-            data.append('content',content);
+            data.append('content',content.value);
 
             fetch('/account/message/send', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/x-www-form-urlencoded',
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrs-token"]').getAttribute('content')
                 },
-                // body: JSON.stringify({
-                //     chat_id: chat_id,
-                //     recipient_id: recipient_id,
-                //     content: content
-                // })
                 body: data.toString()
             })
-            .then(res => res.text())
-            // .then(res => res.json())
-            // .then(data => {console.log('Message envoyé !', data);})
-            .catch(error => console.error("Erreur côté JS :", error));
+            content.value = " ";
+            toDown()
+            newMessage();
         }
 
-        function deleteMessage(){
-
+        function deleteMessage(id){
+            let old = document.getElementById('message-'+id)
+            fetch('/account/message/delete', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrd-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({
+                    id: id
+                })
+            })
+            old.classList.add('hidden');
+            toDown()
+            newMessage();
         }
+
+        function toDown()
+        {
+            setTimeout(() => {
+                const down = document.getElementById("scoll-to-down");
+                if (down) {
+                    down.scrollIntoView({ behavior: "smooth" });
+                }
+            }, 300);
+        }
+
     </script>
 </x-layout.app-layout>

@@ -27,9 +27,9 @@
                                     <div>
                                         {{ $post->content }}
                                     </div>
-                                    <form action="/account/message/delete" method="post"
-                                        class="text-red-700 lg:text-gray-100 lg:group-hover:text-red-700 font-bold text-2xl cursor-pointer">@csrf<input name="id" type="hidden" value="{{ $post->id }}" /><button
-                                            class='bx bx-message-rounded-x'></button></form>
+                                    <div id="message-{{$post->id}}"
+                                        class="text-red-700 lg:text-gray-100 lg:group-hover:text-red-700 font-bold text-2xl cursor-pointer"><button onclick="deleteMessage({{ $post->id }})"
+                                            class='bx bx-message-rounded-x'></button></div>
                                 </div>
 
                                 <div class="text-end">{{ $post->getHour() }}</div>
@@ -42,15 +42,15 @@
                     <div class="my-4">
                         <div class="flex">
                             <div class="w-[20%]"></div>
-                            <div
+                            <div id="message-{{$post->id}}"
                                 class="flex flex-col gap-3 rounded-xl text-white text-end p-4 bg-violet-500 w-[80%] group">
                                 <div class="flex justify-between">
                                     <div>
                                         {{ $post->content }}
                                     </div>
-                                    <form action="/account/message/delete" method="post"
-                                        class="text-red-700 lg:text-gray-100 lg:group-hover:text-red-700 font-bold text-2xl cursor-pointer">@csrf<input name="id" type="hidden" value="{{ $post->id }}" /><button
-                                            class='bx bx-message-rounded-x'></button></form>
+                                    <div
+                                        class="text-red-700 lg:text-gray-100 lg:group-hover:text-red-700 font-bold text-2xl cursor-pointer"><button onclick="deleteMessage({{ $post->id }})" 
+                                            class='bx bx-message-rounded-x'></button></div>
                                 </div>
                                 <div>{{ $post->getHour() }}</div>
                             </div>

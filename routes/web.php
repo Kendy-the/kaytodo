@@ -170,8 +170,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/message/load','index');
         Route::post('/message/show','show');
         Route::post('/message/load','load');
-        Route::get('/message/delete','delete');
-        Route::post('/message/delete','deletePost');
+        Route::get('/message/delete','index');
+        Route::post('/message/delete','delete');
         Route::get('/message/send','index');
         Route::post('/message/send','send');
     });

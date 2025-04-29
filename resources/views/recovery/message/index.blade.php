@@ -376,3 +376,27 @@ class="absolute bottom-1/2 left-1/2 transform -translate-x-1/2 text-white bg-pur
 </svg>
 Loading...
 </button> --}}
+
+{{-- <script>
+    function sendMessage(chat_id,recipient_id){
+        let content = document.getElementById('send-content');
+        fetch('/account/message/send', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrs-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({
+                chat_id: chat_id,
+                recipient_id: recipient_id,
+                content: content
+            })
+        })
+        .then(res => res.text())
+        content.innerHTML = ''
+        // .then(res => res.json())
+        // .then(data => {console.log('Message envoyé !', data);})
+        // .catch(error => console.error("Erreur côté JS :", error));
+    }
+</script> --}}
