@@ -143,8 +143,11 @@
                             Add Contacts
                         </x-button.primary>
                     @endif
-                    @error('contacts')
-                        <p class="text-[12px] text-red-500 mt-1">{{ $message }}</p>
+                    
+                    @error('contacts')  
+                        <x-slot:input-error>
+                            <p class="text-[12px] text-red-500 mt-1">{{ $message }}</p>
+                        </x-slot:input-error>
                     @enderror
                 </div>
             @endif

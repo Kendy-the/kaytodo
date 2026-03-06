@@ -9,7 +9,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Task extends Model
 {
-    //
+    
+    const PROGRESS = 0;
+    const DONE = 1;
+    const VIEW = 1;
 
     protected $fillable = [
         'name',
@@ -74,7 +77,7 @@ class Task extends Model
 
         foreach($tasks as $task)
         {
-            if($task->statut == env("DONE"))
+            if($task->statut == self::DONE)
             {
                 array_push($done, $task);
             }
@@ -89,7 +92,7 @@ class Task extends Model
 
         foreach($tasks as $task)
         {
-            if($task->statut == env("PROGRESS"))
+            if($task->statut == self::PROGRESS)
             {
                 array_push($progress, $task);
             }
@@ -105,7 +108,7 @@ class Task extends Model
 
     public function getProgression()
     {
-        if($this->statut != env("DONE"))
+        if($this->statut != self::DONE)
         {
             $today = Carbon::now();
 
@@ -123,7 +126,7 @@ class Task extends Model
                 return $percent;
             }
 
-            $this->statut = env("DONE");
+            $this->statut = self::DONE;
             $this->save();
         }
         return 100;
@@ -133,8 +136,8 @@ class Task extends Model
     {
         switch ($this->statut)
         {
-            case env("PROGRESS") : return "In Progress";
-            case env("DONE") : return "done";
+            case self::PROGRESS : return "In Progress";
+            case self::DONE : return "done";
         }
     }
 

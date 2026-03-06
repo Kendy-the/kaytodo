@@ -1,4 +1,5 @@
 <?php
+use App\Livewire\ChatLive;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -191,4 +192,6 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/chat/delete','deletePost');
         Route::get('/chat/delete','index');
     });
+
+    Route::get('/chat', ChatLive::class)->name('chat');
 });

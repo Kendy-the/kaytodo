@@ -59,7 +59,9 @@ class TaskController extends Controller
 
     public function update(Request $request)
     {
-        $request->validate([
+        $data = $request->all();
+        $preCredentials = Validator::make($data,[
+            'id' => 'integer',
             'name' => ['required', 'string', 'min:3'],
             'description' => ['required', 'string', 'min:10'],
             'end_at' => ['required',Rule::date()->todayOrAfter()],
@@ -79,7 +81,7 @@ class TaskController extends Controller
             })],
         ]);
         
-        $credentials = $request->validated();
+        $credentials = $preCredentials->validated();
         $task = Task::find($credentials['id']);
 
         $task->name = $credentials['name'];
@@ -111,7 +113,7 @@ class TaskController extends Controller
         $credentials = $request->all();
         $task = Task::find($credentials['id']);
 
-        $task->statut = env('DONE');
+        $task->statut = TASK::DONE;
         $task->save();
 
         return redirect()->route('task.end.success');

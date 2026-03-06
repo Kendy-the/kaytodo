@@ -6,29 +6,29 @@
                 @php $objectId = $parentId->getId() @endphp
                    
                 <div id="accordion-collapse-heading-{{$objectId}}"
-                    style="background-color: #f3f4f6; color:#444" class="flex justify-between cursor-pointer"
+                    style="background-color: #f3f4f6; color:#444" class="flex flex-wrap justify-between cursor-pointer"
                     data-accordion-target="#accordion-collapse-body-{{$objectId}}"  
                     @if(request()->path() == 'task/'.$object->id)
                         aria-expanded="true"
                     @endif
                     aria-controls="accordion-collapse-body-{{$objectId}}">
 
-                    <div class="flex gap-2 pb-2 w-full">
+                    <div class="flex gap-2 pb-2 w-1/2">
                         <img src="{{ '/assets/img/task-home-icone.svg' }}" alt="">
                         <h3 class="font-bold">{{ $object->name }}
                         </h3>
                     </div>
                     <div
-                        class="bg-white mb-2 md:gap-2 w-30 md:w-30 h-7 md:h-10 rounded-3xl flex items-center justify-center">
+                        class="bg-white mb-2 p-2 md:gap-1 h-7 md:h-10 rounded-3xl flex items-center justify-between">
                         <img src="{{ '/assets/img/calendar-icone.svg' }}" alt="">
-                        <span>{{ $object->created_at->format('d/m/y') }}</span>
+                        <span>{{ $object->getDate() }}</span>
                     </div>
                 </div>
 
                 <div id="accordion-collapse-body-{{$objectId}}"
                     aria-labelledby="accordion-collapse-heading-{{$objectId}}" class="hidden">
                     <div class="py-4 flex gap-3">
-                        <a href="/task/{{ strtolower(str_replace(' ', '-', $object->statut == env("DONE") ?"finish" : $object->getStatut() )) }}"
+                        <a href="/task/{{ strtolower(str_replace(' ', '-', $object->statut == \App\Models\Task::DONE ?"finish" : $object->getStatut() )) }}"
                             class="bg-gray-200 w-33 h-8 rounded-3xl flex gap-1 items-center justify-center cursor-pointer hover:bg-gray-500 hover:text-white">
                             <div>
                                 <img src="{{ '/assets/img/hours-icone.svg' }}" alt="">
@@ -93,7 +93,7 @@
 
                     <div class="flex justify-between ps-3 pt-4 pb-3 border-t border-gray-300 mt-2 gap-2 md:gap-0">
 
-                        @if($object->statut != env("DONE"))
+                        @if($object->statut !=  \App\Models\Task::DONE)
                             @php $editId = $parentId->getId(); @endphp
 
                             <div id="accordion-collapse-heading-{{ $editId }}"
@@ -107,7 +107,7 @@
 
                         <div class="flex justify-between gap-2 md:gap-4">
                         
-                            @if($object->statut != env("DONE"))
+                            @if($object->statut !=  \App\Models\Task::DONE)
                                 @php $endId = $parentId->getId(); @endphp
 
                                 <div id="accordion-collapse-heading-{{ $endId }}"
@@ -133,7 +133,7 @@
                 </div>
 
 
-                @if($object->statut != env("DONE"))
+                @if($object->statut !=  \App\Models\Task::DONE)
                     {{-- Task - edit --}}
                     <div id="accordion-collapse-body-{{ $editId }}"
                         aria-labelledby="accordion-collapse-heading-{{ $editId }}" class="hidden">
@@ -155,7 +155,7 @@
                     ])
                 </div>
 
-                @if($object->statut != env("DONE"))
+                @if($object->statut !=  \App\Models\Task::DONE)
                     {{-- Task - end --}}
                     <div id="accordion-collapse-body-{{ $endId }}"
                         aria-labelledby="accordion-collapse-heading-{{ $endId }}" class="hidden">

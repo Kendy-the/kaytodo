@@ -47,7 +47,7 @@
 
                         <div class="cursor-pointer flex mb-2 ms-2 gap-2 items-center justify-center">
 
-                            @if(!isset($object->statut) || $object->statut != env("DONE"))
+                            @if(!isset($object->statut) || $object->statut != App\Models\Project::DONE)
                                 
                                 @if($object->name != "default")
                                     @php $editId = $parentId->getId(); @endphp
@@ -60,7 +60,7 @@
                                 @endif
                             @endif
 
-                            @if ($name == 'project' && $object->statut != env("DONE"))
+                            @if ($name == 'project' && $object->statut != App\Models\Project::DONE)
 
                                 {{-- id pour accordeon --}}
                                 @php $endId = $parentId->getId(); @endphp
@@ -81,7 +81,7 @@
                                 </div>
                             @endif
 
-                            @if(!isset($object->statut) || $object->statut != env("DONE"))
+                            @if(!isset($object->statut) || $object->statut != App\Models\Project::DONE)
                                 @if($object->name != "default")
                                     @php $pinId = $parentId->getId(); @endphp
                                     <div id="accordion-collapse-heading-{{ $pinId }}" data-accordion-target="#accordion-collapse-body-{{ $pinId }}"
@@ -174,7 +174,7 @@
                 ])
             </div>
             
-            @if(!isset($object->statut) || $object->statut != env("DONE"))
+            @if(!isset($object->statut) || $object->statut != App\Models\Project::DONE)
                 {{-- object - edit --}}
                 @if($object->name != "default")
                     <div id="accordion-collapse-body-{{$editId}}" aria-labelledby="accordion-collapse-heading-{{$editId}}" class="hidden">
@@ -189,7 +189,7 @@
             @endif
 
             {{-- object - end --}}
-            @if ($name == 'project' && $object->statut != env("DONE"))
+            @if ($name == 'project' && $object->statut != App\Models\Project::DONE)
                 <div id="accordion-collapse-body-{{$endId}}" aria-labelledby="accordion-collapse-heading-{{$endId}}" class="hidden">
                     @include('project.end.index', [
                         'post' => $object,
@@ -208,7 +208,7 @@
                 </div>
             @endif
 
-            @if(!isset($object->statut) || $object->statut != env("DONE"))
+            @if(!isset($object->statut) || $object->statut != App\Models\Project::DONE)
                 {{-- object - pin --}}
                 @if($object->name != "default")
                     <div id="accordion-collapse-body-{{$pinId}}" aria-labelledby="accordion-collapse-heading-{{$pinId}}" class="hidden">

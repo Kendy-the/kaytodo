@@ -13,8 +13,13 @@ class Chat extends Model
     {
         $user = (Auth::user())->id;
     
-        return Chat::orWhere('invite_id',$user)
-            ->orWhere('user_id',$user)
+        // return Chat::orWhere('invite_id',$user)
+        //     ->orWhere('user_id',$user)
+        //     ->with('invite','user','messages')
+        //     ->get();
+    
+        return Chat::Where('user_id',$user)
+            // ->orWhere('user_id',$user)
             ->with('invite','user','messages')
             ->get();
     }

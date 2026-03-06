@@ -36,6 +36,7 @@
             </div>
         </div>
 
+        {{-- Tasks --}}
         <div class="bg-white rounded-xl p-5 pb-3 mt-5">
             <div>
                 <h2 class="font-bold">Recent Activities</h2>

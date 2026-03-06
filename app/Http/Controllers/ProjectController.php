@@ -68,8 +68,9 @@ class ProjectController extends Controller
 
     public function update(Request $request)
     {
-        $credentials = $request->all();
-        Validator::make($credentials, [
+        $data = $request->all();
+        $preCredentials = Validator::make($data, [
+            'id' => 'integer',
             'name' => ['required','string', 'min:3'],
             'description' => ['required', 'string', 'min:10'],
             'end_at' => ['required',Rule::date()->todayOrAfter()],
@@ -87,8 +88,9 @@ class ProjectController extends Controller
             })],
         ]);
 
-        $project = Project::find($credentials['id']);
+        $credentials = $preCredentials->validate();
 
+        $project = Project::find($credentials['id']);
         self::setData($project,$credentials);
         $project->save();
 
@@ -109,7 +111,7 @@ class ProjectController extends Controller
         $credentials = $request->all();
         $project = Project::find($credentials['id']);
 
-        $project->statut = env('DONE');
+        $project->statut = Project::DONE;
         $project->save();
 
         return redirect()->route('project.end.success');

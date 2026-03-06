@@ -37,7 +37,7 @@ class CreateTaskRequest extends FormRequest
                 return $query->where('user_id', auth()->id());
             })],
             'project' => ['nullable',
-                'integer', Rule::exists('contacts', 'id')->where(function ($query) {
+                'integer', Rule::exists('projects', 'id')->where(function ($query) {
                 return $query->where('user_id', auth()->id());
             })],
         ];

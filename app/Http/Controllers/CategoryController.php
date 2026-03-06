@@ -47,17 +47,19 @@ class CategoryController extends Controller
 
     public function update(Request $request)
     {
-        $credentials = $request->all();
-        $category = Category::find($credentials['id']);
+        $data = $request->all();
 
-        Validator::make($credentials, [
+        $preCredentials = Validator::make($data, [
+            'id' => 'integer',
             'name' => ['required', Rule::unique('categories')->where(function ($query) {
                 return $query->where('user_id', auth()->id());
-            })->ignore($credentials['id']), 
+            })->ignore($data['id']), 
             'string', 'min:3'],
             'description' => ['required', 'string', 'min:10']
         ]);
+        $credentials = $preCredentials->validate();
 
+        $category = Category::find($credentials['id']);
         $category->description = $credentials['description'];
         $category->save();
 

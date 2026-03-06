@@ -1,11 +1,11 @@
-<form action="/account/contact/new" method="post">
+<form wire:submit="storeContact">
     @csrf
 
     @php $hasError = 'none' @endphp
     @error('email') @php $hasError = 'error' @endphp @enderror
 
     <div class="w-full gap-2">
-        <x-input :label="'Email'" :value="''" :type="'email'" :name="'email'" :$hasError>
+        <x-input wire:model='email' :label="'Email'" :value="''" :type="'email'" :name="'email'" :$hasError>
             <x-slot:placeholder>my.contact@example.com</x-slot:placeholder>
             @error('email')
                 <x-slot:input-error>
