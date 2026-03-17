@@ -16,7 +16,7 @@
         'bg-[#795FFC] text-white' => Request::is(
             $name . '/' . strtolower(str_replace(' ', '-', $second))),
     ])>
-        <div>{{ $second }}</div>
+        <div>{{ $name === 'task' ? explode(' ', $second)[1] ?? $second : $second }}</div>
         <div @class([
             'flex items-center justify-center w-5 h-5 rounded-full group-hover:bg-red-500 text-white bg-gray-400',
             'bg-red-500' => Request::is(
@@ -36,4 +36,19 @@
                 $name . '/' . strtolower(str_replace(' ', '-', $third))),
         ])>{{ $thirdValue }}</div>
     </a>
+
+    @if (isset($fourth) && isset($fourthValue))
+        <a href="/{{ $name }}/{{ strtolower(str_replace(' ', '-', $fourth)) }}" @class([
+        'group hover:bg-[#795FFC] hover:text-white transition-all duration-500 rounded-3xl w-[33%] p-2 flex items-center justify-center gap-1',
+        'bg-[#795FFC] text-white' => Request::is(
+            $name . '/' . strtolower(str_replace(' ', '-', $fourth))),
+        ])>
+            <div>{{ $fourth }}</div>
+            <div @class([
+                'flex items-center justify-center w-5 h-5 rounded-full group-hover:bg-red-500 text-white bg-gray-400',
+                'bg-red-500' => Request::is(
+                    $name . '/' . strtolower(str_replace(' ', '-', $fourth))),
+            ])>{{ $fourthValue }}</div>
+        </a>
+    @endif
 </div>

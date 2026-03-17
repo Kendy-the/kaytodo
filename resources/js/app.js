@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }, 300);
   }
-  } 
+  }
   if(window.location.pathname.includes('/category'))
   {
     if(window.location.pathname != '/category'){
@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }, 300);
   }
-  } 
+  }
   if(window.location.pathname.includes('/project'))
   {
     if(window.location.pathname != '/project'){
@@ -67,6 +67,50 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 300);
   }
   }
+});
+
+// gestion de changement de couleur en cas d'erreur dans les formulaires
+document.addEventListener("DOMContentLoaded", () => {
+
+    const targetForms = document.querySelectorAll("[data-has-form]");
+    const parents = document.querySelectorAll("[data-has-parent-form]");
+
+    targetForms.forEach(function (el) {
+
+        let elId = el.getAttribute("data-has-form");
+        let elParentId = el.getAttribute("data-has-fils-form");
+
+        let btnForm = el.children[0];
+        let btnFormErrorId = btnForm.dataset.hasFormError;
+
+        if(btnFormErrorId !== "0" && (btnFormErrorId === elId)){
+
+            let parent = null;
+            parents.forEach(function(e){
+
+                if(e.dataset.hasParentForm === elParentId){
+                    parent = e;
+                }
+            })
+
+            let parentId = null;
+            if(parent != null){
+                parentId = parent.getAttribute("data-has-parent-form");
+            }
+
+            btnForm.classList.remove("bg-linear-to-b","from-violet-400","to-[#4F1ED8]","hover:text-violet-700");
+            btnForm.classList.add("bg-red-700","text-white");
+            btnForm.innerHTML = "<i>Error : form not submit</i><b class='ps-2'>(Please, Click To revew informations)</b>";
+
+            if(parentId != null && elParentId != null && parentId === elParentId){
+                parent.classList.remove('justify-between');
+                parent.classList.add('flex-wrap',)
+                parent.innerHTML += "<i class='text-danger-dark'>Error : form not submit</i><b class='ps-2 text-danger-dark'>(Please, Click To revew informations)</b>";
+            }
+        }
+
+    });
+
 });
 
 // url precedente
@@ -135,7 +179,7 @@ if(toggleMessage){
         {
           firstPost.forEach((firstP) => {
             firstP.classList.remove('hidden');
-          }); 
+          });
         }else{
           firstPost.forEach((firstP) => {
             firstP.classList.add('hidden');
@@ -146,11 +190,11 @@ if(toggleMessage){
         {
           secondPost.forEach((secondP) => {
             secondP.classList.remove('hidden');
-          }); 
+          });
         }else{
           secondPost.forEach((secondP) => {
             secondP.classList.add('hidden');
-          }); 
+          });
         }
       });
     });

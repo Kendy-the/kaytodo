@@ -9,10 +9,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Task extends Model
 {
-    
+
     const PROGRESS = 0;
-    const DONE = 1;
-    const VIEW = 1;
+    const PENDING = 1;
+    const DONE = 2;
+    // const VIEW = 1;
 
     protected $fillable = [
         'name',
@@ -23,19 +24,29 @@ class Task extends Model
     ];
 
 
-    public static function taskNumber($tasks)
+    /**
+     * Get the number of tasks in progress and done, and the percentage of done tasks.
+     *
+     * @param mixed $tasks
+     *
+     * @return array
+     *
+     */
+    public static function taskNumber($tasks) : array
     {
         $progress = self::getProgress($tasks);
+        $pending = self::getPending($tasks);
         $done = self::getDone($tasks);
-    
+
         $newTasks ['progress'] = array_reverse($progress);
+        $newTasks['pending'] = array_reverse($pending);
         $newTasks ['done'] = array_reverse($done);
         $newTasks ['donePercent'] = round((count($done) * 100 / ($tasks->count() > 0 ? $tasks->count() : 1)), 0);
 
         return $newTasks;
     }
 
-    public static function getTodayTask($tasks)
+    public static function getTodayTask($tasks) : array
     {
         $date = Carbon::today();
         $today = [];
@@ -47,7 +58,7 @@ class Task extends Model
             {
                 array_push($today,$task);
             }
-        }   
+        }
 
         return $today;
     }
@@ -66,7 +77,7 @@ class Task extends Model
             {
                 array_push($recents,$task);
             }
-        }   
+        }
 
         return $recents;
     }
@@ -77,7 +88,7 @@ class Task extends Model
 
         foreach($tasks as $task)
         {
-            if($task->statut == self::DONE)
+            if($task->statut === self::DONE)
             {
                 array_push($done, $task);
             }
@@ -86,13 +97,28 @@ class Task extends Model
         return $done;
     }
 
+    public static function getPending($tasks)
+    {
+        $pending = [];
+
+        foreach($tasks as $task)
+        {
+            if($task->statut === self::PENDING)
+            {
+                array_push($pending, $task);
+            }
+        }
+
+        return $pending;
+    }
+
     public static function getProgress($tasks)
     {
         $progress = [];
 
         foreach($tasks as $task)
         {
-            if($task->statut == self::PROGRESS)
+            if($task->statut === self::PROGRESS)
             {
                 array_push($progress, $task);
             }
@@ -108,7 +134,7 @@ class Task extends Model
 
     public function getProgression()
     {
-        if($this->statut != self::DONE)
+        if($this->statut !== self::PENDING && $this->statut !== self::DONE)
         {
             $today = Carbon::now();
 
@@ -126,7 +152,7 @@ class Task extends Model
                 return $percent;
             }
 
-            $this->statut = self::DONE;
+            $this->statut = self::PENDING;
             $this->save();
         }
         return 100;
@@ -138,6 +164,7 @@ class Task extends Model
         {
             case self::PROGRESS : return "In Progress";
             case self::DONE : return "done";
+            case self::PENDING : return "Pending";
         }
     }
 

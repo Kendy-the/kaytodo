@@ -9,12 +9,12 @@
         </div>
 
         <div data-accordion-target="#accordion-collapse-body-{{ $itemId }}">
-            <x-button.primary :action="'none'" :type="'submit'" :name="'submit'" class="end-btn">
+            <x-button.primary :extend="[]" :action="'none'" :type="'submit'" :name="'submit'" class="end-btn">
                 Yes, End Task
             </x-button.primary>
         </div>
         <div data-accordion-target="#accordion-collapse-body-{{ $itemId }}">
-            <x-button.primary :action="'none'" :type="'reset'" :name="'reset'" class="end-btn">
+            <x-button.primary :extend="[]" :action="'none'" :type="'reset'" :name="'reset'" class="end-btn">
                 No, Let me check
             </x-button.primary>
         </div>

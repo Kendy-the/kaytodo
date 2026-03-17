@@ -7,10 +7,10 @@
                     <div>{{ $content }}</div>
                 </div>
                 <div>
-                    <x-button.primary :action="$buttonAction" :type="'none'" :name="'none'"> {{ $buttonName }} </x-button.primary>
+                    <x-button.primary :extend="[]" :action="$buttonAction" :type="'none'" :name="'none'"> {{ $buttonName }} </x-button.primary>
 
                     @if (isset($buttonAction1))
-                        <x-button.primary :action="$buttonAction1" :type="'none'" :name="'none'">{{ $buttonName1 }}</x-button.primary>
+                        <x-button.primary :extend="[]" :action="$buttonAction1" :type="'none'" :name="'none'">{{ $buttonName1 }}</x-button.primary>
                     @endif
                 </div>
             </div>

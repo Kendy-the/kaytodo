@@ -4,10 +4,15 @@
     @if($choice != 'create')
         <input type="hidden" name="id" value="{{ $post->id }}">
     @endif
+
+    <input type="hidden" name="formErr" value="category"/>
+
     <div class="flex flex-col">
 
-        @php $hasError = 'none' @endphp
-        @error('name') @php $hasError = 'error'@endphp @enderror
+        @php $hasError = 'none'; $obj = old("formErr") @endphp
+        @if ($obj == 'category')
+            @error('name') @php $hasError = 'error'@endphp @enderror
+        @endif
 
         @if($choice != 'create')
             <x-input :label="'none'" :value="$post->name" :type="'text'" :name="'name'" :$hasError readonly>
@@ -30,7 +35,9 @@
         @endif
 
         @php $hasError = 'none' @endphp
-        @error('description') @php $hasError = 'error' @endphp @enderror
+        @if ($obj == 'category')
+            @error('description') @php $hasError = 'error' @endphp @enderror
+        @endif
 
         <x-input :label="'none'" :value="$post->description" :type="'text'" :name="'description'" :$hasError>
             <x-slot:placeholder>Category Description</x-slot:placeholder>
@@ -44,14 +51,16 @@
     <div class="flex md:justify-between flex-wrap p-1 border-[#DFEAF2] border-t pt-5">
         <div class="flex w-full md:justify-between md:w-[40%] md:gap-5 md:flex-nowrap flex-wrap mt-3 md:mt-0">
 
+            <input type="hidden" name="itemId" value="{{ $itemId }}">
+
             <div style="background-color: white;" class="w-full" data-accordion-target="#accordion-collapse-body-{{ $itemId }}">
-                <x-button.primary :action="'none'" :type="'reset'" :name="'reset'">
+                <x-button.primary :extend="[]" :action="'none'" :type="'reset'" :name="'reset'">
                     Cancel
                 </x-button.primary>
             </div>
 
             <div class="w-full">
-                <x-button.primary :action="'none'" :type="'submit'" :name="'submit'">
+                <x-button.primary :extend="[]" :action="'none'" :type="'submit'" :name="'submit'">
 
                     @if ($choice == 'create')
                         Create Category

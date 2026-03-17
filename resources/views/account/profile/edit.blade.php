@@ -12,18 +12,18 @@
                 </div>
                 <div class="flex flex-col items-center justify-center mt-2">
                     <div class="relative">
-                        
+
                         <label for="fileInput" class="cursor-pointer">
-                            <img id="imagePreview" 
-                                src="{{ !is_null($user->image) ? $user->imageUrl() : '/assets/img/profile.svg' }}" 
+                            <img id="imagePreview"
+                                src="{{ !is_null($user->image) ? $user->imageUrl() : '/assets/img/profile.svg' }}"
                                  class="w-40 h-40 border border-gray-300 rounded-md object-cover">
                         </label>
-                
-                        <div id="uploadButton" 
+
+                        <div id="uploadButton"
                                 class="cursor-pointer absolute top-0 right-0">
                                 <img src="{{ '/assets/img/refresh-icone.svg' }}" alt="">
                         </div>
-                
+
                         <input type="file" name="image" id="fileInput" class="hidden">
                     </div>
                     @error('image')
@@ -189,7 +189,7 @@
                 </div>
             </div>
             <div class="mt-3">
-                <x-button.primary :action="'none'" :type="'submit'" :name="'submit'">
+                <x-button.primary :extend="[]" :action="'none'" :type="'submit'" :name="'submit'">
                     Update My Account
                 </x-button.primary>
             </div>

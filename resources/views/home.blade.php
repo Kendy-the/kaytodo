@@ -15,11 +15,11 @@
         @php $newObjectTopId = $parentId->getId() @endphp
         <div data-accordion="collapse">
             {{-- New task Button  --}}
-            <div id="accordion-collapse-heading-{{ $newObjectTopId }}"
+            <div data-has-form={{ $newObjectTopId }} id="accordion-collapse-heading-{{ $newObjectTopId }}"
                 data-accordion-target="#accordion-collapse-body-{{ $newObjectTopId }}"
                 aria-controls="accordion-collapse-body-{{ $newObjectTopId }}" title="Cliquez"
                 style="background-color: white" class="rounded-xl p-4 flex justify-center items-center text-center mt-4">
-                <x-button.primary :action="'none'" :type="'button'" :name="'new'">
+                <x-button.primary :action="'none'" :type="'button'" :name="'new'" :extend="['form' =>['verifyError' => true]]">
                     New Task
                 </x-button.primary>
             </div>
@@ -49,7 +49,7 @@
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <circle cx="12" cy="12" r="12" fill="#7A5AF8"/>
                                 <path d="M14.9548 11.3601H13.4098V7.76007C13.4098 6.92007 12.9548 6.75007 12.3998 7.38007L11.9998 7.83507L8.61476 11.6851C8.14976 12.2101 8.34476 12.6401 9.04476 12.6401H10.5898V16.2401C10.5898 17.0801 11.0448 17.2501 11.5998 16.6201L11.9998 16.1651L15.3848 12.3151C15.8498 11.7901 15.6548 11.3601 14.9548 11.3601Z" fill="#FAFAFF"/>
-                                </svg>                                
+                                </svg>
 
                             <h3 class="font-bold">{{ $post->name }}</h3>
                         </div>
@@ -105,7 +105,7 @@
                         </div>
                         <div class="w-full flex justify-end">
                             <div class="pt-2 w-full md:w-30">
-                                <x-button.primary :action="'/task/'. $post->id " :type="''" :name="''">
+                                <x-button.primary :extend="[]" :action="'/task/'. $post->id " :type="''" :name="''">
                                     View
                                 </x-button.primary>
                             </div>
@@ -175,7 +175,7 @@
         <div data-accordion="collapse">
 
             @php $newObjectButtomId = $parentId->getId() @endphp
-    
+
             <div id="accordion-collapse-body-{{$newObjectButtomId}}" aria-labelledby="accordion-collapse-heading-{{$newObjectButtomId}}" class="hidden">
                 @include('shared.project.form',[
                     'post' => $project,
@@ -184,15 +184,15 @@
                     'choice' => 'create'
                 ])
             </div>
-        
+
             {{-- New Project Button  --}}
-            <div id="accordion-collapse-heading-{{$newObjectButtomId}}" 
-            data-accordion-target="#accordion-collapse-body-{{$newObjectButtomId}}"       
-            aria-controls="accordion-collapse-body-{{$newObjectButtomId}}" 
+            <div data-has-form={{ $newObjectButtomId }} id="accordion-collapse-heading-{{$newObjectButtomId}}"
+            data-accordion-target="#accordion-collapse-body-{{$newObjectButtomId}}"
+            aria-controls="accordion-collapse-body-{{$newObjectButtomId}}"
             title="Cliquez"
-            style="background-color: white;"  
+            style="background-color: white;"
             class="rounded-xl p-4 flex justify-center items-center text-center mt-4">
-                <x-button.primary :action="'none'" :type="'button'" :name="'new'">
+                <x-button.primary :action="'none'" :type="'button'" :name="'new'" :extend="['form' =>['verifyError' => true]]">
                     New Project
                 </x-button.primary>
             </div>

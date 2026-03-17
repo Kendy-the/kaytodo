@@ -1,3 +1,25 @@
 27 juin 2025
 - Creer automatiquement les discussion au moment de la creation des contacts invites par les utilisateurs
 - (creer manuellement des discussion pour tous les contact invites)
+
+09 mars 2026
+Task Module
+- modifier les taches pour que :
+- ajouter la fonctionnalite de trie des taches
+-- trie par projets
+-- trie par Category
+-- trie par date
+-- trie par nom (alphabetique up/down)
+- ajouter des class tailwinds pour controller l'affichage du background progress bar au lieu du css pure
+
+10 mars 2026
+Project Module
+- Ajouter date debut et date de fin de projet dans l'affichage des projets
+- gerer le statut des projets, a savoir pending, end and progress
+- ajouter meme nav (all, progress, pending, end) que les tasks pour les projects
+
+Category Module
+- Pin section bug
+
+15 mars 2026
+Ajouter un onglet partager, pour voir les taches et les projets partager, c'est a dire les projets l'user a ete invite et possede des taches assignes par le createur du projet.

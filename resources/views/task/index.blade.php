@@ -11,17 +11,23 @@
             'imgPath' => '/assets/img/task-banner.svg',
         ])
 
+        {{-- <x-toast :type="'success'" :message="'Task created successfully!'" /> --}}
+        {{-- <x-toast :type="'danger'" :message="'Failed to create task!'" /> --}}
+        {{-- <x-toast :type="'warning'" :message="'Please fill in all required fields!'" /> --}}
+
         @php $newObjectTopId = $parentId->getId() @endphp
 
         <div data-accordion="collapse">
             {{-- New task Button  --}}
-            <div id="accordion-collapse-heading-{{ $newObjectTopId }}"
+            <div data-has-form={{ $newObjectTopId }} id="accordion-collapse-heading-{{ $newObjectTopId }}"
                 data-accordion-target="#accordion-collapse-body-{{ $newObjectTopId }}"
                 aria-controls="accordion-collapse-body-{{ $newObjectTopId }}" title="Cliquez"
                 style="background-color: white" class="rounded-xl p-4 flex justify-center items-center text-center mt-4">
-                <x-button.primary :action="'none'" :type="'button'" :name="'new'">
+
+                <x-button.primary :action="'none'" :type="'button'" :name="'new'" :extend="['form' =>['verifyError' => true]]">
                     New Task
                 </x-button.primary>
+
             </div>
 
             {{-- New task  --}}
@@ -36,14 +42,14 @@
             </div>
         </div>
 
-        {{-- Summary --}}
-    <x-tacapro.summary>
+    {{-- Summary --}}
+    {{-- <x-tacapro.summary>
         <x-slot:title>Summary of your work</x-slot:title>
         <x-slot:sub-title>your current task progress</x-slot:sub-title>
         <x-slot:todo>{{ isset($tasks) ? $posts->count() : 0 }}</x-slot:todo>
         <x-slot:progress>{{ isset($tasks) ? count($tasks['progress']) : 0 }}</x-slot:progress>
         <x-slot:done>{{ isset($tasks) ? count($tasks['done']) : 0 }}</x-slot:done>
-    </x-tacapro.summary>
+    </x-tacapro.summary> --}}
 
     {{-- Stats --}}
     @php $percent = $tasks['donePercent'] @endphp
@@ -60,8 +66,11 @@
             <x-slot:second>In Progress</x-slot:second>
             <x-slot:second-value>{{ isset($tasks) ? count($tasks['progress']) : 0 }}</x-slot:second-value>
 
-            <x-slot:third>Finish</x-slot:third>
-            <x-slot:third-value>{{ isset($tasks) ? count($tasks['done']) : 0 }}</x-slot:third-value>
+            <x-slot:third>Pending</x-slot:third>
+            <x-slot:third-value>{{ isset($tasks) ? count($tasks['pending']) : 0 }}</x-slot:third-value>
+
+            <x-slot:fourth>Finish</x-slot:fourth>
+            <x-slot:fourth-value>{{ isset($tasks) ? count($tasks['done']) : 0 }}</x-slot:fourth-value>
         </x-tacapro.nav>
 
         {{-- Object --}}
@@ -71,6 +80,13 @@
                 'post' => $post,
                 'parentId' => $parentId,
                 'position' => "in progress",
+            ])
+        @elseif(request()->path() == 'task/pending')
+            @include('shared.task.object_',[
+                'objects' => $tasks['pending'],
+                'post' => $post,
+                'parentId' => $parentId,
+                'position' => "pending",
             ])
         @elseif(request()->path() == 'task/finish')
             @include('shared.task.object_',[
@@ -89,7 +105,7 @@
         @endif
 
         {{-- New task --}}
-        <div data-accordion="collapse"> 
+        <div data-accordion="collapse">
             @php $newObjectButtomId = $parentId->getId() @endphp
 
             <div id="accordion-collapse-body-{{ $newObjectButtomId }}"
@@ -102,12 +118,12 @@
                 ])
             </div>
 
-            <div id="accordion-collapse-heading-{{ $newObjectButtomId }}"
+            <div id="accordion-collapse-heading-{{ $newObjectButtomId }}" data-has-form={{ $newObjectButtomId }}
                 data-accordion-target="#accordion-collapse-body-{{ $newObjectButtomId }}"
                 aria-controls="accordion-collapse-body-{{ $newObjectButtomId }}" title="Cliquez"
                 style="background-color: white;"
                 class="rounded-xl p-4 flex justify-center items-center text-center mt-4">
-                <x-button.primary :action="'none'" :type="'button'" :name="'new'">
+                <x-button.primary :action="'none'" :type="'button'" :name="'new'" :extend="['form' =>['verifyError' => true]]">
                     New Task
                 </x-button.primary>
             </div>

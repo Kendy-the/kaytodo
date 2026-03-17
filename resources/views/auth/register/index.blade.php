@@ -108,7 +108,7 @@
                         </div>
                     </div>
                     <div>
-                        <x-button.primary :action="'none'" :type="'submit'" :name="'submit'">
+                        <x-button.primary :extend="[]" :action="'none'" :type="'submit'" :name="'submit'">
                             Sign Up
                         </x-button.primary>
                     </div>

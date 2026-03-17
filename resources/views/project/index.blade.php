@@ -6,7 +6,7 @@
 
     {{-- Project Banner --}}
     @include('shared.banner',[
-        'title' => 'Challenges awaiting', 
+        'title' => 'Challenges awaiting',
         'content' => "Let's tackle your to do list",
         'imgPath' => '/assets/img/task-banner.svg'
     ])
@@ -15,17 +15,17 @@
 
     {{-- New Project Button  --}}
     <div data-accordion="collapse">
-        <div id="accordion-collapse-heading-{{$newObjectTopId}}" 
-            data-accordion-target="#accordion-collapse-body-{{$newObjectTopId}}"       
+        <div data-has-form={{ $newObjectTopId }} id="accordion-collapse-heading-{{$newObjectTopId}}"
+            data-accordion-target="#accordion-collapse-body-{{$newObjectTopId}}"
             aria-controls="accordion-collapse-body-{{$newObjectTopId}}"
             title="Cliquez"
-            style="background-color: white" 
+            style="background-color: white"
          class="rounded-xl p-4 flex justify-center items-center text-center mt-4">
-            <x-button.primary :action="'none'" :type="'button'" :name="'new'">
+            <x-button.primary :action="'none'" :type="'button'" :name="'new'" :extend="['form' =>['verifyError' => true]]">
                 New Project
             </x-button.primary>
         </div>
-    
+
         {{-- New project  --}}
         <div id="accordion-collapse-body-{{$newObjectTopId}}" aria-labelledby="accordion-collapse-heading-{{$newObjectTopId}}" class="hidden">
             @include('shared.project.form',[
@@ -36,15 +36,15 @@
             ])
         </div>
     </div>
-    
+
     {{-- Summary --}}
-    <x-tacapro.summary>
+    {{-- <x-tacapro.summary>
         <x-slot:title>Summary of your work</x-slot:title>
         <x-slot:sub-title>your current task progress</x-slot:sub-title>
         <x-slot:todo>{{ isset($projects) ? (count($projects['progress']) + count($projects['done']))  : 0 }}</x-slot:todo>
         <x-slot:progress>{{ isset($projects) ? count($projects['progress']) : 0 }}</x-slot:progress>
         <x-slot:done>{{ isset($projects) ? count($projects['done']) : 0 }}</x-slot:done>
-    </x-tacapro.summary>
+    </x-tacapro.summary> --}}
 
     {{-- Stats --}}
     @php $percent = $projects['donePercent'] @endphp
@@ -62,6 +62,9 @@
         <x-slot:second>Recently Add</x-slot:second>
         <x-slot:second-value>{{ isset($recents) ? count($recents) : 0 }}</x-slot:second-value>
 
+        {{-- <x-slot:third>Pending</x-slot:third>
+        <x-slot:third-value>{{ isset($recents) ? count($recents) : 0 }}</x-slot:third-value> --}}
+
         <x-slot:third>Pin</x-slot:third>
         <x-slot:third-value>{{ isset($pins) ? count($pins) : 0 }}</x-slot:third-value>
     </x-tacapro.nav>
@@ -69,21 +72,21 @@
     {{-- Object --}}
     @if(request()->path() == 'project/recently-add')
         @php $position = 'rencently' @endphp
-        <x-tacapro.object_ 
-        :objects="$recents" 
+        <x-tacapro.object_
+        :objects="$recents"
         :$post :$parentId :$position :$contacts :$categories
         :name="'project'">
         </x-tacapro.object_>
     @elseif(request()->path() == 'project/pin')
     @php $position = 'pin' @endphp
-        <x-tacapro.object_ 
-        :objects="$pins" 
+        <x-tacapro.object_
+        :objects="$pins"
         :$post :$parentId :$position :$contacts :$categories
         :name="'project'">
         </x-tacapro.object_>
     @else
     @php $position = ' ' @endphp
-        <x-tacapro.object_ 
+        <x-tacapro.object_
         :objects="$posts"
         :$post :$parentId :$position :$contacts :$categories
         :name="'project'">
@@ -103,15 +106,15 @@
                 'choice' => 'create'
             ])
         </div>
-    
+
         {{-- New Project Button  --}}
-        <div id="accordion-collapse-heading-{{$newObjectButtomId}}" 
-        data-accordion-target="#accordion-collapse-body-{{$newObjectButtomId}}"       
-        aria-controls="accordion-collapse-body-{{$newObjectButtomId}}" 
+        <div data-has-form={{ $newObjectButtomId }} id="accordion-collapse-heading-{{$newObjectButtomId}}"
+        data-accordion-target="#accordion-collapse-body-{{$newObjectButtomId}}"
+        aria-controls="accordion-collapse-body-{{$newObjectButtomId}}"
         title="Cliquez"
-        style="background-color: white;"  
+        style="background-color: white;"
         class="rounded-xl p-4 flex justify-center items-center text-center mt-4">
-            <x-button.primary :action="'none'" :type="'button'" :name="'new'">
+            <x-button.primary :action="'none'" :type="'button'" :name="'new'" :extend="['form' =>['verifyError' => true]]">
                 New Project
             </x-button.primary>
         </div>

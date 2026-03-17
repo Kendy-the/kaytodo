@@ -20,7 +20,7 @@
             </div>
         </div>
     </div>
-    <x-button.primary :action="'none'" :type="'submit'" :name="'submit'" class="mt-4">
+    <x-button.primary :extend="[]" :action="'none'" :type="'submit'" :name="'submit'" class="mt-4">
         Clock In
     </x-button.primary>
 </form>

@@ -1,13 +1,17 @@
 @forelse ($objects as $object)
     <div data-accordion="collapse">
+
         <div class="flex flex-col  h-auto  my-2 text-sm md:text-[17px]">
+
             <div class="flex flex-col px-3 pt-3 bg-gray-100 rounded-xl border border-gray-300">
-                {{-- Task - View --}}
+
+                @php $hasError = $errors->any() ? old("itemId") : false; @endphp
                 @php $objectId = $parentId->getId() @endphp
-                   
-                <div id="accordion-collapse-heading-{{$objectId}}"
+
+                {{-- Task - View --}}
+                <div id="accordion-collapse-heading-{{$objectId}}" data-has-parent-form={{ $objectId }}
                     style="background-color: #f3f4f6; color:#444" class="flex flex-wrap justify-between cursor-pointer"
-                    data-accordion-target="#accordion-collapse-body-{{$objectId}}"  
+                    data-accordion-target="#accordion-collapse-body-{{$objectId}}"
                     @if(request()->path() == 'task/'.$object->id)
                         aria-expanded="true"
                     @endif
@@ -37,7 +41,7 @@
                                 {{ $object->getStatut() }}
                             </div>
                         </a>
-                        
+
                         @if(!empty($object->getCategory()))
                             <a href="/category/{{$object->category_id}}"
                                 class="bg-gray-200 w-33 h-8 rounded-3xl flex gap-1 items-center justify-center cursor-pointer hover:bg-gray-500 hover:text-white">
@@ -93,21 +97,22 @@
 
                     <div class="flex justify-between ps-3 pt-4 pb-3 border-t border-gray-300 mt-2 gap-2 md:gap-0">
 
-                        @if($object->statut !=  \App\Models\Task::DONE)
+                        @if($object->statut !==  \App\Models\Task::DONE)
                             @php $editId = $parentId->getId(); @endphp
 
-                            <div id="accordion-collapse-heading-{{ $editId }}"
+                            <div id="accordion-collapse-heading-{{ $editId }}" data-has-form={{ $editId }} data-has-fils-form={{ $objectId }}
                                 data-accordion-target="#accordion-collapse-body-{{ $editId }}"
                                 aria-controls="accordion-collapse-body-{{ $editId }}"
                                 class="bg-white hover:bg-[#795FFC] hover:text-white gap-2 w-23 md:w-30 h-7 md:h-10 rounded-3xl flex items-center justify-center cursor-pointer focus:outline-2 focus:outline-offset-2 focus:outline-violet-500 active:bg-violet-500">
-                                <i class="bx bx-pencil"></i>
+
+                                <i data-has-form-error="{{ $hasError ? $hasError : 0 }}" class="bx bx-pencil"></i>
                                 <span>Edit</span>
                             </div>
                         @endif
 
                         <div class="flex justify-between gap-2 md:gap-4">
-                        
-                            @if($object->statut !=  \App\Models\Task::DONE)
+
+                            @if($object->statut !==  \App\Models\Task::DONE)
                                 @php $endId = $parentId->getId(); @endphp
 
                                 <div id="accordion-collapse-heading-{{ $endId }}"
@@ -133,7 +138,7 @@
                 </div>
 
 
-                @if($object->statut !=  \App\Models\Task::DONE)
+                @if($object->statut !==  \App\Models\Task::DONE)
                     {{-- Task - edit --}}
                     <div id="accordion-collapse-body-{{ $editId }}"
                         aria-labelledby="accordion-collapse-heading-{{ $editId }}" class="hidden">
@@ -155,7 +160,7 @@
                     ])
                 </div>
 
-                @if($object->statut !=  \App\Models\Task::DONE)
+                @if($object->statut !==  \App\Models\Task::DONE)
                     {{-- Task - end --}}
                     <div id="accordion-collapse-body-{{ $endId }}"
                         aria-labelledby="accordion-collapse-heading-{{ $endId }}" class="hidden">

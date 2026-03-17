@@ -41,7 +41,7 @@
                                 @enderror
                             </x-input>
                         </div>
-                        
+
                     </div>
                 @elseif($choice === 'email')
                     <div class="mt-3 flex">
@@ -78,31 +78,31 @@
 
                 @if($choice === 'password')
                     <div>
-                        <x-button.primary :action="'none'" :type="'submit'" :name="'submit'">
+                        <x-button.primary :extend="[]" :action="'none'" :type="'submit'" :name="'submit'">
                             Submit
                         </x-button.primary>
                     </div>
-                    
+
                 @elseif($choice === 'email')
                     <div>
-                        <x-button.primary :action="'none'" :type="'submit'" :name="'submit'">{{ $buttonName }}</x-button.primary>
+                        <x-button.primary :extend="[]" :action="'none'" :type="'submit'" :name="'submit'">{{ $buttonName }}</x-button.primary>
                     </div>
                 @elseif($choice == 'none')
                     <div>
-                        <x-button.primary :action="'none'" :type="'submit'" :name="'submit'">Submit</x-button.primary>
-                        <x-button.primary :action="$action1" :type="'reset'" :name="'reset'">No, Let me check</x-button.primary>
-                    </div> 
+                        <x-button.primary :extend="[]" :action="'none'" :type="'submit'" :name="'submit'">Submit</x-button.primary>
+                        <x-button.primary :extend="[]" :action="$action1" :type="'reset'" :name="'reset'">No, Let me check</x-button.primary>
+                    </div>
                 @else
                     <div>
-                        <x-button.primary :action="'none'" :type="'submit'" :name="'submit_otp'">Submit</x-button.primary>
+                        <x-button.primary :extend="[]" :action="'none'" :type="'submit'" :name="'submit_otp'">Submit</x-button.primary>
                     </div>
 
                     <div class="text-center">
                         <span>Haven't received the verification code? <a class="text-[#718EBF]" href="{{ $action }}">
                                 Resend it.</a></span>
                     </div>
-                @endif  
-                              
+                @endif
+
             </div>
         </form>
 

@@ -9,9 +9,10 @@ use Illuminate\Database\Eloquent\Model;
 class Project extends Model
 {
     const PROGRESS = 0;
-    const DONE = 1;
-    const VIEW = 1;
-    
+    const PENDING = 1;
+    const DONE = 2;
+    // const VIEW = 1;
+
     protected $fillable = [
         'name',
         'description',
@@ -23,10 +24,12 @@ class Project extends Model
     public static function projectNumber($projects)
     {
         $progress = self::getProgress($projects);
+        $pending = self::getPending($projects);
         $done = self::getDone($projects);
-    
+
         $newProjects ['progress'] = array_reverse($progress);
         $newProjects ['done'] = array_reverse($done);
+        $newProjects ['pending'] = array_reverse($pending);
         $newProjects ['donePercent'] = round((count($done) * 100 / ($projects->count() > 0 ? $projects->count() : 1)), 0);
 
         return $newProjects;
@@ -38,7 +41,7 @@ class Project extends Model
 
         foreach($projects as $project)
         {
-            if($project->statut == self::DONE)
+            if($project->statut === self::DONE)
             {
                 array_push($done, $project);
             }
@@ -47,13 +50,28 @@ class Project extends Model
         return $done;
     }
 
+    public static function getPending($projects)
+    {
+        $pending = [];
+
+        foreach($projects as $project)
+        {
+            if($project->statut === self::PENDING)
+            {
+                array_push($pending, $project);
+            }
+        }
+
+        return $pending;
+    }
+
     public static function getProgress($projects)
     {
         $progress = [];
 
         foreach($projects as $project)
         {
-            if($project->statut == self::PROGRESS)
+            if($project->statut === self::PROGRESS)
             {
                 array_push($progress, $project);
             }
@@ -76,7 +94,7 @@ class Project extends Model
             {
                 array_push($recents,$project);
             }
-        }   
+        }
 
         return $recents;
     }
@@ -101,13 +119,14 @@ class Project extends Model
         switch ($this->statut)
         {
             case self::PROGRESS : return "In Progress";
+            case self::PENDING : return "Pending";
             case self::DONE : return "done";
         }
     }
 
     public function getProgression()
     {
-        if($this->statut != self::DONE)
+        if($this->statut !== self::DONE)
         {
             $today = Carbon::now();
 
@@ -125,7 +144,7 @@ class Project extends Model
                 return $percent;
             }
 
-            $this->statut = self::DONE;
+            $this->statut = self::PENDING;
             $this->save();
         }
         return 100;
@@ -135,7 +154,7 @@ class Project extends Model
     {
         return $this->contacts;
     }
-    
+
     public function user()
     {
         return $this->belongsTo(User::class);

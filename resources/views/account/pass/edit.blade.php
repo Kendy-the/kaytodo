@@ -1,7 +1,7 @@
 <x-layout.app-layout>
 
     @section('title', 'Profile - update')
-    
+
     <div class="h-dvh overflow-y-auto flex justify-center">
         <form action="/account/profile/pass/edit" method="post" class="w-full">
             @csrf
@@ -55,7 +55,7 @@
                     </div>
                 </div>
                 <div class="my-5">
-                    <x-button.primary :action="'none'" :type="'submit'" :name="'submit'">
+                    <x-button.primary :extend="[]" :action="'none'" :type="'submit'" :name="'submit'">
                         Submit
                     </x-button.primary>
                 </div>

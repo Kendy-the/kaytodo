@@ -7,52 +7,68 @@
         <input type="hidden" name="id" value="{{ $post->id }}">
     @endif
 
+    <input type="hidden" name="formErr" value="task"/>
+
     <div class="flex flex-col">
 
-        @php $hasError = 'none' @endphp
-        @error('name')
-            @php $hasError = 'error'@endphp
-        @enderror
+        @php $hasError = 'none'; $obj = old("formErr") @endphp
+
+        @if ($obj == 'task')
+            @error('name')
+                @php $hasError = 'error'@endphp
+            @enderror
+        @endif
 
         <x-input :label="'none'" :value="$post->name" :type="'text'" :name="'name'" :$hasError>
             <x-slot:placeholder>Task name</x-slot:placeholder>
-            @error('name')
-                <x-slot:input-error>
-                    <p class="text-[12px] text-red-500 mt-1">{{ $message }}</p>
-                </x-slot:input-error>
-            @enderror
+            @if ($obj == 'task')
+                @error('name')
+                    <x-slot:input-error>
+                        <p class="text-[12px] text-red-500 mt-1">{{ $message }}</p>
+                    </x-slot:input-error>
+                @enderror
+            @endif
         </x-input><br>
 
         @php $hasError = 'none' @endphp
-        @error('description')
-            @php $hasError = 'error'@endphp
-        @enderror
+
+        @if ($obj == 'task')
+            @error('description')
+                @php $hasError = 'error'@endphp
+            @enderror
+        @endif
 
         <x-input :label="'none'" :value="$post->description" :type="'text'" :name="'description'" :$hasError>
             <x-slot:placeholder>Task Description</x-slot:placeholder>
-            @error('description')
-                <x-slot:input-error>
-                    <p class="text-[12px] text-red-500 mt-1">{{ $message }}</p>
-                </x-slot:input-error>
-            @enderror
+            @if ($obj == 'task')
+                @error('description')
+                    <x-slot:input-error>
+                        <p class="text-[12px] text-red-500 mt-1">{{ $message }}</p>
+                    </x-slot:input-error>
+                @enderror
+            @endif
         </x-input>
     </div>
 
     @if ($position != 'm')
         @php $hasError = 'none' @endphp
-        @error('end_at')
-            @php $hasError = 'error'@endphp
-        @enderror
+        @if ($obj == 'task')
+            @error('end_at')
+                @php $hasError = 'error'@endphp
+            @enderror
+        @endif
 
         <div class="flex my-2 p-2 flex-wrap md:flex-nowrap">
             <div class="my-2 md:my-0">
                 <x-input :label="'End Date'" :value="$post->end_at" :type="'date'" :name="'end_at'" :$hasError>
                     <x-slot:placeholder>End date</x-slot:placeholder>
-                    @error('end_at')
-                        <x-slot:input-error>
-                            <p class="text-[12px] text-red-500 mt-1">{{ $message }}</p>
-                        </x-slot:input-error>
-                    @enderror
+                    @if ($obj == 'task')
+                        @error('end_at')
+                            <x-slot:input-error>
+                                <p class="text-[12px] text-red-500 mt-1">{{ $message }}</p>
+                            </x-slot:input-error>
+                        @enderror
+                    @endif
                 </x-input>
             </div>
         </div>
@@ -63,9 +79,11 @@
         @if ($position != 'm')
 
             @php $hasError = false @endphp
-            @error('category')
-                @php $hasError = true @endphp
-            @enderror
+            @if ($obj == 'task')
+                @error('category')
+                    @php $hasError = true @endphp
+                @enderror
+            @endif
 
             @if($categories->count() == 1)
                 <label for="category">Selectionner une categorie</label>
@@ -84,24 +102,30 @@
                 @endforeach
 
             </select>
-            @error('category')
-                <p class="text-[12px] text-red-500 mt-1">{{ $message }}</p>
-            @enderror
+            @if ($obj == 'task')
+                @error('category')
+                    <p class="text-[12px] text-red-500 mt-1">Error: Please select a category.</p>
+                @enderror
+            @endif
         @else
             @php $hasError = 'none' @endphp
-            @error('end_at')
-                @php $hasError = 'error'@endphp
-            @enderror
+            @if ($obj == 'task')
+                @error('end_at')
+                    @php $hasError = 'error'@endphp
+                @enderror
+            @endif
 
             <div class="flex my-2 p-2 flex-wrap md:flex-nowrap">
                 <div class="my-2 md:my-0">
                     <x-input :label="'End Date'" :value="$post->end_at" :type="'date'" :name="'end_at'" :$hasError>
                         <x-slot:placeholder>End date</x-slot:placeholder>
-                        @error('end_at')
-                            <x-slot:input-error>
-                                <p class="text-[12px] text-red-500 mt-1">{{ $message }}</p>
-                            </x-slot:input-error>
-                        @enderror
+                        @if ($obj == 'task')
+                            @error('end_at')
+                                <x-slot:input-error>
+                                    <p class="text-[12px] text-red-500 mt-1">{{ $message }}</p>
+                                </x-slot:input-error>
+                            @enderror
+                        @endif
                     </x-input>
                 </div>
             </div>
@@ -117,9 +141,11 @@
 
                 <div class="flex flex-col w-full lg:w-auto gap-1">
                     @php $hasError = false @endphp
-                    @error('contacts')
-                        @php $hasError = true @endphp
-                    @enderror
+                    @if ($obj == 'task')
+                        @error('contacts')
+                            @php $hasError = true @endphp
+                        @enderror
+                    @endif
 
                     @if($contacts->count() != 0)
                         <label for="contacts">participants</label>
@@ -130,8 +156,8 @@
                         ]) name="contacts[]" id="contacts">
 
                             @foreach ($contacts as $contact)
-                            <option 
-                                @foreach ($post->getContacts() as $postContact) 
+                            <option
+                                @foreach ($post->getContacts() as $postContact)
                                     @selected($contact->email == $postContact->email)
                                 @endforeach
                                 value="{{ $contact->id }}">{{ $contact->email }}</option>
@@ -139,31 +165,35 @@
                         </select>
                     @else
                         <b><i>you have no contacts</i></b>
-                        <x-button.primary :action="'/account/contact'" :type="''" :name="''">
+                        <x-button.primary :action="'/account/contact'" :type="''" :name="''" :extend="[]">
                             Add Contacts
                         </x-button.primary>
                     @endif
-                    
-                    @error('contacts')  
-                        <x-slot:input-error>
-                            <p class="text-[12px] text-red-500 mt-1">{{ $message }}</p>
-                        </x-slot:input-error>
-                    @enderror
+
+                    @if ($obj == 'task')
+                        @error('contacts')
+                            <x-slot:input-error>
+                                <p class="text-[12px] text-red-500 mt-1">{{ $message }}</p>
+                            </x-slot:input-error>
+                        @enderror
+                    @endif
                 </div>
             @endif
         @endif
 
         <div class="flex w-full md:justify-between md:w-[40%] md:gap-5 md:flex-nowrap flex-wrap mt-3 md:mt-0">
 
+            <input type="hidden" name="itemId" value="{{ $itemId }}">
+
             <div style="background-color: white;" class="w-full"
                 data-accordion-target="#accordion-collapse-body-{{ $itemId }}">
-                <x-button.primary :action="'none'" :type="'reset'" :name="'reset'">
+                <x-button.primary :action="'none'" :type="'reset'" :name="'reset'" :extend="[]">
                     Cancel
                 </x-button.primary>
             </div>
 
             <div class="w-full">
-                <x-button.primary :action="'none'" :type="'submit'" :name="'submit'">
+                <x-button.primary :action="'none'" :type="'submit'" :name="'submit'" :extend="[]">
                     @if ($choice == 'create')
                         Create Task
                     @else

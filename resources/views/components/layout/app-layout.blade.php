@@ -87,7 +87,8 @@
                     {{-- notification --}}
                     <div class="flex ps-2 gap-2 items-center">
                         <div class="h-8 border-l me-2"></div>
-                        <a href="/account/message">
+                        {{-- <a href="/account/message"> --}}
+                        <a href="#">
                             <div class=" bg-violet-100 rounded-full w-12 h-12 flex justify-center items-center">
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -97,7 +98,8 @@
                                 </svg>
                             </div>
                         </a>
-                        <a href="/account/notification">
+                        {{-- <a href="/account/notification"> --}}
+                        <a href="#">
                             <div class=" bg-violet-100 rounded-full w-12 h-12 flex justify-center items-center">
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -236,6 +238,14 @@
             </div>
         </nav>
     </div>
+
+    {{-- Errors management --}}
+    @if (isset($errors) && $errors->any())
+        <div class="mb-4">
+            @php $msg = 'Errors, ' . old('formErr') . ' form not submit!' @endphp
+            <x-toast :type="'danger'" :message="$msg" />
+        </div>
+    @endif
 
     {{-- Main - content --}}
     {{ $slot }}

@@ -23,6 +23,7 @@ class CreateTaskRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'itemId' => 'integer',
             'name' => ['required','string', 'min:3'],
             'description' => ['required', 'string', 'min:10'],
             'end_at' => ['required',Rule::date()->todayOrAfter()],
@@ -32,7 +33,7 @@ class CreateTaskRequest extends FormRequest
                     return $query->where('user_id', auth()->id());
                 })
             ],
-            'contacts' => ['array', 
+            'contacts' => ['array',
                 'nullable', Rule::exists('contacts', 'id')->where(function ($query) {
                 return $query->where('user_id', auth()->id());
             })],

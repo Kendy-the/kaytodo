@@ -8,12 +8,12 @@
             </div>
         </div>
         <div >
-            <x-button.primary :action="'none'" :type="'submit'" :name="'submit'">
+            <x-button.primary :extend="[]" :action="'none'" :type="'submit'" :name="'submit'">
                 pin Project
             </x-button.primary>
         </div>
         <div data-accordion-target="#accordion-collapse-body-{{ $itemId }}">
-            <x-button.primary :action="'none'" :type="'reset'" :name="'reset'">
+            <x-button.primary :extend="[]" :action="'none'" :type="'reset'" :name="'reset'">
                 No, Let me check
             </x-button.primary>
         </div>

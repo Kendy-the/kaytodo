@@ -5,16 +5,18 @@
         {{-- object --}}
         <div class="my-1 flex flex-col p-3 bg-gray-100 border border-gray-300 rounded-xl">
 
+            @php $hasError = $errors->any() ? old("itemId") : false; @endphp
+
             {{-- object - View --}}
             @php $objectId = $parentId->getId() @endphp
-            <div id="accordion-collapse-heading-{{$objectId}}" 
-                data-accordion-target="#accordion-collapse-body-{{$objectId}}"       
+            <div id="accordion-collapse-heading-{{$objectId}}" data-has-parent-form={{ $objectId }}
+                data-accordion-target="#accordion-collapse-body-{{$objectId}}"
                 aria-controls="accordion-collapse-body-{{$objectId}}" class="flex justify-between cursor-pointer"
                 @if(request()->path() == $name.'/'.$object->id)
                     aria-expanded="true"
                 @endif
                 title="Cliquez"
-                style="background-color: #f3f4f6; color:#444" >
+                style="background-color: #f3f4f6; color:#444;" >
                 <div class="flex gap-2 pb-2 w-full">
                     <img src="{{ '/assets/img/task-home-icone.svg' }}" alt="">
                     <h3 class="font-bold">{{ $object->name }}
@@ -33,7 +35,7 @@
                     </div>
                 </div>
             </div>
-                
+
             <div id="accordion-collapse-body-{{$objectId}}" aria-labelledby="accordion-collapse-heading-{{$objectId}}" class="hidden cursor-auto">
 
                 <div class="py-2">
@@ -48,10 +50,10 @@
                         <div class="cursor-pointer flex mb-2 ms-2 gap-2 items-center justify-center">
 
                             @if(!isset($object->statut) || $object->statut != App\Models\Project::DONE)
-                                
+
                                 @if($object->name != "default")
                                     @php $editId = $parentId->getId(); @endphp
-                                    
+
                                     <div id="accordion-collapse-heading-{{ $editId }}" data-accordion-target="#accordion-collapse-body-{{ $editId }}"
                                     aria-controls="accordion-collapse-body-{{ $editId }}"
                                     class="flex items-center justify-center">
@@ -73,7 +75,7 @@
 
                             @if($object->name != "default")
                                 @php $deleteId = $parentId->getId(); @endphp
-                                
+
                                 <div id="accordion-collapse-heading-{{ $deleteId }}" data-accordion-target="#accordion-collapse-body-{{ $deleteId }}"
                                 aria-controls="accordion-collapse-body-{{ $deleteId }}"
                                 class="flex items-center justify-center">
@@ -114,12 +116,13 @@
                 <div class="flex flex-col ps-3 pt-4 pb-3 border-t border-gray-300 mt-1 gap-1">
                     <div class="bg-gray-200 gap-2 w-full p-2 rounded-3xl flex items-center justify-center">
                         My Tasks
-                        <div id="accordion-collapse-heading-{{ $newMedTaskId }}" data-accordion-target="#accordion-collapse-body-{{ $newMedTaskId }}"
+                        <div data-has-form={{ $newMedTaskId }} data-has-fils-form={{ $objectId }} id="accordion-collapse-heading-{{ $newMedTaskId }}" data-accordion-target="#accordion-collapse-body-{{ $newMedTaskId }}"
                         aria-controls="accordion-collapse-body-{{ $newMedTaskId }}">
-                        <i 
-                        class='bx bxs-plus-circle hover:text-violet-700 cursor-pointer'></i>
+
+                        <i data-has-form-error="{{ $hasError ? $hasError : 0 }}"
+                        class="bx bxs-plus-circle cursor-pointer hover:text-violet-700"></i>
                         </div>
-                    
+
                     </div>
 
                     <div class="flex justify-around flex-wrap md:flex-nowrap">
@@ -140,7 +143,7 @@
                                             {{ !empty($task) ? substr($task->description, 0, 25) . '...' : 'Some activity for sunday...' }}
                                         </div>
                                     </div>
-                                </a>  
+                                </a>
                             </div>
                         @empty
                             <div class="mt-5 pb-3 flex flex-col gap-3 justify-center items-center text-center">
@@ -173,7 +176,7 @@
                     'choice' => 'create',
                 ])
             </div>
-            
+
             @if(!isset($object->statut) || $object->statut != App\Models\Project::DONE)
                 {{-- object - edit --}}
                 @if($object->name != "default")
@@ -221,7 +224,7 @@
             @endif
 
         </div>
-        
+
     </div>
 @empty
 {{-- Si aucun enregistrement --}}

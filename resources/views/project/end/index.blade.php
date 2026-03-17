@@ -1,6 +1,6 @@
 <form action="/project/end" method="post" class="bg-white flex flex-col gap-3 rounded-xl p-5 pb-3 mt-5">
     @csrf
-    
+
     <input type="hidden" name="id" value="{{$object->id}}"/>
 
     <div class="px-10 py-5 h-min flex flex-col gap-5">
@@ -11,15 +11,15 @@
         </div>
 
         <div >
-            <x-button.primary :action="'none'" :type="'submit'" :name="'submit'">
+            <x-button.primary :extend="[]" :action="'none'" :type="'submit'" :name="'submit'">
                 Yes, End Project
             </x-button.primary>
         </div>
         <div data-accordion-target="#accordion-collapse-body-{{ $itemId }}">
-            <x-button.primary :action="'none'" :type="'reset'" :name="'reset'">
+            <x-button.primary :extend="[]" :action="'none'" :type="'reset'" :name="'reset'">
                 No, Let me check
             </x-button.primary>
         </div>
-        
+
     </div>
 </form>

@@ -9,6 +9,14 @@
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+    --color-success-light: oklch(0.76 0.1499 149.21);
+    --color-success-dark: oklch(0.6271 0.1699 149.21);
+
+    --color-danger-light: oklch(0.6368 0.2078 25.33);
+    --color-danger-dark: oklch(0.4917 0.1961 21.36);
+
+    --color-warning-light: oklch(0.7101 0.1101 70.51);
+    --color-warning-dark: oklch(0.68 0.14 70.08);
 }
 
 :root{
@@ -57,7 +65,7 @@ body{
     font-size: var(--normal-font-size);
     transition: .5s;
 }
-    
+
 a{
     text-decoration: none
 }

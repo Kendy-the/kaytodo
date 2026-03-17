@@ -6,28 +6,28 @@
 
     {{-- Project Banner --}}
     @include('shared.banner',[
-        'title' => 'Challenges awaiting', 
+        'title' => 'Challenges awaiting',
         'content' => "Let's tackle your to do list - Category",
         'imgPath' => '/assets/img/task-banner.svg'
     ])
- 
+
     @php $newObjectTopId = $parentId->getId() @endphp
 
     {{-- New Project Button  --}}
     <div data-accordion="collapse">
-        <div id="accordion-collapse-heading-{{$newObjectTopId}}" 
-            data-accordion-target="#accordion-collapse-body-{{$newObjectTopId}}"       
+        <div data-has-form={{ $newObjectTopId }} id="accordion-collapse-heading-{{$newObjectTopId}}"
+            data-accordion-target="#accordion-collapse-body-{{$newObjectTopId}}"
             aria-controls="accordion-collapse-body-{{$newObjectTopId}}"
             title="Cliquez"
-            style="background-color: white" 
+            style="background-color: white"
          class="rounded-xl p-4 flex justify-center items-center text-center mt-4">
-            <x-button.primary :action="'none'" :type="'button'" :name="'new'">
+            <x-button.primary :action="'none'" :type="'button'" :name="'new'" :extend="['form' =>['verifyError' => true]]">
                 New Category
             </x-button.primary>
         </div>
-    
+
         {{-- New project  --}}
-       
+
         <div id="accordion-collapse-body-{{$newObjectTopId}}" aria-labelledby="accordion-collapse-heading-{{$newObjectTopId}}" class="hidden">
             @include('shared.category.form',[
                 'post' => $post,
@@ -39,13 +39,13 @@
     </div>
 
     {{-- Summary --}}
-    <x-tacapro.summary>
+    {{-- <x-tacapro.summary>
         <x-slot:title>Summary of your work</x-slot:title>
         <x-slot:sub-title>your current task progress</x-slot:sub-title>
         <x-slot:todo>{{ isset($tasks) ? (count($tasks['progress']) + count($tasks['done']))  : 0 }}</x-slot:todo>
         <x-slot:progress>{{ isset($tasks) ? count($tasks['progress']) : 0 }}</x-slot:progress>
         <x-slot:done>{{ isset($tasks) ? count($tasks['done']) : 0 }}</x-slot:done>
-    </x-tacapro.summary>
+    </x-tacapro.summary> --}}
 
     {{-- Stats --}}
     @php $percent = $tasks['donePercent'] @endphp
@@ -69,21 +69,21 @@
     {{-- Object --}}
     @if(request()->path() == 'category/recently-add')
         @php $position = 'rencently'; $contacts = " "; $categories = " " @endphp
-        <x-tacapro.object_ 
-        :objects="$recents" 
+        <x-tacapro.object_
+        :objects="$recents"
         :$post :$parentId :$position :$contacts :$categories
         :name="'category'">
         </x-tacapro.object_>
     @elseif(request()->path() == 'category/pin')
     @php $position = 'pin' @endphp
-        <x-tacapro.object_ 
-        :objects="$pins" 
+        <x-tacapro.object_
+        :objects="$pins"
         :$post :$parentId :$position :$contacts :$categories
         :name="'category'">
         </x-tacapro.object_>
     @else
     @php $position = " "; $contacts = " "; $categories = " " @endphp
-        <x-tacapro.object_ 
+        <x-tacapro.object_
         :objects="$posts"
         :$post :$parentId :$position :$contacts :$categories
         :name="'category'">
@@ -102,15 +102,15 @@
                 'choice' => 'create'
             ])
         </div>
-    
+
         {{-- New Project Button  --}}
-        <div id="accordion-collapse-heading-{{$newObjectButtomId}}" 
-        data-accordion-target="#accordion-collapse-body-{{$newObjectButtomId}}"       
-        aria-controls="accordion-collapse-body-{{$newObjectButtomId}}" 
+        <div data-has-form={{ $newObjectButtomId }} id="accordion-collapse-heading-{{$newObjectButtomId}}"
+        data-accordion-target="#accordion-collapse-body-{{$newObjectButtomId}}"
+        aria-controls="accordion-collapse-body-{{$newObjectButtomId}}"
         title="Cliquez"
-        style="background-color: white;"  
+        style="background-color: white;"
         class="rounded-xl p-4 flex justify-center items-center text-center mt-4">
-            <x-button.primary :action="'none'" :type="'button'" :name="'new'">
+            <x-button.primary :action="'none'" :type="'button'" :name="'new'" :extend="['form' =>['verifyError' => true]]">
                 New Category
             </x-button.primary>
         </div>

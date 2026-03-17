@@ -1,31 +1,28 @@
 <?php
 
-namespace App\View\Components\button;
+namespace App\View\Components;
 
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class primary extends Component
+class toast extends Component
 {
     /**
      * Create a new component instance.
      */
     public function __construct(
-        public string $action,
         public string $type,
-        public string $name,
-        public array $extend,
+        public string $message,
+        public array $extend = [],
     )
-    {
-        //
-    }
+    { }
 
     /**
      * Get the view / contents that represent the component.
      */
     public function render(): View|Closure|string
     {
-        return view('components.button.primary');
+        return view('components.toast');
     }
 }
