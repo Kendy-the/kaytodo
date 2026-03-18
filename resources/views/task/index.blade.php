@@ -11,10 +11,6 @@
             'imgPath' => '/assets/img/task-banner.svg',
         ])
 
-        {{-- <x-toast :type="'success'" :message="'Task created successfully!'" /> --}}
-        {{-- <x-toast :type="'danger'" :message="'Failed to create task!'" /> --}}
-        {{-- <x-toast :type="'warning'" :message="'Please fill in all required fields!'" /> --}}
-
         @php $newObjectTopId = $parentId->getId() @endphp
 
         <div data-accordion="collapse">

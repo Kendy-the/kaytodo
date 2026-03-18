@@ -1,3 +1,11 @@
+{{-- Stat Using --}}
+{{-- @php $percent = $projects['donePercent'] @endphp
+<x-tacapro.stats :object="$percent">
+    <x-slot:name>projects</x-slot:name>
+    <x-slot:sum>{{ isset($projects) ? count($projects['done']) : 0 }}</x-slot:sum>
+    <x-slot:width>{{ isset($percent) ? $percent . "%" : "0%" }}</x-slot:width>
+</x-tacapro.stats> --}}
+
 @if ($object != 'none')
     {{-- s'il ya enregistrement --}}
     <div class=" bg-white rounded-xl p-5 pb-3 mt-5">
@@ -16,7 +24,7 @@
             ])></div>
             </div>
         </div>
-    </div> 
+    </div>
 @else
     {{-- S'il n'y a pas d'enregistrement  --}}
     <div class="bg-white rounded-xl p-5 pb-3 mt-5">

@@ -1,3 +1,7 @@
+{{-- Toast Using --}}
+{{-- <x-toast :type="'success'" :message="'Task created successfully!'" /> --}}
+{{-- <x-toast :type="'danger'" :message="'Failed to create task!'" /> --}}
+{{-- <x-toast :type="'warning'" :message="'Please fill in all required fields!'" /> --}}
 
 <div id="toast-{{ $type }}"
     @class(['fixed top-15 right-0 md:top-20 md:right-5 z-30 float-right flex flex-col w-full max-w-sm pt-4 pb-0 text-body rounded shadow-xs shadow-black/50', 'bg-success-light' => $type == 'success', 'bg-danger-light' => $type == 'danger', 'bg-warning-light' => $type == 'warning']) class="" role="alert">
