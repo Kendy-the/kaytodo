@@ -11,27 +11,29 @@
             @php $objectId = $parentId->getId() @endphp
             <div id="accordion-collapse-heading-{{$objectId}}" data-has-parent-form={{ $objectId }}
                 data-accordion-target="#accordion-collapse-body-{{$objectId}}"
-                aria-controls="accordion-collapse-body-{{$objectId}}" class="flex justify-between cursor-pointer"
+                aria-controls="accordion-collapse-body-{{$objectId}}" class="flex flex-wrap justify-between cursor-pointer"
                 @if(request()->path() == $name.'/'.$object->id)
                     aria-expanded="true"
                 @endif
                 title="Cliquez"
                 style="background-color: #f3f4f6; color:#444;" >
-                <div class="flex gap-2 pb-2 w-full">
+
+                <div class="flex gap-2 pb-2 w-1/2">
                     <img src="{{ '/assets/img/task-home-icone.svg' }}" alt="">
                     <h3 class="font-bold">{{ $object->name }}
                     </h3>
                 </div>
-                <div class="flex gap-2 cursor-auto ">
+
+                <div class="flex justify-end gap-2 cursor-auto ">
                     <div
                         class="bg-violet-500 mb-2 md:gap-2 w-15 md:w-20 h-7 md:h-10 rounded-3xl flex items-center justify-center text-white">
                         <img src="{{ '/assets/img/task-icone.svg' }}" class="w-4" alt="">
                         <span>{{ ($object->tasks)->count() }}</span>
                     </div>
                     <div
-                        class="bg-white mb-2 md:gap-2 w-30 md:w-30 h-7 md:h-10 rounded-3xl items-center justify-center hidden md:flex">
+                        class="bg-white mb-2 p-2 md:gap-2 h-7 md:h-10 rounded-3xl items-center justify-center flex">
                         <img src="{{ '/assets/img/calendar-icone.svg' }}" alt="">
-                        <span>{{ $object->created_at->format('d/m/y') }}</span>
+                        <span>{{ $name == 'project' ? $object->getDate() : $object->created_at->format('d/m/y') }}</span>
                     </div>
                 </div>
             </div>
@@ -54,10 +56,12 @@
                                 @if($object->name != "default")
                                     @php $editId = $parentId->getId(); @endphp
 
-                                    <div id="accordion-collapse-heading-{{ $editId }}" data-accordion-target="#accordion-collapse-body-{{ $editId }}"
+                                    <div id="accordion-collapse-heading-{{ $editId }}" data-has-form={{ $editId }}
+                                    data-has-fils-form={{ $objectId }}
+                                    data-accordion-target="#accordion-collapse-body-{{ $editId }}"
                                     aria-controls="accordion-collapse-body-{{ $editId }}"
                                     class="flex items-center justify-center">
-                                        <i class="bx bx-pencil hover:text-violet-700 mx-1" title="Edit"></i>
+                                        <i data-has-form-error="{{ $hasError ? $hasError : 0 }}" class="bx bx-pencil hover:text-violet-700 mx-1" title="Edit"></i>
                                     </div>
                                 @endif
                             @endif

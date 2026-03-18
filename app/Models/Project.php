@@ -124,6 +124,15 @@ class Project extends Model
         }
     }
 
+    public function getDate()
+    {
+        $createDate = Carbon::parse($this->created_at);
+        $endDate = Carbon::parse($this->end_at);
+
+        return $createDate->format('d/m/y') . " - " . $endDate->format('d/m/y');
+
+    }
+
     public function getProgression()
     {
         if($this->statut !== self::DONE)

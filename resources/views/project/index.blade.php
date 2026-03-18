@@ -20,7 +20,8 @@
             aria-controls="accordion-collapse-body-{{$newObjectTopId}}"
             title="Cliquez"
             style="background-color: white"
-         class="rounded-xl p-4 flex justify-center items-center text-center mt-4">
+
+            class="rounded-xl p-4 flex justify-center items-center text-center mt-4">
             <x-button.primary :action="'none'" :type="'button'" :name="'new'" :extend="['form' =>['verifyError' => true]]">
                 New Project
             </x-button.primary>
@@ -37,15 +38,6 @@
         </div>
     </div>
 
-    {{-- Summary --}}
-    {{-- <x-tacapro.summary>
-        <x-slot:title>Summary of your work</x-slot:title>
-        <x-slot:sub-title>your current task progress</x-slot:sub-title>
-        <x-slot:todo>{{ isset($projects) ? (count($projects['progress']) + count($projects['done']))  : 0 }}</x-slot:todo>
-        <x-slot:progress>{{ isset($projects) ? count($projects['progress']) : 0 }}</x-slot:progress>
-        <x-slot:done>{{ isset($projects) ? count($projects['done']) : 0 }}</x-slot:done>
-    </x-tacapro.summary> --}}
-
     {{-- Stats --}}
     @php $percent = $projects['donePercent'] @endphp
     <x-tacapro.stats :object="$percent">
@@ -61,9 +53,6 @@
 
         <x-slot:second>Recently Add</x-slot:second>
         <x-slot:second-value>{{ isset($recents) ? count($recents) : 0 }}</x-slot:second-value>
-
-        {{-- <x-slot:third>Pending</x-slot:third>
-        <x-slot:third-value>{{ isset($recents) ? count($recents) : 0 }}</x-slot:third-value> --}}
 
         <x-slot:third>Pin</x-slot:third>
         <x-slot:third-value>{{ isset($pins) ? count($pins) : 0 }}</x-slot:third-value>

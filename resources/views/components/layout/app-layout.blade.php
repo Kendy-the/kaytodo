@@ -26,11 +26,10 @@
                         </svg>
                     </a>
                     @if (Request::is('task') || Request::is('category') || Request::is('home') || Request::is('project'))
-                        <form action="/account/search" method="post" class="hidden lg:flex items-center">
-                            <i class='bx bx-search text-lg'></i>
-                            <input type="search" name="" id="" placeholder="Search"
-                                class="relative right-6 rounded ps-8 h-9 hidden lg:inline-block border-[#DFEAF2] focus:outline-2 focus:outline-offset-2 focus:outline-violet-400">
-                        </form>
+                        @include('shared.search', [
+                            "object" => Request::is('task') ? 'task' : (Request::is('category') ? 'category' : (Request::is('home') ? 'home' : 'project')),
+                            "myClass" => [0 => 'lg:flex', 2 => 'hidden lg:block'],
+                        ])
                     @endif
                 </div>
                 {{-- second part --}}
@@ -76,12 +75,10 @@
                     </div>
 
                     @if (Request::is('task') || Request::is('category') || Request::is('home') || Request::is('project'))
-                        <form action="/account/search" method="post"
-                            class="mx-5 items-center hidden md:flex lg:hidden">
-                            <i class='bx bx-search text-lg'></i>
-                            <input type="search" name="" id="" placeholder="Search"
-                                class="relative right-6 rounded ps-8 h-9 mx-2 w-40 border-[#DFEAF2] focus:outline-2 focus:outline-offset-2 focus:outline-violet-400">
-                        </form>
+                        @include('shared.search', [
+                            "object" => Request::is('task') ? 'task' : (Request::is('category') ? 'category' : (Request::is('home') ? 'home' : 'project')),
+                            "myClass" => [0 => 'md:flex lg:hidden mx-5', 2 => 'mx-2 w-40'],
+                        ])
                     @endif
 
                     {{-- notification --}}
