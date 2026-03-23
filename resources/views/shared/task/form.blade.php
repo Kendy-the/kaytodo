@@ -165,7 +165,7 @@
                         </select>
                     @else
                         <b><i>you have no contacts</i></b>
-                        <x-button.primary :action="'/account/contact'" :type="''" :name="''" :extend="[]">
+                        <x-button.primary :formVerifyError="'none'"  :action="'/account/contact'" :type="''" :name="''">
                             Add Contacts
                         </x-button.primary>
                     @endif
@@ -187,13 +187,13 @@
 
             <div style="background-color: white;" class="w-full"
                 data-accordion-target="#accordion-collapse-body-{{ $itemId }}">
-                <x-button.primary :action="'none'" :type="'reset'" :name="'reset'" :extend="[]">
+                <x-button.primary :formVerifyError="'none'"  :action="'none'" :type="'reset'" :name="'reset'">
                     Cancel
                 </x-button.primary>
             </div>
 
             <div class="w-full">
-                <x-button.primary :action="'none'" :type="'submit'" :name="'submit'" :extend="[]">
+                <x-button.primary :formVerifyError="'none'"  :action="'none'" :type="'submit'" :name="'submit'">
                     @if ($choice == 'create')
                         Create Task
                     @else

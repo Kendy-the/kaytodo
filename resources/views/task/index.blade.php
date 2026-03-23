@@ -20,7 +20,7 @@
                 aria-controls="accordion-collapse-body-{{ $newObjectTopId }}" title="Cliquez"
                 style="background-color: white" class="rounded-xl p-4 flex justify-center items-center text-center mt-4">
 
-                <x-button.primary :action="'none'" :type="'button'" :name="'new'" :extend="['form' =>['verifyError' => true]]">
+                <x-button.primary :formVerifyError="'true'" :action="'none'" :type="'button'" :name="'new'">
                     New Task
                 </x-button.primary>
 
@@ -119,7 +119,7 @@
                 aria-controls="accordion-collapse-body-{{ $newObjectButtomId }}" title="Cliquez"
                 style="background-color: white;"
                 class="rounded-xl p-4 flex justify-center items-center text-center mt-4">
-                <x-button.primary :action="'none'" :type="'button'" :name="'new'" :extend="['form' =>['verifyError' => true]]">
+                <x-button.primary :formVerifyError="'true'" :action="'none'" :type="'button'" :name="'new'">
                     New Task
                 </x-button.primary>
             </div>

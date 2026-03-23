@@ -54,13 +54,13 @@
             <input type="hidden" name="itemId" value="{{ $itemId }}">
 
             <div style="background-color: white;" class="w-full" data-accordion-target="#accordion-collapse-body-{{ $itemId }}">
-                <x-button.primary :extend="[]" :action="'none'" :type="'reset'" :name="'reset'">
+                <x-button.primary :formVerifyError="'none'"  :action="'none'" :type="'reset'" :name="'reset'">
                     Cancel
                 </x-button.primary>
             </div>
 
             <div class="w-full">
-                <x-button.primary :extend="[]" :action="'none'" :type="'submit'" :name="'submit'">
+                <x-button.primary :formVerifyError="'none'"  :action="'none'" :type="'submit'" :name="'submit'">
 
                     @if ($choice == 'create')
                         Create Category

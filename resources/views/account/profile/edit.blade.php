@@ -189,7 +189,7 @@
                 </div>
             </div>
             <div class="mt-3">
-                <x-button.primary :extend="[]" :action="'none'" :type="'submit'" :name="'submit'">
+                <x-button.primary :formVerifyError="'none'"  :action="'none'" :type="'submit'" :name="'submit'">
                     Update My Account
                 </x-button.primary>
             </div>

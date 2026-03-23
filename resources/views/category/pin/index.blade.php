@@ -11,12 +11,12 @@
         <div>
             <div>
                 <div data-accordion-target="#accordion-collapse-body-{{ $itemId }}">
-                    <x-button.primary :extend="[]" :action="'none'" :type="'submit'" :name="'submit'">
+                    <x-button.primary :formVerifyError="'none'"  :action="'none'" :type="'submit'" :name="'submit'">
                         Yes
                     </x-button.primary>
                 </div>
                 <div data-accordion-target="#accordion-collapse-body-{{ $itemId }}">
-                    <x-button.primary :extend="[]" :action="'none'" :type="'reset'" :name="'reset'">
+                    <x-button.primary :formVerifyError="'none'"  :action="'none'" :type="'reset'" :name="'reset'">
                         No
                     </x-button.primary>
                 </div>

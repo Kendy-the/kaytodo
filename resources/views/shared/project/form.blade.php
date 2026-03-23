@@ -84,7 +84,7 @@
                 </select>
             @else
                 <b><i>you have no contacts</i></b>
-                <x-button.primary :extend="[]" :action="'/account/contact'" :type="''" :name="''">
+                <x-button.primary :formVerifyError="'none'"  :action="'/account/contact'" :type="''" :name="''">
                     Add Contacts
                 </x-button.primary>
             @endif
@@ -129,13 +129,13 @@
 
             <div style="background-color: white; color:white;"
             class="w-full">
-                <x-button.primary :extend="[]" :action="'none'" :type="'reset'" :name="'reset'" data-accordion-target="#accordion-collapse-body-{{ $itemId }}">
+                <x-button.primary :formVerifyError="'none'"  :action="'none'" :type="'reset'" :name="'reset'" data-accordion-target="#accordion-collapse-body-{{ $itemId }}">
                     Cancel
                 </x-button.primary>
 
             </div>
             <div class="w-full">
-                <x-button.primary :extend="[]" :action="'none'" :type="'submit'" :name="'submit'">
+                <x-button.primary :formVerifyError="'none'"  :action="'none'" :type="'submit'" :name="'submit'">
 
                     @if ($choice == 'create')
                         Create Project

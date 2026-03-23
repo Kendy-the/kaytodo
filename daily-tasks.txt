@@ -14,7 +14,7 @@ Task Module
 
 10 mars 2026
 Project Module
-- verifier les ereurs de creations et de modifications  
+- verifier les ereurs de creations et de modifications
 - gerer le statut des projets, a savoir pending, end and progress
 - ajouter meme nav (all, progress, pending, end) que les tasks pour les projects
 

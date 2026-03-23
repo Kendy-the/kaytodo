@@ -10,15 +10,16 @@ class primary extends Component
 {
     /**
      * Create a new component instance.
-     */
+    */
+    public string $formVerifyError;
     public function __construct(
+        string $formVerifyError = "none",
         public string $action,
         public string $type,
         public string $name,
-        public array $extend,
     )
     {
-        //
+        $this->formVerifyError = $formVerifyError;
     }
 
     /**

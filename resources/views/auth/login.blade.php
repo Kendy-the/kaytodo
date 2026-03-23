@@ -45,7 +45,7 @@
                     </div>
 
                     <div>
-                        <x-button.primary :extend="[]" :action="'none'" :type="'submit'" :name="'submit'">
+                        <x-button.primary :formVerifyError="'none'"  :action="'none'" :type="'submit'" :name="'submit'">
                             Sign In
                         </x-button.primary>
                     </div>

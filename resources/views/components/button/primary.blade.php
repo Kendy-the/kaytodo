@@ -5,7 +5,7 @@
     </a>
 
 @else
-    @if (!empty($extend) && $extend["form"]["verifyError"] === true)
+    @if ($formVerifyError !== 'none')
 
         @php $hasError = $errors->any() ? old("itemId") : false; @endphp
 
@@ -19,4 +19,3 @@
         </button>
     @endif
 @endif
-

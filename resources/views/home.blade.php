@@ -19,7 +19,7 @@
                 data-accordion-target="#accordion-collapse-body-{{ $newObjectTopId }}"
                 aria-controls="accordion-collapse-body-{{ $newObjectTopId }}" title="Cliquez"
                 style="background-color: white" class="rounded-xl p-4 flex justify-center items-center text-center mt-4">
-                <x-button.primary :action="'none'" :type="'button'" :name="'new'" :extend="['form' =>['verifyError' => true]]">
+                <x-button.primary :formVerifyError="'true'" :action="'none'" :type="'button'" :name="'new'">
                     New Task
                 </x-button.primary>
             </div>
@@ -105,7 +105,7 @@
                         </div>
                         <div class="w-full flex justify-end">
                             <div class="pt-2 w-full md:w-30">
-                                <x-button.primary :extend="[]" :action="'/task/'. $post->id " :type="''" :name="''">
+                                <x-button.primary :formVerifyError="'none'" :action="'/task/'. $post->id " :type="''" :name="''">
                                     View
                                 </x-button.primary>
                             </div>
@@ -192,7 +192,7 @@
             title="Cliquez"
             style="background-color: white;"
             class="rounded-xl p-4 flex justify-center items-center text-center mt-4">
-                <x-button.primary :action="'none'" :type="'button'" :name="'new'" :extend="['form' =>['verifyError' => true]]">
+                <x-button.primary :formVerifyError="'true'" :action="'none'" :type="'button'" :name="'new'">
                     New Project
                 </x-button.primary>
             </div>
