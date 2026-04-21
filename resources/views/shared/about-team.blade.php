@@ -69,7 +69,7 @@
                     </div>
                 </div>
 
-                <div class="bg-white shadow rounded-xl flex justify-around gap-1 p-5 w-full lg:w-[50%]">
+                <div class="bg-white shadow rounded-xl flex justify-around gap-1 p-5 w-full lg:w-[50%] mb-20 md:mb-0">
                     <div class="flex items-center">
                         <svg width="100" height="100" viewBox="0 0 18 18" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
@@ -90,7 +90,7 @@
                             <div class="w-full">
                                 @php $hasError = 'none' @endphp
                                 @error('name') @php $hasError = 'error' @endphp @enderror
-    
+
                                 <x-input :label="'none'" :value="''" :type="'text'" :name="'name'" :$hasError>
                                     <x-slot:placeholder>Doe</x-slot:placeholder>
                                     @error('name')
@@ -116,7 +116,7 @@
                                 </x-input>
 
                             </div>
-                                
+
                             <textarea
                                 placeholder="Your message"
                                 class="border border-[#DFEAF2] focus:outline-2 focus:outline-offset-2 focus:outline-violet-500 mt-1 p-3 w-full rounded-[15px] text-[#718EBF]"

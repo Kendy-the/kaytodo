@@ -84,7 +84,8 @@
                 </select>
             @else
                 <b><i>you have no contacts</i></b>
-                <x-button.primary :formVerifyError="'none'"  :action="'/account/contact'" :type="''" :name="''">
+                {{-- <x-button.primary :formVerifyError="'none'"  :action="'/account/contact'" :type="''" :name="''"> --}}
+                <x-button.primary :formVerifyError="'none'"  :action="'#'" :type="''" :name="''">
                     Add Contacts
                 </x-button.primary>
             @endif
