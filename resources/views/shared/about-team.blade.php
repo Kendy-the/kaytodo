@@ -1,4 +1,4 @@
-<div>
+{{-- <div>
     <div class="pt-3 md:pb-5 bg-gray-100">
         <section class="mx-auto max-w-screen-xl">
             <h1 class="px-7 font-bold text-4xl text-center mb-9">Kay TODO / Team</h1>
@@ -135,4 +135,242 @@
             </div>
         </section>
     </div>
+</div> --}}
+
+<div class="bg-gray-100 min-h-screen">
+
+    <!-- HERO -->
+    <section class="max-w-screen-xl mx-auto px-6 py-14">
+        <div class="bg-white rounded-3xl shadow-sm overflow-hidden">
+            <div class="grid lg:grid-cols-2 gap-10 items-center p-8 lg:p-14">
+
+                <!-- LEFT -->
+                <div>
+                    <span
+                        class="inline-block px-4 py-1 rounded-full bg-violet-100 text-violet-700 font-semibold text-sm">
+                        Meet Our Team
+                    </span>
+
+                    <h1 class="mt-5 text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
+                        Behind <span class="text-[#4F1ED8]">KayTODO</span>
+                    </h1>
+
+                    <p class="mt-5 text-lg text-gray-600 leading-relaxed">
+                        We build smart productivity tools that help users manage
+                        tasks, organize projects and save valuable time.
+                    </p>
+
+                    <div class="mt-8 grid grid-cols-2 gap-4">
+                        <div class="bg-gray-100 rounded-2xl p-4">
+                            <h3 class="text-2xl font-bold text-[#4F1ED8]">100%</h3>
+                            <p class="text-sm text-gray-500">Focused on Productivity</p>
+                        </div>
+
+                        <div class="bg-gray-100 rounded-2xl p-4">
+                            <h3 class="text-2xl font-bold text-[#4F1ED8]">24/7</h3>
+                            <p class="text-sm text-gray-500">Support Ready</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT -->
+                <div class="flex justify-center">
+                    <img src="{{ '/assets/img/concepteur.jpg' }}"
+                        class="rounded-3xl shadow-lg w-full max-w-md object-cover"
+                        alt="">
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- CEO SECTION -->
+    <section class="max-w-screen-xl mx-auto px-6 pb-14">
+        <div class="grid lg:grid-cols-3 gap-8">
+
+            <!-- PROFILE CARD -->
+            <div class="bg-white rounded-3xl shadow-sm p-8">
+                <div class="w-24 h-24 rounded-full overflow-hidden mx-auto">
+                    <img src="{{ '/assets/img/concepteur.jpg' }}"
+                        class="w-full h-full object-cover"
+                        alt="">
+                </div>
+
+                <div class="text-center mt-5">
+                    <h2 class="text-2xl font-bold text-gray-900">
+                        Rickendy Presume
+                    </h2>
+                    <p class="text-[#4F1ED8] font-semibold mt-1">
+                        Founder / CEO
+                    </p>
+                </div>
+
+                <div class="mt-6 space-y-3 text-sm text-gray-600">
+                    <div class="flex items-center gap-2">
+                        <i class='bx bx-code-alt text-xl text-[#4F1ED8]'></i>
+                        Full Stack Developer
+                    </div>
+
+                    <div class="flex items-center gap-2">
+                        <i class='bx bx-globe text-xl text-[#4F1ED8]'></i>
+                        Web / Software / Mobile Vision
+                    </div>
+
+                    <div class="flex items-center gap-2">
+                        <i class='bx bx-bulb text-xl text-[#4F1ED8]'></i>
+                        Innovation Driven
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- STORY -->
+            <div class="lg:col-span-2 bg-white rounded-3xl shadow-sm p-8">
+                <h2 class="text-3xl font-bold text-gray-900">
+                    My Story
+                </h2>
+
+                <p class="mt-5 text-gray-600 leading-relaxed">
+                    I am Rickendy PRESUME, an IT student passionate about coding
+                    and digital innovation. My ambition is to become a complete
+                    developer mastering web, software and mobile technologies.
+                </p>
+
+                <p class="mt-4 text-gray-600 leading-relaxed">
+                    KayTODO was created from one simple vision:
+                    helping people organize their work, manage projects
+                    and stay productive through a clean and efficient platform.
+                </p>
+
+                <p class="mt-4 text-gray-600 leading-relaxed">
+                    This project reflects my passion for development,
+                    problem solving and building tools that create
+                    real impact in daily life.
+                </p>
+
+                <div class="mt-8 flex flex-wrap gap-4">
+                    <div class="px-5 py-3 rounded-2xl bg-gray-100">
+                        <span class="font-bold text-[#4F1ED8]">Laravel</span>
+                    </div>
+
+                    <div class="px-5 py-3 rounded-2xl bg-gray-100">
+                        <span class="font-bold text-[#4F1ED8]">Tailwind CSS</span>
+                    </div>
+
+                    <div class="px-5 py-3 rounded-2xl bg-gray-100">
+                        <span class="font-bold text-[#4F1ED8]">Productivity UX</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- CONTACT -->
+    <section class="max-w-screen-xl mx-auto px-6 pb-16 mb-5 md:mb-0">
+        <div class="grid lg:grid-cols-2 gap-8">
+
+            <!-- LEFT -->
+            <div class="bg-white rounded-3xl shadow-sm p-8">
+
+                <span
+                    class="inline-block px-4 py-1 rounded-full bg-violet-100 text-violet-700 font-semibold text-sm">
+                    Contact Us
+                </span>
+
+                <h2 class="mt-5 text-3xl font-bold text-gray-900">
+                    Need Help?
+                </h2>
+
+                <p class="mt-4 text-gray-600">
+                    Our team is ready to answer your questions and support your experience.
+                </p>
+
+                <div class="mt-8 space-y-5 text-gray-700">
+
+                    <div class="flex items-center gap-4">
+                        <i class='bx bx-envelope text-3xl text-[#4F1ED8]'></i>
+                        <span>kaytodo@gmail.com</span>
+                    </div>
+
+                    <div class="flex items-center gap-4">
+                        <i class='bx bx-phone text-3xl text-[#4F1ED8]'></i>
+                        <span>(509) 3780-0137 / 4042-1847</span>
+                    </div>
+
+                    <div class="flex items-center gap-4">
+                        <i class='bx bx-map text-3xl text-[#4F1ED8]'></i>
+                        <span>#10, Rue Toussaint Louverture, Cayes, Haiti</span>
+                    </div>
+
+                </div>
+
+                <a href="mailto:kendythe.c@gmail.com"
+                    class="inline-block mt-8 px-6 py-3 rounded-full bg-gradient-to-r from-violet-400 to-[#4F1ED8] text-white font-semibold hover:scale-105 transition">
+                    Contact Support
+                </a>
+
+            </div>
+
+
+            <!-- FORM -->
+            <div class="bg-white rounded-3xl shadow-sm p-8">
+
+                <h2 class="text-3xl font-bold text-gray-900">
+                    Get In Touch
+                </h2>
+
+                <p class="mt-3 text-gray-600">
+                    Send us a message and we’ll reply as soon as possible.
+                </p>
+
+                <form action="/support/contact" method="post" class="mt-8 space-y-5">
+                    @csrf
+
+                    @auth
+                        <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                    @endauth
+
+                    <div>
+                        <input type="text" name="name"
+                            placeholder="Your Name"
+                            class="w-full rounded-2xl border border-gray-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-violet-500">
+                        @error('name')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div>
+                        <input type="email" name="email"
+                            placeholder="you@example.com"
+                            class="w-full rounded-2xl border border-gray-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-violet-500">
+                        @error('email')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div>
+                        <textarea name="message" rows="5"
+                            placeholder="Your Message"
+                            class="w-full rounded-2xl border border-gray-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-violet-500"></textarea>
+
+                        @error('message')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <button
+                        class="w-full py-3 rounded-full bg-gradient-to-r from-violet-400 to-[#4F1ED8] text-white font-semibold hover:scale-[1.02] transition">
+                        Send Message
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+    </section>
+
 </div>

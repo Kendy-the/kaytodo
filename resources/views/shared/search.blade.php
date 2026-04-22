@@ -1,4 +1,5 @@
-<form action="/account/search" method="post" class="hidden items-center {{ isset($myClass[0]) ? $myClass[0] : '' }}">
+{{-- <form action="/account/search" method="post" class="hidden items-center {{ isset($myClass[0]) ? $myClass[0] : '' }}"> --}}
+<form action="#" method="" class="hidden items-center {{ isset($myClass[0]) ? $myClass[0] : '' }}">
     <i class='bx bx-search text-lg {{ isset($myClass[1]) ? $myClass[1] : '' }}'></i>
     <input type="hidden" name="object" value="{{ $object }}"/>
     <input type="search" name="" id="" placeholder="Search"

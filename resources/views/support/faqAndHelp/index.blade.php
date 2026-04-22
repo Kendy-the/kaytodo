@@ -12,7 +12,7 @@
 @else
     <x-layout.auth-layout>
         @section('title', 'Faq - Help')
-        <div class="mt-14 h-dvh">
+        <div class="mt-14">
             @include('shared.faq-and-help')
         </div>
     </x-layout.auth-layout>

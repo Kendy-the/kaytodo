@@ -25,7 +25,7 @@ Route::prefix('/')->controller(HomeController::class)->group(function(){
 Route::prefix('/support')->name('support.')->controller(SupportController::class)->group(function(){
     Route::get('/contact','index')->name('contact');
     Route::post('/contact','store');
-    Route::get('/success','success')->name('success');
+    Route::get('/success','success')->name('contact.success');
     Route::get('/faq-and-help','faqAndhelp')->name('faq-help');
 });
 

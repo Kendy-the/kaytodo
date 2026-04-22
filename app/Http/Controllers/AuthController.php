@@ -33,20 +33,21 @@ class AuthController extends Controller
         ])->onlyInput('email');
     }
 
+
     /**
      * Log the user out of the application.
      */
     public function logout(Request $request): RedirectResponse
     {
         Auth::logout();
-    
+
         $request->session()->invalidate();
-    
+
         $request->session()->regenerateToken();
-    
+
         return redirect()->route('auth.login');
     }
-    
+
     public function register()
     {
         return view('auth.register.index');
@@ -54,7 +55,7 @@ class AuthController extends Controller
 
     public function registerPost(RegisterRequest $request)
     {
-        
+
         $user = new User($request->validated());
         $user->save();
 
@@ -70,6 +71,11 @@ class AuthController extends Controller
             'description' => 'default category',
             'user_id' => $post[0]->id
         ]);
+
+        if(Auth::attempt($request->validated()))
+        {
+            $request->session()->regenerate();
+        }
 
         //welcome
         return $this->authWelcome();

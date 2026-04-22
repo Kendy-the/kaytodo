@@ -40,7 +40,8 @@
                                 <label for="Remember">Remember Me</label>
                             </div>
 
-                            <a href="/auth/pass" class="mt-2 text-[#718EBF] cursor-pointer">Forgot Password</a>
+                            {{-- <a href="/auth/pass" class="mt-2 text-[#718EBF] cursor-pointer">Forgot Password</a> --}}
+                            <a href="#" class="mt-2 text-[#718EBF] cursor-pointer">Forgot Password</a>
                         </div>
                     </div>
 

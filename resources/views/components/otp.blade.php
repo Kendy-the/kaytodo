@@ -17,7 +17,7 @@
                             @php $hasError = 'none' @endphp
                             @error('password') @php $hasError = 'error' @endphp @enderror
 
-                            <x-input :label="'New Password'" :type="'password'" :name="'password'" :$hasError>
+                            <x-input :label="'New Password'" :type="'password'" :name="'password'" :value="''" :$hasError>
                                 <x-slot:placeholder>********</x-slot:placeholder>
                                 @error('password')
                                     <x-slot:input-error>
@@ -32,7 +32,7 @@
                             @php $hasError = 'none' @endphp
                             @error('password_confirmation') @php $hasError = 'error' @endphp @enderror
 
-                            <x-input :label="'Password Confirmation'" :type="'password'" :name="'password_confirmation'" :$hasError>
+                            <x-input :label="'Password Confirmation'" :type="'password'" :name="'password_confirmation'" :value="''" :$hasError>
                                 <x-slot:placeholder>********</x-slot:placeholder>
                                 @error('password_confirmation')
                                     <x-slot:input-error>
@@ -49,7 +49,7 @@
                             @php $hasError = 'none' @endphp
                                 @error('email') @php $hasError = 'error' @endphp @enderror
 
-                                <x-input :label="'Email'" :type="'email'" :name="'email'" :$hasError>
+                                <x-input :label="'Email'" :type="'email'" :name="'email'" :value="''" :$hasError>
                                     <x-slot:placeholder>youremail@example.com</x-slot:placeholder>
                                     @error('email')
                                         <x-slot:input-error>
